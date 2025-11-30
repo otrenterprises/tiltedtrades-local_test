@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /s /b *.xlsx 2)",
+      "Bash(nul)",
+      "Bash(dir:*)",
+      "Bash(test:*)",
+      "Bash(node -e:*)",
+      "Bash(aws lambda list-functions:*)",
+      "Bash(aws cognito-idp describe-user-pool:*)",
+      "Bash(aws lambda get-function:*)",
+      "Bash(aws s3 ls:*)",
+      "Bash(aws apigateway get-rest-apis:*)",
+      "Bash(aws dynamodb list-tables:*)",
+      "Bash(ls -la \"C:\\Users\\ccfic\\source\\repos\\tiltedtrades.com\\AWS\"\" 2>&1 || dir \"C:Usersccficsourcerepostiltedtrades.comAWS\"\")",
+      "Bash(aws logs:*)",
+      "Bash(aws apigateway get-resources:*)",
+      "Bash(aws s3api get-bucket-cors:*)",
+      "Bash(aws apigateway get-method:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(aws dynamodb describe-table:*)",
+      "Bash(MSYS_NO_PATHCONV=1 aws logs:*)",
+      "Bash(aws apigateway get-rest-api:*)",
+      "Bash(aws apigateway get-authorizer:*)",
+      "Bash(cat:*)",
+      "Bash(aws apigateway get-deployments:*)",
+      "Bash(aws apigateway get-stages:*)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(aws dynamodb scan:*)",
+      "Bash(curl:*)",
+      "Bash(find:*)",
+      "Bash(move:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

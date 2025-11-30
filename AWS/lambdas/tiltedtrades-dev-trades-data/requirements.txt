@@ -1,0 +1,20 @@
+# Core AWS SDK
+boto3>=1.26.0
+botocore>=1.29.0
+
+# Data manipulation
+pandas>=1.5.0
+numpy>=1.24.0
+
+# Excel processing
+openpyxl>=3.0.10  # For modern .xlsx files
+xlrd>=2.0.1       # For older .xls files
+
+# Type hinting support
+typing-extensions>=4.5.0
+
+# Logging improvements (optional)
+python-json-logger>=2.0.7
+
+# Package is self-contained and doesn't rely on external libraries
+# Add any additional dependencies as needed for your specific implementation
