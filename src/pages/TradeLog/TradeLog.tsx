@@ -45,7 +45,7 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
   // Navigate directly to the journal detail page
   const handleJournalBadgeClick = (trade: Trade, e: React.MouseEvent) => {
     e.stopPropagation()
-    navigate(`/app/journal/${trade.id}`, { state: { calculationMethod } })
+    navigate(`/app/journals/${trade.id}`, { state: { calculationMethod } })
   }
 
   // Sort trades by date first, then by time - memoized to recompute only when trades or direction changes

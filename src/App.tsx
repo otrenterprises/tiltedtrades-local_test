@@ -82,9 +82,9 @@ function App() {
                         <Route path="/" element={<DashboardNew calculationMethod={calculationMethod} />} />
                         <Route path="/trades" element={<TradeLog calculationMethod={calculationMethod} />} />
                         <Route path="/balance" element={<Balance />} />
-                        <Route path="/trades/:tradeId/journal" element={<JournalEditor />} />
-                        <Route path="/journal/:tradeId" element={<TradeDetail />} />
                         <Route path="/journals" element={<JournalList />} />
+                        <Route path="/journals/:tradeId" element={<TradeDetail />} />
+                        <Route path="/journals/:tradeId/edit" element={<JournalEditor />} />
                         <Route path="/analytics" element={<AnalyticsAPI calculationMethod={calculationMethod} />} />
                         <Route path="/calendar" element={<CalendarNew />} />
                         {/* Leaderboard routes commented out for local testing (no multi-user) */}

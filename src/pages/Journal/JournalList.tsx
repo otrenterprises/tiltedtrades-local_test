@@ -370,7 +370,7 @@ export const JournalList: React.FC = () => {
                   className={`bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition cursor-pointer ${
                     isExpanded ? 'ring-2 ring-accent shadow-lg shadow-accent/20' : ''
                   }`}
-                  onClick={() => navigate(`/app/journal/${journal.rawTradeId || journal.tradeId.replace(/^(fifo|perPosition)#/, '')}`, { state: { calculationMethod: journal.calculationMethod || 'fifo' } })}
+                  onClick={() => navigate(`/app/journals/${journal.rawTradeId || journal.tradeId.replace(/^(fifo|perPosition)#/, '')}`, { state: { calculationMethod: journal.calculationMethod || 'fifo' } })}
                 >
                   {/* Trade Info */}
                   <div className="mb-4">
