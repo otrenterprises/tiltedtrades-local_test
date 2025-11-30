@@ -52,6 +52,7 @@ export interface CommissionOverride {
   originalCommission: number
   overrideCommission: number
   reason?: string
+  lastModified?: string  // ISO timestamp of when override was set/updated
 }
 
 export interface CreateJournalRequest {
@@ -65,6 +66,7 @@ export interface CreateJournalRequest {
   commissionOverride?: {
     overrideCommission: number
     reason?: string
+    lastModified?: string  // ISO timestamp - set automatically by service
   }
 }
 

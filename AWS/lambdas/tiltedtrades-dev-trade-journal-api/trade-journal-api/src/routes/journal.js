@@ -174,6 +174,9 @@ async function handleCreateUpdateJournal(userId, tradeId, body, headers) {
             const trade = await getMatchedTrade(userId, rawTradeId, calculationMethod);
             const originalCommission = trade ? trade.commission : 0;
 
+            // Use frontend-provided lastModified or fall back to server timestamp
+            const lastModified = data.commissionOverride.lastModified || now;
+
             const overrideEntry = {
                 userId,
                 tradeId: journalTradeId,
@@ -182,6 +185,7 @@ async function handleCreateUpdateJournal(userId, tradeId, body, headers) {
                 originalCommission,
                 overrideCommission: data.commissionOverride.overrideCommission,
                 reason: data.commissionOverride.reason || data.journalText || 'Commission override via journal',
+                lastModified,
                 createdAt: now,
                 updatedAt: now
             };
@@ -194,7 +198,8 @@ async function handleCreateUpdateJournal(userId, tradeId, body, headers) {
             journal.commissionOverride = {
                 originalCommission,
                 overrideCommission: data.commissionOverride.overrideCommission,
-                reason: data.commissionOverride.reason || data.journalText
+                reason: data.commissionOverride.reason || data.journalText,
+                lastModified
             };
 
             commissionOverrideResult = overrideEntry;

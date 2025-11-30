@@ -38,6 +38,7 @@ export const JournalEditor: React.FC = () => {
   const [showCommissionOverride, setShowCommissionOverride] = useState(false)
   const [overrideCommission, setOverrideCommission] = useState('')
   const [overrideReason, setOverrideReason] = useState('')
+  const [useExitDateAsModified, setUseExitDateAsModified] = useState(false)
 
   // Determine API method: priority is navigation state > default 'fifo'
   // Navigation state is required since we use method-prefixed tradeIds
@@ -98,21 +99,36 @@ export const JournalEditor: React.FC = () => {
     }
 
     const numOverride = parseFloat(overrideCommission)
-    if (isNaN(numOverride)) {
-      toast.error('Please enter a valid number')
+    if (isNaN(numOverride) || numOverride < 0) {
+      toast.error('Please enter a valid positive number')
       return
     }
 
+    // Convert to negative (commissions are always costs)
+    const negativeCommission = -Math.abs(numOverride)
+
     try {
+      // Determine which date to use for lastModified
+      let modifiedDate: string | undefined = undefined
+      if (useExitDateAsModified && trade?.exitDate) {
+        // Ensure exitDate is a string (could be Date object)
+        modifiedDate = typeof trade.exitDate === 'string'
+          ? trade.exitDate
+          : trade.exitDate.toISOString()
+      }
+
       await saveCommissionOverride.mutateAsync({
         userId,
         tradeId,
-        overrideCommission: numOverride,
+        overrideCommission: negativeCommission,
         reason: overrideReason || undefined,
         existingJournalText: notes,
-        calculationMethod: apiMethod
+        calculationMethod: apiMethod,
+        modifiedDate
       })
       // Success toast is handled by the mutation
+      // Reset checkbox after successful save
+      setUseExitDateAsModified(false)
     } catch (error) {
       // Error is handled by the mutation
     }
@@ -290,36 +306,142 @@ export const JournalEditor: React.FC = () => {
               <h2 className="text-lg font-semibold text-white">Commission Override</h2>
               {!showCommissionOverride && (
                 <button
-                  onClick={() => setShowCommissionOverride(true)}
+                  onClick={() => {
+                    // Initialize with current value (as positive number) for arrow key increments
+                    const currentCommission = journal?.commissionOverride
+                      ? Math.abs(journal.commissionOverride.overrideCommission)
+                      : Math.abs(trade.commission)
+                    setOverrideCommission(currentCommission.toFixed(2))
+                    if (journal?.commissionOverride?.reason) {
+                      setOverrideReason(journal.commissionOverride.reason)
+                    }
+                    setShowCommissionOverride(true)
+                  }}
                   className="text-sm text-blue-400 hover:text-blue-300"
                 >
-                  Edit Commission
+                  {journal?.commissionOverride || trade.hasCommissionOverride ? 'Edit Override' : 'Add Override'}
                 </button>
               )}
             </div>
 
+            {/* Display existing override info when not editing */}
             {journal?.commissionOverride && !showCommissionOverride && (
-              <div className="flex items-center gap-4 text-sm">
-                <span className="text-gray-400">Current Override:</span>
-                <span className="text-yellow-400 font-medium">
-                  {formatCurrency(journal.commissionOverride.overrideCommission)}
-                </span>
-                <span className="text-gray-500">
-                  (Original: {formatCurrency(journal.commissionOverride.originalCommission)})
-                </span>
+              <div className="bg-yellow-900/20 border border-yellow-700/50 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <svg className="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <span className="text-yellow-400 font-medium">Commission has been manually adjusted</span>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                  <div>
+                    <span className="text-gray-500 block">Original</span>
+                    <span className="text-gray-300 font-mono">
+                      ${Math.abs(journal.commissionOverride.originalCommission).toFixed(2)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500 block">Current</span>
+                    <span className="text-yellow-400 font-mono font-medium">
+                      ${Math.abs(journal.commissionOverride.overrideCommission).toFixed(2)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500 block">Savings</span>
+                    {(() => {
+                      // Both values are negative, so savings = abs(original) - abs(current)
+                      // Positive means user pays less (savings), negative means user pays more
+                      const originalAbs = Math.abs(journal.commissionOverride.originalCommission)
+                      const currentAbs = Math.abs(journal.commissionOverride.overrideCommission)
+                      const savings = originalAbs - currentAbs
+                      const isSavings = savings > 0
+                      return (
+                        <span className={`font-mono font-medium ${isSavings ? 'text-green-400' : 'text-red-400'}`}>
+                          {isSavings ? '-' : '+'}${Math.abs(savings).toFixed(2)}
+                        </span>
+                      )
+                    })()}
+                  </div>
+                  <div>
+                    <span className="text-gray-500 block">Last Modified</span>
+                    <span className="text-gray-300 text-xs">
+                      {journal.commissionOverride.lastModified
+                        ? format(parseISO(journal.commissionOverride.lastModified), 'MMM d, yyyy h:mm a')
+                        : journal.updatedAt
+                          ? format(parseISO(journal.updatedAt), 'MMM d, yyyy')
+                          : 'Unknown'}
+                    </span>
+                  </div>
+                </div>
+
                 {journal.commissionOverride.reason && (
-                  <span className="text-gray-400 italic">
-                    "{journal.commissionOverride.reason}"
-                  </span>
+                  <div className="mt-3 pt-3 border-t border-gray-700">
+                    <span className="text-gray-500 text-sm">Reason: </span>
+                    <span className="text-gray-300 text-sm italic">"{journal.commissionOverride.reason}"</span>
+                  </div>
                 )}
               </div>
             )}
 
+            {/* No override in journal but trade indicates override exists */}
+            {!journal?.commissionOverride && trade.hasCommissionOverride && !showCommissionOverride && (
+              <div className="bg-blue-900/20 border border-blue-700/50 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-blue-400 font-medium">Commission override applied</span>
+                </div>
+                <p className="text-sm text-gray-400">
+                  Current commission: <span className="text-yellow-400 font-mono">${Math.abs(trade.commission).toFixed(2)}</span>
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Override details not available. Click "Edit Override" to view or update.
+                </p>
+              </div>
+            )}
+
+            {/* No override exists - show current commission */}
+            {!journal?.commissionOverride && !trade.hasCommissionOverride && !showCommissionOverride && (
+              <p className="text-sm text-gray-400">
+                Current commission: <span className="text-yellow-400 font-mono">${Math.abs(trade.commission).toFixed(2)}</span>
+                <span className="text-gray-500 ml-2">— No override applied</span>
+              </p>
+            )}
+
+            {/* Edit/Add override form */}
             {showCommissionOverride && (
               <div className="space-y-4">
+                {/* Show context when editing existing override */}
+                {journal?.commissionOverride && (
+                  <div className="bg-blue-900/20 border border-blue-700/50 rounded-lg p-3 mb-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="text-blue-400 text-sm font-medium">Editing existing override</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="text-gray-500">Original commission: </span>
+                        <span className="text-gray-300 font-mono">${Math.abs(journal.commissionOverride.originalCommission).toFixed(2)}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">Previous override: </span>
+                        <span className="text-yellow-400 font-mono">${Math.abs(journal.commissionOverride.overrideCommission).toFixed(2)}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <p className="text-sm text-gray-400">
                   Override the commission for this trade. This will be saved and used in statistics calculations.
-                  Current commission: <span className="text-yellow-400">{formatCurrency(trade.commission)}</span>
+                  {!journal?.commissionOverride && (
+                    <>
+                      {' '}Current commission: <span className="text-yellow-400 font-mono">${Math.abs(trade.commission).toFixed(2)}</span>
+                    </>
+                  )}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -332,14 +454,17 @@ export const JournalEditor: React.FC = () => {
                       <input
                         type="number"
                         step="0.01"
+                        min="0"
                         value={overrideCommission}
                         onChange={(e) => setOverrideCommission(e.target.value)}
-                        placeholder={trade.commission.toString()}
+                        placeholder={Math.abs(journal?.commissionOverride
+                          ? journal.commissionOverride.originalCommission
+                          : trade.commission).toFixed(2)}
                         className="w-full pl-8 pr-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
                       />
                     </div>
                     <p className="text-xs text-gray-500 mt-1">
-                      Enter the corrected commission (use negative for costs)
+                      Enter commission as a positive number (e.g., 45.00 for $45 in fees)
                     </p>
                   </div>
 
@@ -357,10 +482,34 @@ export const JournalEditor: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Use trade exit date as modified date option */}
+                {trade?.exitDate && (
+                  <div className="flex items-center gap-3 py-2">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={useExitDateAsModified}
+                        onChange={(e) => setUseExitDateAsModified(e.target.checked)}
+                        className="w-4 h-4 rounded border-gray-600 bg-gray-700 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-800"
+                      />
+                      <span className="text-sm text-gray-300">
+                        Use trade exit date as modified date
+                      </span>
+                    </label>
+                    <span className="text-xs text-gray-500">
+                      ({format(
+                        typeof trade.exitDate === 'string' ? parseISO(trade.exitDate) : trade.exitDate,
+                        'MMM d, yyyy'
+                      )})
+                    </span>
+                  </div>
+                )}
+
                 <div className="flex justify-end gap-3">
                   <button
                     onClick={() => {
                       setShowCommissionOverride(false)
+                      setUseExitDateAsModified(false)
                       // Reset to original values
                       if (journal?.commissionOverride) {
                         setOverrideCommission(journal.commissionOverride.overrideCommission.toString())

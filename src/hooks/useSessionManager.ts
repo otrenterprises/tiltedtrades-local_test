@@ -1,26 +1,35 @@
 /**
  * Session Manager Hook
  * Handles automatic logout on idle timeout and browser/tab close
+ *
+ * Also enforces maximum session duration using localStorage timestamps
+ * to handle cases where Cognito refresh tokens keep the session alive
+ * longer than desired (e.g., 30 days by default).
  */
 
 import { useEffect, useRef, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 
 interface SessionManagerOptions {
-  idleTimeoutMinutes?: number  // Default: 30 minutes
-  logoutOnClose?: boolean      // Default: true
+  idleTimeoutMinutes?: number      // Default: 30 minutes
+  logoutOnClose?: boolean          // Default: true
+  maxSessionHours?: number         // Default: 12 hours - max time before forced re-login
 }
 
 const DEFAULT_IDLE_TIMEOUT = 30 * 60 * 1000 // 30 minutes in milliseconds
+const LAST_ACTIVITY_KEY = 'tiltedtrades_last_activity'
+const SESSION_START_KEY = 'tiltedtrades_session_start'
 
 export const useSessionManager = (options: SessionManagerOptions = {}) => {
   const { isAuthenticated, signOut } = useAuth()
   const {
     idleTimeoutMinutes = 30,
-    logoutOnClose = true
+    logoutOnClose = true,
+    maxSessionHours = 12  // Force re-login after 12 hours of inactivity
   } = options
 
   const idleTimeout = idleTimeoutMinutes * 60 * 1000
+  const maxSessionMs = maxSessionHours * 60 * 60 * 1000
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const isSigningOut = useRef(false)
 
@@ -31,6 +40,10 @@ export const useSessionManager = (options: SessionManagerOptions = {}) => {
     isSigningOut.current = true
     console.log(`Session ended: ${reason}`)
 
+    // Clear session timestamps
+    localStorage.removeItem(LAST_ACTIVITY_KEY)
+    localStorage.removeItem(SESSION_START_KEY)
+
     try {
       await signOut()
     } catch (error) {
@@ -39,6 +52,11 @@ export const useSessionManager = (options: SessionManagerOptions = {}) => {
       isSigningOut.current = false
     }
   }, [isAuthenticated, signOut])
+
+  // Update last activity timestamp
+  const updateLastActivity = useCallback(() => {
+    localStorage.setItem(LAST_ACTIVITY_KEY, Date.now().toString())
+  }, [])
 
   // Reset idle timer on user activity
   const resetIdleTimer = useCallback(() => {
@@ -76,6 +94,7 @@ export const useSessionManager = (options: SessionManagerOptions = {}) => {
       const now = Date.now()
       if (now - lastActivity > throttleMs) {
         lastActivity = now
+        updateLastActivity()  // Persist to localStorage for cross-session tracking
         resetIdleTimer()
       }
     }
@@ -98,7 +117,7 @@ export const useSessionManager = (options: SessionManagerOptions = {}) => {
         clearTimeout(timeoutRef.current)
       }
     }
-  }, [isAuthenticated, idleTimeout, resetIdleTimer])
+  }, [isAuthenticated, idleTimeout, resetIdleTimer, updateLastActivity])
 
   // Set up browser/tab close listener
   useEffect(() => {
@@ -163,6 +182,59 @@ export const useSessionManager = (options: SessionManagerOptions = {}) => {
       handleSignOut('browser session ended')
     }
   }, [isAuthenticated, logoutOnClose, handleSignOut])
+
+  // Check maximum session duration on mount and periodically
+  // This handles the case where Cognito refresh tokens keep the session alive
+  // longer than desired (e.g., 30 days by default)
+  useEffect(() => {
+    if (!isAuthenticated || maxSessionMs <= 0) return
+
+    const checkSessionExpiry = () => {
+      const lastActivityStr = localStorage.getItem(LAST_ACTIVITY_KEY)
+      const sessionStartStr = localStorage.getItem(SESSION_START_KEY)
+      const now = Date.now()
+
+      // If no session start, this is a new session - initialize it
+      if (!sessionStartStr) {
+        localStorage.setItem(SESSION_START_KEY, now.toString())
+        localStorage.setItem(LAST_ACTIVITY_KEY, now.toString())
+        return
+      }
+
+      // Check if last activity exceeds max session duration
+      if (lastActivityStr) {
+        const lastActivity = parseInt(lastActivityStr, 10)
+        const timeSinceActivity = now - lastActivity
+
+        if (timeSinceActivity > maxSessionMs) {
+          console.log(`Session expired: ${Math.round(timeSinceActivity / 1000 / 60 / 60)} hours since last activity (max: ${maxSessionHours} hours)`)
+          handleSignOut('session expired (max duration exceeded)')
+          return
+        }
+      }
+
+      // Also check absolute session start time (prevent sessions from lasting forever with activity)
+      const sessionStart = parseInt(sessionStartStr, 10)
+      const sessionDuration = now - sessionStart
+      const maxAbsoluteSessionMs = maxSessionMs * 2 // Allow 2x max session if actively used
+
+      if (sessionDuration > maxAbsoluteSessionMs) {
+        console.log(`Session expired: ${Math.round(sessionDuration / 1000 / 60 / 60)} hours since session start (max: ${maxSessionHours * 2} hours)`)
+        handleSignOut('session expired (absolute max duration exceeded)')
+        return
+      }
+    }
+
+    // Check immediately on mount
+    checkSessionExpiry()
+
+    // Also check periodically (every 5 minutes) in case user leaves tab open
+    const intervalId = setInterval(checkSessionExpiry, 5 * 60 * 1000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [isAuthenticated, maxSessionMs, maxSessionHours, handleSignOut])
 
   return {
     resetIdleTimer
