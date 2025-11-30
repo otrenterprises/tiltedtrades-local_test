@@ -248,44 +248,31 @@ src/pages/Balance/
 
 ---
 
-## AWS Deployment Steps
+## AWS Deployment Status ✅
 
-To complete the Lambda layer deployment:
+**Deployed:** November 30, 2025
 
-### 1. Deploy the Shared Config Layer
-```powershell
-cd AWS/lambda-layers/shared-config
-.\deploy-layer.ps1
-```
+### Shared Config Layer
+- **Layer ARN:** `arn:aws:lambda:us-east-1:427687728291:layer:tiltedtrades-shared-config:1`
+- **Status:** Published and attached to all 7 Lambda functions
 
-This will:
-- Publish the layer to AWS
-- Output the Layer ARN (e.g., `arn:aws:lambda:us-east-1:ACCOUNT:layer:tiltedtrades-shared-config:1`)
+### Lambda Functions Redeployed
+| Function | Status | Last Modified |
+|----------|--------|---------------|
+| tiltedtrades-dev-post-registration-trigger | ✅ Deployed | 2025-11-30T19:02:08 |
+| tiltedtrades-dev-public-profiles-api | ✅ Deployed | 2025-11-30T19:02:19 |
+| tiltedtrades-dev-file-upload-handler | ✅ Deployed | 2025-11-30T19:02:00 |
+| tiltedtrades-dev-user-profile-api | ✅ Deployed | 2025-11-30T19:01:24 |
+| tiltedtrades-dev-trade-journal-api | ✅ Deployed | 2025-11-30T19:00:53 |
+| tiltedtrades-dev-stats-calculator | ✅ Deployed | 2025-11-30T19:02:25 |
+| tiltedtrades-dev-trading-data-processor | ✅ Deployed | 2025-11-30T19:02:40 |
 
-### 2. Attach Layer to Lambda Functions
-For each of the 7 Lambda functions:
-```bash
-aws lambda update-function-configuration \
-    --function-name tiltedtrades-dev-FUNCTION_NAME \
-    --layers arn:aws:lambda:us-east-1:ACCOUNT:layer:tiltedtrades-shared-config:VERSION
-```
-
-Functions to update:
-- `tiltedtrades-dev-post-registration-trigger`
-- `tiltedtrades-dev-public-profiles-api`
-- `tiltedtrades-dev-file-upload-handler`
-- `tiltedtrades-dev-user-profile-api`
-- `tiltedtrades-dev-trade-journal-api`
-- `tiltedtrades-dev-stats-calculator`
-- `tiltedtrades-dev-trading-data-processor`
-
-### 3. Redeploy Lambda Code
-For Lambdas with `create-zip.ps1` scripts:
-```powershell
-cd AWS/lambdas/tiltedtrades-dev-FUNCTION_NAME
-.\create-zip.ps1
-aws lambda update-function-code --function-name tiltedtrades-dev-FUNCTION_NAME --zip-file fileb://lambda.zip
-```
+### Test Results
+- **trade-journal-api:** ✅ Working (returns 200, shared config layer loads correctly)
+- **user-profile-api:** ✅ Working (returns 404 for nonexistent profile - expected)
+- **public-profiles-api:** ⚠️ DynamoDB query issue (unrelated to refactoring)
+  - Error: "Condition parameter type does not match schema type"
+  - This is a pre-existing issue with the DynamoDB query, not caused by the config layer changes
 
 ---
 
@@ -300,6 +287,8 @@ Branch: `refactor/code-cleanup`
 | `a45ea4d` | Standardize journal route naming to /journals/* |
 | `52a5721` | Create shared config Lambda Layer and update imports |
 | `1c9c26e` | Modularize trade-journal-api Lambda (703 -> ~90 lines) |
+| `5ca06ad` | Add REFACTORING_SUMMARY.md documentation |
+| *pending* | AWS deployment complete, update gitignore |
 
 **Remote:** https://github.com/otrenterprises/tiltedtrades-local_test/tree/refactor/code-cleanup
 

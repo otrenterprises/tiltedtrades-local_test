@@ -47,3 +47,8 @@ persistence-data/
 
 # Quarantined/unused files
 src/_NotUsed/
+
+# Lambda deployment artifacts
+AWS/lambdas/**/lambda.zip
+AWS/lambda-layers/**/*.zip
+AWS/lambdas/nul
