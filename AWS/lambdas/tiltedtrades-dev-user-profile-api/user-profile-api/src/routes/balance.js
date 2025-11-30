@@ -20,7 +20,7 @@ const { DynamoDBClient, QueryCommand, PutItemCommand, UpdateItemCommand, DeleteI
 const { LambdaClient, InvokeCommand } = require("@aws-sdk/client-lambda");
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
 const { randomUUID } = require("crypto");
-const { getConfig } = require("../../../shared/types/config");
+const { getConfig } = require("@tiltedtrades/config");
 
 const config = getConfig();
 const dynamoClient = new DynamoDBClient({ region: config.REGION });

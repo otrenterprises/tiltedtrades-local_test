@@ -21,7 +21,7 @@ const client_dynamodb_1 = require("@aws-sdk/client-dynamodb");
 const client_s3_1 = require("@aws-sdk/client-s3");
 const s3_request_presigner_1 = require("@aws-sdk/s3-request-presigner");
 const util_dynamodb_1 = require("@aws-sdk/util-dynamodb");
-const config_1 = require("../../shared/types/config");
+const config_1 = require("@tiltedtrades/config");
 const crypto_1 = require("crypto");
 const client_lambda_1 = require("@aws-sdk/client-lambda");
 // Get configuration from environment variables
