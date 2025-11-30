@@ -53,37 +53,6 @@ const queryClient = new QueryClient({
 function App() {
   const [calculationMethod, setCalculationMethod] = useState<CalculationMethod>('fifo')
 
-  // For local testing, we'll always use the app domain behavior
-  const isLandingDomain = false
-  const isAppDomain = true
-
-  // If we're on the landing domain, show the landing page
-  if (isLandingDomain && !isAppDomain) {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="*" element={<Landing />} />
-          </Routes>
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              duration: 4000,
-              style: {
-                background: '#1F2937',
-                color: '#F3F4F6',
-                border: '1px solid #374151',
-              },
-            }}
-          />
-        </BrowserRouter>
-      </QueryClientProvider>
-    )
-  }
-
-  // If we're on the app domain, show the full application
-  // Components now fetch their own data via React Query hooks
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -138,18 +107,18 @@ function App() {
               />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </div>
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                duration: 4000,
-                style: {
-                  background: '#1F2937',
-                  color: '#F3F4F6',
-                  border: '1px solid #374151',
-                },
-              }}
-            />
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: 4000,
+                  style: {
+                    background: '#1F2937',
+                    color: '#F3F4F6',
+                    border: '1px solid #374151',
+                  },
+                }}
+              />
+            </div>
           </BrowserRouter>
         </NavigationProvider>
       </AuthProvider>
