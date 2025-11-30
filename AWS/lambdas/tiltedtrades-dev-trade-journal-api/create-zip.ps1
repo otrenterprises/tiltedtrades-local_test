@@ -9,10 +9,13 @@ Remove-Item -Path $tempDir -Recurse -Force -ErrorAction SilentlyContinue
 
 # Create directory structure
 # Note: shared/types/config.js is now provided by the shared-config Lambda Layer
-New-Item -ItemType Directory -Force -Path "$tempDir/trade-journal-api/src" | Out-Null
+New-Item -ItemType Directory -Force -Path "$tempDir/trade-journal-api/src/routes" | Out-Null
+New-Item -ItemType Directory -Force -Path "$tempDir/trade-journal-api/src/utils" | Out-Null
 
 # Copy files
-Copy-Item "trade-journal-api/src/*" -Destination "$tempDir/trade-journal-api/src/" -Recurse -Force
+Copy-Item "trade-journal-api/src/index.js" -Destination "$tempDir/trade-journal-api/src/" -Force
+Copy-Item "trade-journal-api/src/routes/*" -Destination "$tempDir/trade-journal-api/src/routes/" -Recurse -Force
+Copy-Item "trade-journal-api/src/utils/*" -Destination "$tempDir/trade-journal-api/src/utils/" -Recurse -Force
 
 # Create zip
 Compress-Archive -Path "$tempDir/*" -DestinationPath $zipFile -Force
