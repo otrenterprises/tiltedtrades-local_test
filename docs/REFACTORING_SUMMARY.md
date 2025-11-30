@@ -2,7 +2,7 @@
 
 **Date:** November 30, 2025
 **Branch:** `refactor/code-cleanup`
-**Status:** Phases 0-3 Complete, Phase 4 Deferred
+**Status:** ✅ ALL PHASES COMPLETE
 
 ---
 
@@ -193,57 +193,59 @@ trade-journal-api/src/
 
 ---
 
-## Deferred Work (Phase 4)
+### Phase 4: Component Splitting ✅
+**Commit:** `5e8e996`
 
-### Component Splitting
 **Source:** FORENSIC_ANALYSIS.md, Section 5.1 (Refactoring Opportunities)
 
-These large components are functional but should be split for maintainability:
-
-#### 4.1 CalendarNew.tsx (1,273 lines)
+#### 4.1 CalendarNew.tsx (1,273 → 151 lines) - 88% reduction
 **File:** `src/pages/Calendar/CalendarNew.tsx`
 
-**Recommended Split:**
+**New Structure:**
 ```
 src/pages/Calendar/
-├── CalendarNew.tsx (~200 lines - main component, state)
+├── CalendarNew.tsx (151 lines - main component, state)
+├── types.ts (55 lines - TypeScript interfaces)
 ├── components/
-│   ├── CalendarGrid.tsx (~300 lines - grid rendering)
-│   ├── CalendarDayCell.tsx (~150 lines - day cell component)
-│   ├── CalendarWeekCell.tsx (~100 lines - week cell component)
-│   ├── CalendarHeader.tsx (~100 lines - header with view selector)
-│   └── CalendarFilters.tsx (~100 lines - filter controls)
-└── utils/
-    └── calendarHelpers.ts (~200 lines - data calculations)
+│   ├── index.ts (exports)
+│   ├── CalendarDailyView.tsx (286 lines - daily grid with month nav)
+│   ├── CalendarWeeklyView.tsx (213 lines - weekly cards view)
+│   ├── CalendarMonthlyView.tsx (215 lines - monthly cards view)
+│   ├── DayCell.tsx (59 lines - day cell component)
+│   ├── WeeklyCell.tsx (42 lines - weekly total cell)
+│   └── ViewSelector.tsx (47 lines - view type toggle)
+└── hooks/
+    └── useCalendarData.ts (470 lines - data processing hook)
 ```
 
-#### 4.2 JournalList.tsx (512 lines)
+#### 4.2 JournalList.tsx (512 → 254 lines) - 50% reduction
 **File:** `src/pages/Journal/JournalList.tsx`
 
-**Recommended Split:**
+**New Structure:**
 ```
 src/pages/Journal/
-├── JournalList.tsx (~150 lines - main component)
-├── components/
-│   ├── JournalFilters.tsx (~100 lines - filter panel)
-│   ├── JournalCard.tsx (~100 lines - journal card)
-│   └── JournalPagination.tsx (~50 lines - pagination)
-└── hooks/
-    └── useJournalFiltering.ts (~100 lines - filter logic)
+├── JournalList.tsx (254 lines - main component)
+└── components/
+    ├── index.ts (exports)
+    ├── JournalFilters.tsx (151 lines - filter panel)
+    ├── JournalCard.tsx (94 lines - journal card)
+    └── Pagination.tsx (77 lines - pagination controls)
 ```
 
-#### 4.3 Balance.tsx (478 lines)
+#### 4.3 Balance.tsx (478 → 234 lines) - 51% reduction
 **File:** `src/pages/Balance/Balance.tsx`
 
-**Recommended Split:**
+**New Structure:**
 ```
 src/pages/Balance/
-├── Balance.tsx (~150 lines - main component)
-├── components/
-│   ├── AccountValueCard.tsx (~80 lines - account value display)
-│   ├── BalanceSummaryStats.tsx (~80 lines - summary statistics)
-│   ├── AccountValueChart.tsx (~100 lines - chart component)
-│   └── TransactionTable.tsx (~100 lines - transaction list)
+├── Balance.tsx (234 lines - main component)
+└── components/
+    ├── index.ts (exports)
+    ├── AccountValueCard.tsx (28 lines - account value display)
+    ├── BalanceSummaryStats.tsx (58 lines - summary statistics)
+    ├── AccountValueChart.tsx (73 lines - chart component)
+    ├── RecurringFeesSection.tsx (57 lines - recurring fees)
+    └── TransactionTable.tsx (127 lines - transaction list)
 ```
 
 ---
@@ -288,7 +290,8 @@ Branch: `refactor/code-cleanup`
 | `52a5721` | Create shared config Lambda Layer and update imports |
 | `1c9c26e` | Modularize trade-journal-api Lambda (703 -> ~90 lines) |
 | `5ca06ad` | Add REFACTORING_SUMMARY.md documentation |
-| *pending* | AWS deployment complete, update gitignore |
+| `f31d617` | AWS deployment complete, update gitignore |
+| `5e8e996` | Phase 4: Split large components for maintainability |
 
 **Remote:** https://github.com/otrenterprises/tiltedtrades-local_test/tree/refactor/code-cleanup
 
@@ -304,21 +307,23 @@ Branch: `refactor/code-cleanup`
 - [ ] Navigate to `/app/journals/:tradeId/edit` - editor works
 - [ ] Journal creation from TradeLog works
 - [ ] Toast notifications display properly
+- [ ] Calendar page loads and switches views (daily/weekly/monthly)
+- [ ] Balance page loads with charts and transactions
 
 ### Backend Testing (after AWS deployment)
-- [ ] Config layer deploys successfully
-- [ ] All Lambda functions can import `@tiltedtrades/config`
-- [ ] Journal API CRUD operations work
+- [x] Config layer deploys successfully
+- [x] All Lambda functions can import `@tiltedtrades/config`
+- [x] Journal API CRUD operations work
 - [ ] Chart upload/delete works
 - [ ] Stats recalculation triggers correctly
-- [ ] User profile API works
+- [x] User profile API works
 - [ ] Balance API works
 
 ---
 
 ## Files Changed Summary
 
-### Created
+### Created (Phase 3 - Lambda)
 - `AWS/lambda-layers/shared-config/nodejs/node_modules/@tiltedtrades/config/index.js`
 - `AWS/lambda-layers/shared-config/nodejs/node_modules/@tiltedtrades/config/package.json`
 - `AWS/lambda-layers/shared-config/deploy-layer.ps1`
@@ -328,15 +333,39 @@ Branch: `refactor/code-cleanup`
 - `AWS/lambdas/tiltedtrades-dev-trade-journal-api/trade-journal-api/src/utils/tradeId.js`
 - `AWS/lambdas/tiltedtrades-dev-trade-journal-api/trade-journal-api/src/utils/dynamo.js`
 
+### Created (Phase 4 - Components)
+- `src/pages/Calendar/types.ts`
+- `src/pages/Calendar/hooks/useCalendarData.ts`
+- `src/pages/Calendar/components/index.ts`
+- `src/pages/Calendar/components/CalendarDailyView.tsx`
+- `src/pages/Calendar/components/CalendarWeeklyView.tsx`
+- `src/pages/Calendar/components/CalendarMonthlyView.tsx`
+- `src/pages/Calendar/components/DayCell.tsx`
+- `src/pages/Calendar/components/WeeklyCell.tsx`
+- `src/pages/Calendar/components/ViewSelector.tsx`
+- `src/pages/Journal/components/index.ts`
+- `src/pages/Journal/components/JournalFilters.tsx`
+- `src/pages/Journal/components/JournalCard.tsx`
+- `src/pages/Journal/components/Pagination.tsx`
+- `src/pages/Balance/components/index.ts`
+- `src/pages/Balance/components/AccountValueCard.tsx`
+- `src/pages/Balance/components/BalanceSummaryStats.tsx`
+- `src/pages/Balance/components/AccountValueChart.tsx`
+- `src/pages/Balance/components/RecurringFeesSection.tsx`
+- `src/pages/Balance/components/TransactionTable.tsx`
+
 ### Modified
 - `src/App.tsx` (removed dead code, fixed routes, moved Toaster)
 - `src/components/journal/JournalQuickModal.tsx` (route update)
 - `src/pages/TradeLog/TradeLog.tsx` (route update)
-- `src/pages/Journal/JournalList.tsx` (route update)
+- `src/pages/Journal/JournalList.tsx` (route update + component split)
 - `src/pages/Journal/TradeDetail.tsx` (route updates x3)
+- `src/pages/Calendar/CalendarNew.tsx` (component split)
+- `src/pages/Balance/Balance.tsx` (component split)
 - `AWS/lambdas/*/index.js` (config import updates - 8 files)
 - `AWS/lambdas/tiltedtrades-dev-trade-journal-api/create-zip.ps1`
 - `AWS/lambdas/tiltedtrades-dev-user-profile-api/create-zip.ps1`
+- `.gitignore` (added lambda.zip exclusions)
 
 ### Deleted
 - `AWS/lambdas/tiltedtrades-dev-post-registration-trigger/shared/types/config.js`
@@ -349,17 +378,43 @@ Branch: `refactor/code-cleanup`
 
 ---
 
-## Resuming Work
+## Next Steps
 
-To continue with Phase 4 (component splitting) after conversation compaction:
+### Immediate (Before Merge)
+1. **Run frontend locally** - `npm run dev` and test all pages
+2. **Complete testing checklist** above
+3. **Fix any runtime errors** discovered during testing
+4. **Merge to master** when all tests pass
 
-1. **Read this document** for context
-2. **Read the source analysis files:**
-   - `docs/ClaudeThoughts/FORENSIC_ANALYSIS.md` (Section 4.4 - Complexity Hotspots)
-   - `docs/ClaudeThoughts/LAMBDA_ANALYSIS.md` (for reference on modularization pattern used)
-3. **Branch:** Stay on `refactor/code-cleanup`
-4. **Start with:** `src/pages/Calendar/CalendarNew.tsx` (largest at 1,273 lines)
+### Known Issues to Address
+1. **public-profiles-api DynamoDB query issue** - Pre-existing bug, unrelated to refactoring
+   - Error: "Condition parameter type does not match schema type"
+   - Investigate `AWS/lambdas/tiltedtrades-dev-public-profiles-api/public-profiles-api/src/index.js`
+
+2. **Pre-existing TypeScript errors** - Not introduced by refactoring:
+   - `PageLayout` subtitle prop expects string but receives Element (CalendarNew.tsx:73)
+   - Type mismatches in PublicProfile, Settings components
+   - Missing JSON module declarations
+
+### Future Improvements (Not in Scope)
+1. **Add unit tests** for extracted components and hooks
+2. **Add integration tests** for Lambda functions
+3. **Consider splitting remaining large components** identified in FORENSIC_ANALYSIS.md
+4. **Document the shared config layer** for team onboarding
+
+---
+
+## Refactoring Metrics Summary
+
+| Category | Before | After | Improvement |
+|----------|--------|-------|-------------|
+| CalendarNew.tsx | 1,273 lines | 151 lines | **88% reduction** |
+| JournalList.tsx | 512 lines | 254 lines | **50% reduction** |
+| Balance.tsx | 478 lines | 234 lines | **51% reduction** |
+| trade-journal-api index.js | 703 lines | ~90 lines | **87% reduction** |
+| Duplicate config.js files | 7 files | 1 shared layer | **86% reduction** |
 
 ---
 
 *Generated by Claude Code - November 30, 2025*
+*Last Updated: November 30, 2025 - All Phases Complete*
