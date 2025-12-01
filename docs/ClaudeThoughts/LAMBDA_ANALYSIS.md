@@ -522,4 +522,63 @@ TOTAL                                                            8,517
 
 ---
 
+## AWS Resource Tagging (Added December 1, 2025)
+
+### Cost Allocation Tags
+
+All DynamoDB tables have been tagged for AWS Cost Explorer billing breakdown. Tags must be **activated** in AWS Billing Console before they appear in cost reports.
+
+**Activation Required:** Go to [AWS Billing → Cost Allocation Tags](https://us-east-1.console.aws.amazon.com/billing/home#/tags) and activate these tags:
+
+| Tag Key | Purpose |
+|---------|---------|
+| `Project` | Identifies the project (value: `tiltedtrades`) |
+| `Environment` | Distinguishes dev/staging/prod (value: `dev`) |
+| `Component` | Groups tables by functionality |
+| `CostCenter` | For billing reports (value: `trading-journal`) |
+
+### DynamoDB Table Tags
+
+| Table | Component | Purpose |
+|-------|-----------|---------|
+| `tiltedtrades-dev-UserProfiles` | user-management | User profile information |
+| `tiltedtrades-dev-UserPreferences` | user-management | User settings/preferences |
+| `tiltedtrades-dev-BrokerCredentials` | user-management | Broker API credentials |
+| `tiltedtrades-dev-TradingExecutions` | trading-data | Raw execution data from brokers |
+| `tiltedtrades-dev-MatchedTrades` | trading-data | Processed/matched trade records |
+| `tiltedtrades-dev-TradingStats` | trading-data | Pre-calculated trading statistics |
+| `tiltedtrades-dev-TradeJournals` | journals | User journal entries per trade |
+| `tiltedtrades-dev-CommissionOverrides` | journals | Per-trade commission adjustments |
+| `tiltedtrades-dev-UserBalance` | balance | User account balance tracking |
+
+### Tag CLI Commands
+
+To add tags to a new table, use:
+```bash
+aws dynamodb tag-resource \
+  --resource-arn arn:aws:dynamodb:us-east-1:427687728291:table/TABLE_NAME \
+  --tags Key=Project,Value=tiltedtrades Key=Environment,Value=dev Key=Component,Value=COMPONENT Key=CostCenter,Value=trading-journal
+```
+
+To verify tags on all tables:
+```bash
+for table in tiltedtrades-dev-{BrokerCredentials,CommissionOverrides,MatchedTrades,TradeJournals,TradingExecutions,TradingStats,UserBalance,UserPreferences,UserProfiles}; do
+  echo "=== $table ===" && aws dynamodb list-tags-of-resource --resource-arn "arn:aws:dynamodb:us-east-1:427687728291:table/$table" --query "Tags" --output table
+done
+```
+
+### November 2025 DynamoDB Costs Reference
+
+| Usage Type | Cost |
+|------------|------|
+| KMS Keys (us-east-1) | $0.91 |
+| WriteRequestUnits | $0.55 |
+| ReadRequestUnits | $0.06 |
+| Storage | ~$0.00 |
+| **Total** | **$1.52** |
+
+> **Note:** KMS encryption accounts for 60% of DynamoDB costs. Consider evaluating encryption requirements for dev environment.
+
+---
+
 *Report generated for Claude Code refactoring reference*
