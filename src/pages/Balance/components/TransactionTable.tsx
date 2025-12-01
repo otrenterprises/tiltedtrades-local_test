@@ -27,7 +27,7 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
 
   const getTypeLabel = (type: string) => {
     if (type === 'commission_adjustment') {
-      return 'Commission Adj.'
+      return 'Bulk Commission Adj.'
     }
     return type.charAt(0).toUpperCase() + type.slice(1)
   }

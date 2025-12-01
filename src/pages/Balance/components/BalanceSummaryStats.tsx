@@ -42,7 +42,7 @@ export function BalanceSummaryStats({
 
       <div className="bg-dark-secondary border border-dark-border rounded-lg p-4 md:p-6">
         <div className="flex items-center justify-between mb-2">
-          <p className="text-xs md:text-sm text-slate-400">Commission Adj.</p>
+          <p className="text-xs md:text-sm text-slate-400">Bulk Commission Adj.</p>
           <Receipt className="w-4 h-4 md:w-5 md:h-5 text-purple-400 flex-shrink-0" />
         </div>
         <p className={`text-lg md:text-2xl font-bold truncate ${totalCommissionAdjustments >= 0 ? 'text-profit' : 'text-loss'}`}>

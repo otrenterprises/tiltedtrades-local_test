@@ -179,7 +179,7 @@ export function CalendarMonthlyView({
       {/* Year Summary Stats */}
       {monthlySummaries.length > 0 && (
         <div className="mt-6 pt-6 border-t border-slate-600">
-          <h3 className="text-sm font-semibold text-slate-100 mb-4">Year Statistics</h3>
+          <h3 className="text-sm font-semibold text-slate-100 mb-4">Yearly Statistics by Month</h3>
           <div className="grid grid-cols-5 gap-4">
             <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
               <div className="text-xs text-slate-400 mb-1">Year P&L</div>

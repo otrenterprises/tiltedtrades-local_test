@@ -1,4 +1,5 @@
 export type ViewType = 'daily' | 'weekly' | 'monthly'
+export type WeeklyGrouping = 'quarterly' | 'yearly'
 
 export interface DailyPLData {
   tradingDay: string

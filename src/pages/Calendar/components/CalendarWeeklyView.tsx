@@ -3,11 +3,13 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-reac
 import { format } from 'date-fns'
 import { formatCurrency } from '@/utils/formatting/currency'
 import { parseDateString } from '../hooks/useCalendarData'
-import type { WeeklySummary } from '../types'
+import type { WeeklySummary, WeeklyGrouping } from '../types'
 
 interface CalendarWeeklyViewProps {
   weeklySummaries: WeeklySummary[]
   includeCommissions: boolean
+  grouping: WeeklyGrouping
+  // Quarterly props
   availableQuarters: Array<{ year: number; quarter: number }>
   currentQuarterIndex: number
   currentQuarterLabel: string
@@ -16,6 +18,15 @@ interface CalendarWeeklyViewProps {
   onPreviousQuarter: () => void
   onNextQuarter: () => void
   onQuarterSelect: (index: number) => void
+  // Yearly props
+  availableYears: number[]
+  currentYearIndex: number
+  currentYear: number
+  canGoPreviousYear: boolean
+  canGoNextYear: boolean
+  onPreviousYear: () => void
+  onNextYear: () => void
+  onYearSelect: (index: number) => void
 }
 
 // Style helper functions
@@ -40,6 +51,8 @@ const getBorderColor = (pl: number): string => {
 export function CalendarWeeklyView({
   weeklySummaries,
   includeCommissions,
+  grouping,
+  // Quarterly props
   availableQuarters,
   currentQuarterIndex,
   currentQuarterLabel,
@@ -48,27 +61,49 @@ export function CalendarWeeklyView({
   onPreviousQuarter,
   onNextQuarter,
   onQuarterSelect,
+  // Yearly props
+  availableYears,
+  currentYearIndex,
+  currentYear,
+  canGoPreviousYear,
+  canGoNextYear,
+  onPreviousYear,
+  onNextYear,
+  onYearSelect,
 }: CalendarWeeklyViewProps) {
-  const [showQuarterPicker, setShowQuarterPicker] = useState(false)
-  const quarterPickerRef = useRef<HTMLDivElement>(null)
+  const [showPicker, setShowPicker] = useState(false)
+  const pickerRef = useRef<HTMLDivElement>(null)
 
-  // Close quarter picker when clicking outside
+  // Determine which navigation to use based on grouping
+  const isYearly = grouping === 'yearly'
+  const canGoPrevious = isYearly ? canGoPreviousYear : canGoPreviousQuarter
+  const canGoNext = isYearly ? canGoNextYear : canGoNextQuarter
+  const onPrevious = isYearly ? onPreviousYear : onPreviousQuarter
+  const onNext = isYearly ? onNextYear : onNextQuarter
+  const currentLabel = isYearly ? String(currentYear) : currentQuarterLabel
+  const periodType = isYearly ? 'Year' : 'Quarter'
+
+  // Close picker when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (quarterPickerRef.current && !quarterPickerRef.current.contains(event.target as Node)) {
-        setShowQuarterPicker(false)
+      if (pickerRef.current && !pickerRef.current.contains(event.target as Node)) {
+        setShowPicker(false)
       }
     }
 
-    if (showQuarterPicker) {
+    if (showPicker) {
       document.addEventListener('mousedown', handleClickOutside)
       return () => document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [showQuarterPicker])
+  }, [showPicker])
 
-  const handleQuarterSelectAndClose = (index: number) => {
-    onQuarterSelect(index)
-    setShowQuarterPicker(false)
+  const handleSelectAndClose = (index: number) => {
+    if (isYearly) {
+      onYearSelect(index)
+    } else {
+      onQuarterSelect(index)
+    }
+    setShowPicker(false)
   }
 
   // Calculate quarter statistics
@@ -80,13 +115,13 @@ export function CalendarWeeklyView({
 
   return (
     <div className="bg-slate-700 border border-slate-600 rounded-lg p-6">
-      {/* Quarter navigation header */}
+      {/* Period navigation header */}
       <div className="flex items-center justify-between mb-6 relative">
         <button
-          onClick={onPreviousQuarter}
-          disabled={!canGoPreviousQuarter}
+          onClick={onPrevious}
+          disabled={!canGoPrevious}
           className={`p-2 rounded-lg transition-colors ${
-            canGoPreviousQuarter
+            canGoPrevious
               ? 'bg-blue-900 border border-blue-800 hover:bg-blue-800 text-blue-200'
               : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
           }`}
@@ -94,48 +129,66 @@ export function CalendarWeeklyView({
           <ChevronLeft className="w-5 h-5" />
         </button>
 
-        <div className="relative" ref={quarterPickerRef}>
+        <div className="relative" ref={pickerRef}>
           <button
-            onClick={() => setShowQuarterPicker(!showQuarterPicker)}
+            onClick={() => setShowPicker(!showPicker)}
             className="text-2xl font-bold text-slate-50 hover:text-accent transition-colors flex items-center gap-2"
           >
-            {currentQuarterLabel}
+            {currentLabel}
             <CalendarIcon className="w-5 h-5" />
           </button>
 
-          {/* Quarter Picker Dropdown */}
-          {showQuarterPicker && (
+          {/* Period Picker Dropdown */}
+          {showPicker && (
             <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-slate-800 border border-slate-600 rounded-lg shadow-2xl p-4 z-50 min-w-[200px] max-h-[300px] overflow-y-auto">
-              <h4 className="text-sm font-semibold text-slate-200 mb-3">Select Quarter</h4>
+              <h4 className="text-sm font-semibold text-slate-200 mb-3">Select {periodType}</h4>
               <div className="space-y-1">
-                {availableQuarters.map((q, index) => {
-                  const isSelected = index === currentQuarterIndex
-                  const label = `Q${q.quarter} ${q.year}`
-
-                  return (
-                    <button
-                      key={`${q.year}-Q${q.quarter}`}
-                      onClick={() => handleQuarterSelectAndClose(index)}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        isSelected
-                          ? 'bg-accent text-white'
-                          : 'text-slate-300 hover:bg-slate-700 hover:text-slate-100'
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  )
-                })}
+                {isYearly ? (
+                  availableYears.map((year, index) => {
+                    const isSelected = index === currentYearIndex
+                    return (
+                      <button
+                        key={year}
+                        onClick={() => handleSelectAndClose(index)}
+                        className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          isSelected
+                            ? 'bg-accent text-white'
+                            : 'text-slate-300 hover:bg-slate-700 hover:text-slate-100'
+                        }`}
+                      >
+                        {year}
+                      </button>
+                    )
+                  })
+                ) : (
+                  availableQuarters.map((q, index) => {
+                    const isSelected = index === currentQuarterIndex
+                    const label = `Q${q.quarter} ${q.year}`
+                    return (
+                      <button
+                        key={`${q.year}-Q${q.quarter}`}
+                        onClick={() => handleSelectAndClose(index)}
+                        className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          isSelected
+                            ? 'bg-accent text-white'
+                            : 'text-slate-300 hover:bg-slate-700 hover:text-slate-100'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    )
+                  })
+                )}
               </div>
             </div>
           )}
         </div>
 
         <button
-          onClick={onNextQuarter}
-          disabled={!canGoNextQuarter}
+          onClick={onNext}
+          disabled={!canGoNext}
           className={`p-2 rounded-lg transition-colors ${
-            canGoNextQuarter
+            canGoNext
               ? 'bg-blue-900 border border-blue-800 hover:bg-blue-800 text-blue-200'
               : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
           }`}
@@ -145,7 +198,7 @@ export function CalendarWeeklyView({
       </div>
 
       {weeklySummaries.length === 0 ? (
-        <p className="text-slate-300 text-center py-8">No trading data available for {currentQuarterLabel}</p>
+        <p className="text-slate-300 text-center py-8">No trading data available for {currentLabel}</p>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
           {weeklySummaries.map((week) => {
@@ -176,13 +229,13 @@ export function CalendarWeeklyView({
         </div>
       )}
 
-      {/* Quarter Summary Stats */}
+      {/* Period Summary Stats */}
       {weeklySummaries.length > 0 && (
         <div className="mt-6 pt-6 border-t border-slate-600">
-          <h3 className="text-sm font-semibold text-slate-100 mb-4">Quarter Statistics</h3>
+          <h3 className="text-sm font-semibold text-slate-100 mb-4">{periodType} Statistics by Week</h3>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-              <div className="text-xs text-slate-400 mb-1">Quarter P&L</div>
+              <div className="text-xs text-slate-400 mb-1">{periodType} P&L</div>
               <div className={`text-lg font-bold ${totalPL >= 0 ? 'text-teal-400' : 'text-red-400'}`}>
                 {formatCurrency(totalPL)}
               </div>

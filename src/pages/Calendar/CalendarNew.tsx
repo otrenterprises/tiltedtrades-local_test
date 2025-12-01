@@ -4,10 +4,11 @@ import { PageLayout } from '@/components/layout/PageLayout'
 import { PLToggle } from '@/components/common/PLToggle'
 import { useCalendarData } from './hooks/useCalendarData'
 import { ViewSelector, CalendarDailyView, CalendarWeeklyView, CalendarMonthlyView } from './components'
-import type { ViewType } from './types'
+import type { ViewType, WeeklyGrouping } from './types'
 
 export function CalendarNew() {
   const [viewType, setViewType] = useState<ViewType>('daily')
+  const [weeklyGrouping, setWeeklyGrouping] = useState<WeeklyGrouping>('quarterly')
   const [showWeeklyTotals, setShowWeeklyTotals] = useState(true)
   const [includeCommissions, setIncludeCommissions] = useState(false)
 
@@ -16,6 +17,7 @@ export function CalendarNew() {
     error,
     calendarData,
     filteredWeeklySummaries,
+    filteredWeeklySummariesByYear,
     filteredMonthlySummaries,
     availableMonths,
     availableQuarters,
@@ -70,7 +72,35 @@ export function CalendarNew() {
   return (
     <PageLayout
       title="Trading Calendar"
-      subtitle={<ViewSelector viewType={viewType} onViewChange={setViewType} />}
+      subtitle={
+        <div className="flex items-center gap-4">
+          <ViewSelector viewType={viewType} onViewChange={setViewType} />
+          {viewType === 'weekly' && (
+            <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1">
+              <button
+                onClick={() => setWeeklyGrouping('quarterly')}
+                className={`flex items-center justify-center px-3 py-1.5 h-8 min-w-[90px] rounded-md text-sm font-medium transition-colors ${
+                  weeklyGrouping === 'quarterly'
+                    ? 'bg-accent text-white'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                }`}
+              >
+                Quarterly
+              </button>
+              <button
+                onClick={() => setWeeklyGrouping('yearly')}
+                className={`flex items-center justify-center px-3 py-1.5 h-8 min-w-[90px] rounded-md text-sm font-medium transition-colors ${
+                  weeklyGrouping === 'yearly'
+                    ? 'bg-accent text-white'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                }`}
+              >
+                Yearly
+              </button>
+            </div>
+          )}
+        </div>
+      }
       actions={
         <div className="flex flex-col gap-2">
           {/* Weekly totals toggle - only show in daily view */}
@@ -84,11 +114,16 @@ export function CalendarNew() {
               }`}
             >
               {showWeeklyTotals ? (
-                <Eye className="w-4 h-4" />
+                <>
+                  <EyeOff className="w-4 h-4" />
+                  Hide Weekly Totals
+                </>
               ) : (
-                <EyeOff className="w-4 h-4" />
+                <>
+                  <Eye className="w-4 h-4" />
+                  Show Weekly Totals
+                </>
               )}
-              Show Weekly Totals
             </button>
           )}
 
@@ -117,8 +152,10 @@ export function CalendarNew() {
         {/* Weekly View */}
         {viewType === 'weekly' && (
           <CalendarWeeklyView
-            weeklySummaries={filteredWeeklySummaries}
+            weeklySummaries={weeklyGrouping === 'quarterly' ? filteredWeeklySummaries : filteredWeeklySummariesByYear}
             includeCommissions={includeCommissions}
+            grouping={weeklyGrouping}
+            // Quarterly props
             availableQuarters={availableQuarters}
             currentQuarterIndex={currentQuarterIndex}
             currentQuarterLabel={currentQuarterLabel}
@@ -127,6 +164,15 @@ export function CalendarNew() {
             onPreviousQuarter={handlePreviousQuarter}
             onNextQuarter={handleNextQuarter}
             onQuarterSelect={handleQuarterSelect}
+            // Yearly props
+            availableYears={availableYears}
+            currentYearIndex={currentYearIndex}
+            currentYear={currentYear}
+            canGoPreviousYear={canGoPreviousYear}
+            canGoNextYear={canGoNextYear}
+            onPreviousYear={handlePreviousYear}
+            onNextYear={handleNextYear}
+            onYearSelect={handleYearSelect}
           />
         )}
 

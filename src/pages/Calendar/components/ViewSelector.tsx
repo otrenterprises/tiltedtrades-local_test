@@ -11,7 +11,7 @@ export function ViewSelector({ viewType, onViewChange }: ViewSelectorProps) {
     <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1">
       <button
         onClick={() => onViewChange('daily')}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+        className={`flex items-center justify-center gap-1.5 px-3 py-1.5 h-8 min-w-[90px] rounded-md text-sm font-medium transition-colors ${
           viewType === 'daily'
             ? 'bg-accent text-white'
             : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
@@ -22,7 +22,7 @@ export function ViewSelector({ viewType, onViewChange }: ViewSelectorProps) {
       </button>
       <button
         onClick={() => onViewChange('weekly')}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+        className={`flex items-center justify-center gap-1.5 px-3 py-1.5 h-8 min-w-[90px] rounded-md text-sm font-medium transition-colors ${
           viewType === 'weekly'
             ? 'bg-accent text-white'
             : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
@@ -33,7 +33,7 @@ export function ViewSelector({ viewType, onViewChange }: ViewSelectorProps) {
       </button>
       <button
         onClick={() => onViewChange('monthly')}
-        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+        className={`flex items-center justify-center gap-1.5 px-3 py-1.5 h-8 min-w-[90px] rounded-md text-sm font-medium transition-colors ${
           viewType === 'monthly'
             ? 'bg-accent text-white'
             : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'

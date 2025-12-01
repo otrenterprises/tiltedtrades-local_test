@@ -363,6 +363,13 @@ export function useCalendarData() {
     return monthlySummaries.filter(m => m.year === currentYear)
   }, [monthlySummaries, availableYears, currentYearIndex])
 
+  // Filter weekly summaries by current year (for yearly grouping)
+  const filteredWeeklySummariesByYear = useMemo(() => {
+    if (availableYears.length === 0) return weeklySummaries
+    const year = availableYears[currentYearIndex]
+    return weeklySummaries.filter(w => w.year === year)
+  }, [weeklySummaries, availableYears, currentYearIndex])
+
   // Navigation handlers
   const handlePreviousMonth = () => {
     if (currentMonthIndex > 0) {
@@ -432,6 +439,7 @@ export function useCalendarData() {
     // Calendar data
     calendarData,
     filteredWeeklySummaries,
+    filteredWeeklySummariesByYear,
     filteredMonthlySummaries,
 
     // Available options
