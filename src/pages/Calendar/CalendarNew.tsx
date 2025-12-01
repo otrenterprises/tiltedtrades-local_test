@@ -1,16 +1,23 @@
 import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import { PageLayout } from '@/components/layout/PageLayout'
-import { PLToggle } from '@/components/common/PLToggle'
 import { useCalendarData } from './hooks/useCalendarData'
 import { ViewSelector, CalendarDailyView, CalendarWeeklyView, CalendarMonthlyView } from './components'
 import type { ViewType, WeeklyGrouping } from './types'
 
-export function CalendarNew() {
+interface CalendarNewProps {
+  showGrossPL: boolean
+}
+
+export function CalendarNew({ showGrossPL }: CalendarNewProps) {
   const [viewType, setViewType] = useState<ViewType>('daily')
   const [weeklyGrouping, setWeeklyGrouping] = useState<WeeklyGrouping>('quarterly')
   const [showWeeklyTotals, setShowWeeklyTotals] = useState(true)
-  const [includeCommissions, setIncludeCommissions] = useState(false)
+
+  // includeCommissions is the inverse of showGrossPL
+  // When showGrossPL = false (Net P&L), we include commissions in calculations
+  // When showGrossPL = true (Gross P&L), we exclude commissions
+  const includeCommissions = !showGrossPL
 
   const {
     isLoading,
@@ -73,10 +80,25 @@ export function CalendarNew() {
     <PageLayout
       title="Trading Calendar"
       subtitle={
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col gap-2">
           <ViewSelector viewType={viewType} onViewChange={setViewType} />
+          {viewType === 'daily' && (
+            <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1 w-fit">
+              <button
+                onClick={() => setShowWeeklyTotals(!showWeeklyTotals)}
+                className={`flex items-center justify-center gap-1.5 px-3 py-1.5 h-8 rounded-md text-sm font-medium transition-colors ${
+                  showWeeklyTotals
+                    ? 'bg-accent text-white'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                }`}
+              >
+                {showWeeklyTotals ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                Weekly Totals
+              </button>
+            </div>
+          )}
           {viewType === 'weekly' && (
-            <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1">
+            <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1 w-fit">
               <button
                 onClick={() => setWeeklyGrouping('quarterly')}
                 className={`flex items-center justify-center px-3 py-1.5 h-8 min-w-[90px] rounded-md text-sm font-medium transition-colors ${
@@ -99,36 +121,6 @@ export function CalendarNew() {
               </button>
             </div>
           )}
-        </div>
-      }
-      actions={
-        <div className="flex flex-col gap-2">
-          {/* Weekly totals toggle - only show in daily view */}
-          {viewType === 'daily' && (
-            <button
-              onClick={() => setShowWeeklyTotals(!showWeeklyTotals)}
-              className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                showWeeklyTotals
-                  ? 'bg-accent text-white'
-                  : 'bg-blue-900 border border-blue-800 text-blue-200 hover:bg-blue-800'
-              }`}
-            >
-              {showWeeklyTotals ? (
-                <>
-                  <EyeOff className="w-4 h-4" />
-                  Hide Weekly Totals
-                </>
-              ) : (
-                <>
-                  <Eye className="w-4 h-4" />
-                  Show Weekly Totals
-                </>
-              )}
-            </button>
-          )}
-
-          {/* P&L Toggle (Net/Gross) */}
-          <PLToggle showGrossPL={includeCommissions} onToggle={setIncludeCommissions} />
         </div>
       }
     >

@@ -28,17 +28,14 @@ import {
   ResponsiveContainer
 } from 'recharts'
 import { format, startOfMonth, eachDayOfInterval, parseISO } from 'date-fns'
-import { PLToggle } from '@/components/common/PLToggle'
 
 interface AnalyticsAPIProps {
   calculationMethod: CalculationMethod
+  showGrossPL: boolean
 }
 
-export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod }) => {
+export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, showGrossPL }) => {
   const { isExpanded } = useNavigation()
-
-  // Commission toggle state - false = Net P&L (default), true = Gross P&L
-  const [showGrossPL, setShowGrossPL] = useState(false)
 
   // Fetch trades from API
   const { data: tradesData, isLoading, error } = useTrades({
@@ -267,12 +264,9 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod })
     <div className={`min-h-screen bg-gray-900 py-8 px-4 transition-all duration-300 ${isExpanded ? 'ml-60' : 'ml-16'}`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8 flex items-start justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Trading Analytics</h1>
-            <p className="text-gray-400">Comprehensive analysis of your trading performance ({calculationMethod === 'perPosition' ? 'POSITIONAL' : 'FIFO'})</p>
-          </div>
-          <PLToggle showGrossPL={showGrossPL} onToggle={setShowGrossPL} />
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2">Trading Analytics</h1>
+          <p className="text-gray-400">Comprehensive analysis of your trading performance ({calculationMethod === 'perPosition' ? 'POSITIONAL' : 'FIFO'})</p>
         </div>
 
         {/* Controls */}

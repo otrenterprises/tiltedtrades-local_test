@@ -52,6 +52,7 @@ const queryClient = new QueryClient({
 
 function App() {
   const [calculationMethod, setCalculationMethod] = useState<CalculationMethod>('fifo')
+  const [showGrossPL, setShowGrossPL] = useState(false)
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -77,16 +78,18 @@ function App() {
                       <Navigation
                         calculationMethod={calculationMethod}
                         onCalculationMethodChange={setCalculationMethod}
+                        showGrossPL={showGrossPL}
+                        onShowGrossPLChange={setShowGrossPL}
                       />
                       <Routes>
-                        <Route path="/" element={<DashboardNew calculationMethod={calculationMethod} />} />
+                        <Route path="/" element={<DashboardNew calculationMethod={calculationMethod} showGrossPL={showGrossPL} />} />
                         <Route path="/trades" element={<TradeLog calculationMethod={calculationMethod} />} />
                         <Route path="/balance" element={<Balance />} />
                         <Route path="/journals" element={<JournalList />} />
                         <Route path="/journals/:tradeId" element={<TradeDetail />} />
                         <Route path="/journals/:tradeId/edit" element={<JournalEditor />} />
-                        <Route path="/analytics" element={<AnalyticsAPI calculationMethod={calculationMethod} />} />
-                        <Route path="/calendar" element={<CalendarNew />} />
+                        <Route path="/analytics" element={<AnalyticsAPI calculationMethod={calculationMethod} showGrossPL={showGrossPL} />} />
+                        <Route path="/calendar" element={<CalendarNew showGrossPL={showGrossPL} />} />
                         {/* Leaderboard routes commented out for local testing (no multi-user) */}
                         {/* <Route path="/leaderboard" element={<Leaderboard />} /> */}
                         {/* <Route path="/profile/:userId" element={<PublicProfile />} /> */}

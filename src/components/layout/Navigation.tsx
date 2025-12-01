@@ -9,9 +9,11 @@ import { FileUploadModal } from '@/components/upload/FileUploadModal'
 interface NavigationProps {
   calculationMethod: CalculationMethod
   onCalculationMethodChange: (method: CalculationMethod) => void
+  showGrossPL: boolean
+  onShowGrossPLChange: (showGross: boolean) => void
 }
 
-export function Navigation({ calculationMethod, onCalculationMethodChange }: NavigationProps) {
+export function Navigation({ calculationMethod, onCalculationMethodChange, showGrossPL, onShowGrossPLChange }: NavigationProps) {
   const { isExpanded, setIsExpanded } = useNavigation()
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
@@ -78,26 +80,69 @@ export function Navigation({ calculationMethod, onCalculationMethodChange }: Nav
       </div>
 
       {/* Upload Button */}
-      <div className="border-t border-dark-border p-4 flex-shrink-0">
+      <div className="border-t border-dark-border px-3 py-4 flex-shrink-0">
         <button
           onClick={() => setShowUploadModal(true)}
-          className="w-full flex items-center justify-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-colors bg-blue-600 hover:bg-blue-700 text-white"
+          className="w-full flex items-center justify-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors bg-blue-600 hover:bg-blue-700 text-white"
           title={!isExpanded ? 'Upload Data' : undefined}
         >
-          <Upload className="w-5 h-5 flex-shrink-0" />
+          <Upload className="w-4 h-4 flex-shrink-0" />
           {isExpanded && <span className="whitespace-nowrap">Upload Data</span>}
         </button>
       </div>
 
-      {/* Calculation Method Toggle */}
-      <div className="border-t border-dark-border p-4 flex-shrink-0">
+      {/* Net/Gross P&L Toggle */}
+      <div className="border-t border-dark-border px-3 py-2.5 flex-shrink-0">
         {isExpanded ? (
-          <div className="space-y-2">
+          <div className="space-y-1.5">
+            <span className="text-xs text-slate-400 block">P&L Display:</span>
+            <div className="flex bg-dark-tertiary rounded-lg p-0.5">
+              <button
+                onClick={() => onShowGrossPLChange(false)}
+                className={`flex-1 px-2 py-1 text-xs font-medium rounded-md transition-colors ${
+                  !showGrossPL
+                    ? 'bg-accent text-white'
+                    : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                Net
+              </button>
+              <button
+                onClick={() => onShowGrossPLChange(true)}
+                className={`flex-1 px-2 py-1 text-xs font-medium rounded-md transition-colors ${
+                  showGrossPL
+                    ? 'bg-accent text-white'
+                    : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                Gross
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex justify-center">
+            <button
+              onClick={() => onShowGrossPLChange(!showGrossPL)}
+              className="w-8 h-8 bg-dark-tertiary hover:bg-dark-tertiary/80 rounded-lg flex items-center justify-center transition-colors"
+              title={`P&L: ${showGrossPL ? 'Gross' : 'Net'} (click to toggle)`}
+            >
+              <span className="text-xs font-bold text-accent">
+                {showGrossPL ? 'G' : 'N'}
+              </span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Calculation Method Toggle */}
+      <div className="border-t border-dark-border px-3 py-2.5 flex-shrink-0">
+        {isExpanded ? (
+          <div className="space-y-1.5">
             <span className="text-xs text-slate-400 block">P&L Method:</span>
-            <div className="flex bg-dark-tertiary rounded-lg p-1">
+            <div className="flex bg-dark-tertiary rounded-lg p-0.5">
               <button
                 onClick={() => onCalculationMethodChange('fifo')}
-                className={`flex-1 px-2 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                className={`flex-1 px-2 py-1 text-xs font-medium rounded-md transition-colors ${
                   calculationMethod === 'fifo'
                     ? 'bg-accent text-white'
                     : 'text-slate-300 hover:text-white'
@@ -107,7 +152,7 @@ export function Navigation({ calculationMethod, onCalculationMethodChange }: Nav
               </button>
               <button
                 onClick={() => onCalculationMethodChange('perPosition')}
-                className={`flex-1 px-2 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                className={`flex-1 px-2 py-1 text-xs font-medium rounded-md transition-colors ${
                   calculationMethod === 'perPosition'
                     ? 'bg-accent text-white'
                     : 'text-slate-300 hover:text-white'
@@ -121,7 +166,7 @@ export function Navigation({ calculationMethod, onCalculationMethodChange }: Nav
           <div className="flex justify-center">
             <button
               onClick={() => onCalculationMethodChange(calculationMethod === 'fifo' ? 'perPosition' : 'fifo')}
-              className="w-10 h-10 bg-dark-tertiary hover:bg-dark-tertiary/80 rounded-lg flex items-center justify-center transition-colors"
+              className="w-8 h-8 bg-dark-tertiary hover:bg-dark-tertiary/80 rounded-lg flex items-center justify-center transition-colors"
               title={`P&L: ${calculationMethod === 'fifo' ? 'FIFO' : 'Per Position'} (click to toggle)`}
             >
               <span className="text-xs font-bold text-accent">
@@ -133,12 +178,12 @@ export function Navigation({ calculationMethod, onCalculationMethodChange }: Nav
       </div>
 
       {/* User Info & Logout */}
-      <div className="border-t border-dark-border p-4 flex-shrink-0">
+      <div className="border-t border-dark-border px-3 py-2.5 flex-shrink-0">
         {isExpanded ? (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {/* User Info */}
             <div className="flex items-center gap-2 text-xs text-slate-400">
-              <User className="w-4 h-4 flex-shrink-0" />
+              <User className="w-3.5 h-3.5 flex-shrink-0" />
               <span className="truncate" title={user?.email}>
                 {user?.email || 'Not logged in'}
               </span>
@@ -146,19 +191,19 @@ export function Navigation({ calculationMethod, onCalculationMethodChange }: Nav
             {/* Logout Button */}
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-slate-300 hover:text-white hover:bg-red-600/20 border border-slate-600 hover:border-red-500"
+              className="w-full flex items-center justify-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors text-slate-300 hover:text-white hover:bg-red-600/20 border border-slate-600 hover:border-red-500"
             >
-              <LogOut className="w-4 h-4 flex-shrink-0" />
+              <LogOut className="w-3.5 h-3.5 flex-shrink-0" />
               <span>Sign Out</span>
             </button>
           </div>
         ) : (
           <button
             onClick={() => setIsExpanded(true)}
-            className="w-full flex items-center justify-center py-2 rounded-lg text-slate-400 hover:text-slate-300 transition-colors"
+            className="w-full flex items-center justify-center py-1.5 rounded-lg text-slate-400 hover:text-slate-300 transition-colors"
             title={user?.email ? `Signed in as: ${user.email}` : 'Not signed in'}
           >
-            <User className="w-5 h-5" />
+            <User className="w-4 h-4" />
           </button>
         )}
       </div>
