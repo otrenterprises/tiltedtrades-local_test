@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
-import { Settings as SettingsIcon, User, Shield, Bell, Palette, Key } from 'lucide-react'
+import { Settings as SettingsIcon, User, Shield, Bell, Palette, Key, Info } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useNavigation } from '@/contexts/NavigationContext'
 import GeneralPanel from './GeneralPanel'
 import PreferencesPanel from './PreferencesPanel'
 import PrivacyPanel from './PrivacyPanel'
 import NotificationPanel from './NotificationPanel'
+import SiteInfoPanel from './SiteInfoPanel'
 import LoadingSpinner from '@/components/feedback/LoadingSpinner'
 import ErrorMessage from '@/components/feedback/ErrorMessage'
 
-type TabType = 'general' | 'preferences' | 'privacy' | 'notifications' | 'api'
+type TabType = 'general' | 'preferences' | 'privacy' | 'notifications' | 'api' | 'siteinfo'
 
 interface Tab {
   id: TabType
@@ -48,6 +49,12 @@ const tabs: Tab[] = [
     label: 'API Keys',
     icon: <Key className="w-4 h-4" />,
     description: 'Manage API keys for external integrations',
+  },
+  {
+    id: 'siteinfo',
+    label: 'Site Info',
+    icon: <Info className="w-4 h-4" />,
+    description: 'Quick guide to TiltedTrades features',
   },
 ]
 
@@ -121,6 +128,8 @@ export default function Settings() {
             </div>
           </div>
         )
+      case 'siteinfo':
+        return <SiteInfoPanel />
       default:
         return null
     }
