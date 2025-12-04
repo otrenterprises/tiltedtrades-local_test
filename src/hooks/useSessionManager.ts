@@ -5,6 +5,12 @@
  * Also enforces maximum session duration using localStorage timestamps
  * to handle cases where Cognito refresh tokens keep the session alive
  * longer than desired (e.g., 30 days by default).
+ *
+ * Browser close detection strategy:
+ * - Uses localStorage to track "browser session ID" (random ID per browser session)
+ * - On each page load, checks if sessionStorage has the session marker
+ * - If localStorage has auth but sessionStorage is empty = new browser session = logout
+ * - This runs BEFORE React hydration to catch the state early
  */
 
 import { useEffect, useRef, useCallback } from 'react'
@@ -16,9 +22,34 @@ interface SessionManagerOptions {
   maxSessionHours?: number         // Default: 12 hours - max time before forced re-login
 }
 
-const DEFAULT_IDLE_TIMEOUT = 30 * 60 * 1000 // 30 minutes in milliseconds
 const LAST_ACTIVITY_KEY = 'tiltedtrades_last_activity'
 const SESSION_START_KEY = 'tiltedtrades_session_start'
+const BROWSER_SESSION_STORAGE_KEY = 'tiltedtrades_browser_session_marker'
+
+/**
+ * Check if this is a new browser session (browser was closed and reopened)
+ * This runs synchronously before React to catch the state early
+ */
+function checkBrowserSessionOnLoad(): boolean {
+  const sessionMarker = sessionStorage.getItem(BROWSER_SESSION_STORAGE_KEY)
+  const hasLocalStorageSession = localStorage.getItem(SESSION_START_KEY) !== null
+
+  if (hasLocalStorageSession && !sessionMarker) {
+    // localStorage has session data but sessionStorage is empty
+    // This means browser was closed and reopened = new browser session
+    return true
+  }
+
+  // Mark this browser session as active
+  if (!sessionMarker) {
+    sessionStorage.setItem(BROWSER_SESSION_STORAGE_KEY, Date.now().toString())
+  }
+
+  return false
+}
+
+// Run the check immediately when this module loads (before React)
+const isNewBrowserSession = checkBrowserSessionOnLoad()
 
 export const useSessionManager = (options: SessionManagerOptions = {}) => {
   const { isAuthenticated, signOut } = useAuth()
@@ -119,69 +150,36 @@ export const useSessionManager = (options: SessionManagerOptions = {}) => {
     }
   }, [isAuthenticated, idleTimeout, resetIdleTimer, updateLastActivity])
 
-  // Set up browser/tab close listener
+  // Check on mount if browser was closed and we need to log out
+  // Uses the pre-computed isNewBrowserSession value that was checked before React mounted
+  const hasHandledBrowserClose = useRef(false)
+
   useEffect(() => {
-    if (!isAuthenticated || !logoutOnClose) return
+    if (!logoutOnClose || hasHandledBrowserClose.current) return
 
-    // Mark session as temporary (will be cleared on close)
-    const SESSION_KEY = 'tiltedtrades_session_active'
-    sessionStorage.setItem(SESSION_KEY, 'true')
+    // If this is a new browser session and user appears authenticated,
+    // we need to log them out
+    if (isNewBrowserSession && isAuthenticated) {
+      hasHandledBrowserClose.current = true
+      console.log('Browser was closed - logging out user')
 
-    // Check on page load if this is a fresh browser session
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        // User is leaving - mark the time
-        sessionStorage.setItem('tiltedtrades_last_hidden', Date.now().toString())
-      }
-    }
+      // Clear session data
+      localStorage.removeItem(SESSION_START_KEY)
+      localStorage.removeItem(LAST_ACTIVITY_KEY)
 
-    // Handle beforeunload - this fires when tab/browser closes
-    const handleBeforeUnload = () => {
-      // Set a flag that we're closing
-      sessionStorage.setItem('tiltedtrades_closing', 'true')
-    }
-
-    // Handle page hide (more reliable on mobile)
-    const handlePageHide = (event: PageTransitionEvent) => {
-      if (!event.persisted) {
-        // Page is being discarded, not just hidden
-        // Note: We can't do async operations here reliably
-        // The actual cleanup happens on next page load
-        sessionStorage.setItem('tiltedtrades_should_logout', 'true')
-      }
-    }
-
-    document.addEventListener('visibilitychange', handleVisibilityChange)
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    window.addEventListener('pagehide', handlePageHide)
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange)
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-      window.removeEventListener('pagehide', handlePageHide)
-    }
-  }, [isAuthenticated, logoutOnClose])
-
-  // Check on mount if we should log out (browser was closed)
-  useEffect(() => {
-    if (!logoutOnClose) return
-
-    const shouldLogout = sessionStorage.getItem('tiltedtrades_should_logout')
-    const sessionActive = sessionStorage.getItem('tiltedtrades_session_active')
-
-    // Clean up flags
-    sessionStorage.removeItem('tiltedtrades_should_logout')
-    sessionStorage.removeItem('tiltedtrades_closing')
-    sessionStorage.removeItem('tiltedtrades_last_hidden')
-
-    // If there's no active session marker but we're authenticated,
-    // this is a new browser session - log out
-    if (isAuthenticated && !sessionActive && !shouldLogout) {
-      // This is a new browser session (browser was closed and reopened)
-      // or localStorage persisted but sessionStorage didn't
       handleSignOut('browser session ended')
     }
   }, [isAuthenticated, logoutOnClose, handleSignOut])
+
+  // Keep sessionStorage marker updated while session is active
+  useEffect(() => {
+    if (!isAuthenticated || !logoutOnClose) return
+
+    // Ensure browser session marker exists
+    if (!sessionStorage.getItem(BROWSER_SESSION_STORAGE_KEY)) {
+      sessionStorage.setItem(BROWSER_SESSION_STORAGE_KEY, Date.now().toString())
+    }
+  }, [isAuthenticated, logoutOnClose])
 
   // Check maximum session duration on mount and periodically
   // This handles the case where Cognito refresh tokens keep the session alive
