@@ -12,14 +12,17 @@ export function PageLayout({ children, title, subtitle, actions }: PageLayoutPro
   const { isExpanded } = useNavigation()
 
   return (
-    <div className={`min-h-screen bg-dark transition-all duration-300 ${isExpanded ? 'ml-60' : 'ml-16'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    // ml-0 on mobile, sidebar margin on desktop
+    // pb-20 on mobile for bottom nav clearance, pb-0 on desktop
+    <div className={`min-h-screen bg-dark transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
         {(title || subtitle || actions) && (
-          <div className="mb-8">
-            <div className="flex items-start justify-between">
+          <div className="mb-4 md:mb-8">
+            {/* Stack on mobile, side-by-side on desktop */}
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
               <div>
                 {title && (
-                  <h1 className="text-3xl font-bold text-slate-50 mb-2">
+                  <h1 className="text-2xl md:text-3xl font-bold text-slate-50 mb-1 md:mb-2">
                     {title}
                   </h1>
                 )}
@@ -30,7 +33,7 @@ export function PageLayout({ children, title, subtitle, actions }: PageLayoutPro
                 )}
               </div>
               {actions && (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                   {actions}
                 </div>
               )}

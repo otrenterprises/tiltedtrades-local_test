@@ -16,13 +16,15 @@ export function MonthlyPerformance({ data }: MonthlyPerformanceProps) {
   }
 
   return (
-    <div className="bg-dark-secondary border border-dark-border rounded-lg p-6">
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold text-slate-50 mb-1">Monthly Performance</h3>
-        <p className="text-sm text-slate-400">P&L by month</p>
+    <div className="bg-dark-secondary border border-dark-border rounded-lg p-4 md:p-6">
+      <div className="mb-4 md:mb-6">
+        <h3 className="text-base md:text-lg font-semibold text-slate-50 mb-0.5 md:mb-1">Monthly Performance</h3>
+        <p className="text-xs md:text-sm text-slate-400">P&L by month</p>
       </div>
 
-      <ResponsiveContainer width="100%" height={280}>
+      {/* Responsive chart height */}
+      <div className="h-[180px] sm:h-[240px] md:h-[280px]">
+        <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
           <XAxis
@@ -56,9 +58,10 @@ export function MonthlyPerformance({ data }: MonthlyPerformanceProps) {
             ))}
           </Bar>
         </BarChart>
-      </ResponsiveContainer>
+        </ResponsiveContainer>
+      </div>
 
-      <div className="mt-4 flex items-center justify-between text-xs text-slate-400">
+      <div className="mt-3 md:mt-4 flex items-center justify-between text-xs text-slate-400">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-profit rounded"></div>

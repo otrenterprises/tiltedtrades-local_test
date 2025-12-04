@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { BarChart3, TrendingUp, Calendar, List, BookOpen, Trophy, Settings, Wallet, ChevronLeft, ChevronRight, Upload, LogOut, User } from 'lucide-react'
+import { BarChart3, TrendingUp, Calendar, List, BookOpen, Trophy, Settings, Wallet, ChevronLeft, ChevronRight, Upload, LogOut, User, Menu, X } from 'lucide-react'
 import { CalculationMethod } from '@/utils/calculations/tradeMatching'
 import { useNavigation } from '@/contexts/NavigationContext'
 import { useAuth } from '@/contexts/AuthContext'
@@ -18,12 +18,14 @@ export function Navigation({ calculationMethod, onCalculationMethodChange, showG
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
   const [showUploadModal, setShowUploadModal] = useState(false)
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
 
   const handleLogout = async () => {
     await signOut()
     navigate('/login')
   }
 
+  // All navigation links for desktop sidebar
   const navLinks = [
     { to: '/app', icon: BarChart3, label: 'Dashboard' },
     { to: '/app/trades', icon: List, label: 'Trade Log' },
@@ -35,13 +37,30 @@ export function Navigation({ calculationMethod, onCalculationMethodChange, showG
     { to: '/app/settings', icon: Settings, label: 'Settings' },
   ]
 
+  // Mobile bottom nav links (user-specified order: Dash, Calendar, Balance, Trades, More)
+  const mobileNavLinks = [
+    { to: '/app', icon: BarChart3, label: 'Dash' },
+    { to: '/app/calendar', icon: Calendar, label: 'Calendar' },
+    { to: '/app/balance', icon: Wallet, label: 'Balance' },
+    { to: '/app/trades', icon: List, label: 'Trades' },
+  ]
+
+  // Links that appear in the "More" drawer on mobile
+  const mobileDrawerLinks = [
+    { to: '/app/journals', icon: BookOpen, label: 'Journals' },
+    { to: '/app/analytics', icon: TrendingUp, label: 'Analytics' },
+    { to: '/app/settings', icon: Settings, label: 'Settings' },
+  ]
+
   return (
-    <nav
-      className={`fixed left-0 top-0 h-screen border-r border-dark-border z-50 shadow-lg transition-all duration-300 flex flex-col ${
-        isExpanded ? 'w-60' : 'w-16'
-      }`}
-      style={{ backgroundColor: '#1E293B' }}
-    >
+    <>
+      {/* ===== DESKTOP SIDEBAR (hidden on mobile) ===== */}
+      <nav
+        className={`hidden md:flex fixed left-0 top-0 h-screen border-r border-dark-border z-50 shadow-lg transition-all duration-300 flex-col ${
+          isExpanded ? 'w-60' : 'w-16'
+        }`}
+        style={{ backgroundColor: '#1E293B' }}
+      >
       {/* Logo and Brand */}
       <div className="p-4 border-b border-dark-border flex-shrink-0">
         <div className="flex items-center gap-3">
@@ -223,12 +242,185 @@ export function Navigation({ calculationMethod, onCalculationMethodChange, showG
         </button>
       </div>
 
-      {/* Upload Modal */}
+        {/* Upload Modal */}
+        <FileUploadModal
+          isOpen={showUploadModal}
+          onClose={() => setShowUploadModal(false)}
+          onSuccess={() => setShowUploadModal(false)}
+        />
+      </nav>
+
+      {/* ===== MOBILE BOTTOM NAVIGATION (visible only on mobile) ===== */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-dark-secondary border-t border-dark-border z-50 safe-area-bottom">
+        <div className="flex justify-around items-center h-16">
+          {mobileNavLinks.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end={link.to === '/app'}
+              className={({ isActive }) =>
+                `flex flex-col items-center justify-center min-w-[64px] h-full px-2 transition-colors ${
+                  isActive
+                    ? 'text-accent'
+                    : 'text-slate-400 active:text-slate-200'
+                }`
+              }
+            >
+              <link.icon className="w-6 h-6" />
+              <span className="text-[10px] mt-1 font-medium">{link.label}</span>
+            </NavLink>
+          ))}
+
+          {/* More Menu Button */}
+          <button
+            onClick={() => setShowMobileMenu(true)}
+            className="flex flex-col items-center justify-center min-w-[64px] h-full px-2 text-slate-400 active:text-slate-200 transition-colors"
+          >
+            <Menu className="w-6 h-6" />
+            <span className="text-[10px] mt-1 font-medium">More</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* ===== MOBILE SLIDE-IN DRAWER ===== */}
+      {showMobileMenu && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="md:hidden fixed inset-0 bg-black/60 z-50"
+            onClick={() => setShowMobileMenu(false)}
+          />
+
+          {/* Drawer */}
+          <div className="md:hidden fixed top-0 right-0 bottom-0 w-72 bg-dark-secondary border-l border-dark-border z-50 flex flex-col animate-slide-in-right">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-dark-border">
+              <h2 className="text-lg font-semibold text-slate-50">Menu</h2>
+              <button
+                onClick={() => setShowMobileMenu(false)}
+                className="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-dark-tertiary/50 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="flex-1 overflow-y-auto py-4 px-3">
+              {mobileDrawerLinks.map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setShowMobileMenu(false)}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-4 py-3.5 mb-1 rounded-lg text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'bg-dark-tertiary text-slate-50'
+                        : 'text-slate-300 active:bg-dark-tertiary/50'
+                    }`
+                  }
+                >
+                  <link.icon className="w-5 h-5" />
+                  <span>{link.label}</span>
+                </NavLink>
+              ))}
+
+              {/* Upload Button */}
+              <button
+                onClick={() => {
+                  setShowMobileMenu(false)
+                  setShowUploadModal(true)
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3.5 mb-1 rounded-lg text-sm font-medium transition-colors bg-accent hover:bg-accent/90 text-white mt-2"
+              >
+                <Upload className="w-5 h-5" />
+                <span>Upload Data</span>
+              </button>
+            </div>
+
+            {/* Settings Section */}
+            <div className="border-t border-dark-border p-4 space-y-4">
+              {/* P&L Display Toggle */}
+              <div className="space-y-2">
+                <span className="text-xs text-slate-400 block">P&L Display:</span>
+                <div className="flex bg-dark-tertiary rounded-lg p-0.5">
+                  <button
+                    onClick={() => onShowGrossPLChange(false)}
+                    className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      !showGrossPL
+                        ? 'bg-accent text-white'
+                        : 'text-slate-300 active:text-white'
+                    }`}
+                  >
+                    Net
+                  </button>
+                  <button
+                    onClick={() => onShowGrossPLChange(true)}
+                    className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      showGrossPL
+                        ? 'bg-accent text-white'
+                        : 'text-slate-300 active:text-white'
+                    }`}
+                  >
+                    Gross
+                  </button>
+                </div>
+              </div>
+
+              {/* Calculation Method Toggle */}
+              <div className="space-y-2">
+                <span className="text-xs text-slate-400 block">P&L Method:</span>
+                <div className="flex bg-dark-tertiary rounded-lg p-0.5">
+                  <button
+                    onClick={() => onCalculationMethodChange('fifo')}
+                    className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      calculationMethod === 'fifo'
+                        ? 'bg-accent text-white'
+                        : 'text-slate-300 active:text-white'
+                    }`}
+                  >
+                    FIFO
+                  </button>
+                  <button
+                    onClick={() => onCalculationMethodChange('perPosition')}
+                    className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                      calculationMethod === 'perPosition'
+                        ? 'bg-accent text-white'
+                        : 'text-slate-300 active:text-white'
+                    }`}
+                  >
+                    Per Pos
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* User Info & Logout */}
+            <div className="border-t border-dark-border p-4 space-y-3 safe-area-bottom">
+              <div className="flex items-center gap-2 text-sm text-slate-400">
+                <User className="w-4 h-4" />
+                <span className="truncate">{user?.email || 'Not logged in'}</span>
+              </div>
+              <button
+                onClick={() => {
+                  setShowMobileMenu(false)
+                  handleLogout()
+                }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-slate-300 active:text-white border border-slate-600 active:border-red-500 active:bg-red-600/20"
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Upload Modal (shared between desktop and mobile) */}
       <FileUploadModal
         isOpen={showUploadModal}
         onClose={() => setShowUploadModal(false)}
         onSuccess={() => setShowUploadModal(false)}
       />
-    </nav>
+    </>
   )
 }

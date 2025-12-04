@@ -86,11 +86,11 @@ export function EquityCurve({ data }: EquityCurveProps) {
   }
 
   return (
-    <div className="bg-dark-secondary border border-dark-border rounded-lg p-6">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="bg-dark-secondary border border-dark-border rounded-lg p-4 md:p-6">
+      <div className="mb-4 md:mb-6 flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-slate-50 mb-1">Equity Curve</h3>
-          <p className="text-sm text-slate-400">Cumulative P&L over time</p>
+          <h3 className="text-base md:text-lg font-semibold text-slate-50 mb-0.5 md:mb-1">Equity Curve</h3>
+          <p className="text-xs md:text-sm text-slate-400">Cumulative P&L over time</p>
         </div>
 
         {/* Time Grouping Dropdown */}
@@ -132,8 +132,9 @@ export function EquityCurve({ data }: EquityCurveProps) {
         </div>
       </div>
 
-      <div>
-        <ResponsiveContainer width="100%" height={320}>
+      {/* Responsive chart height: 200px mobile, 280px tablet, 320px desktop */}
+      <div className="h-[200px] sm:h-[280px] md:h-[320px]">
+        <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={groupedData} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
             <defs>
               <linearGradient id="colorPL" x1="0" y1="0" x2="0" y2="1">
@@ -191,18 +192,18 @@ export function EquityCurve({ data }: EquityCurveProps) {
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-4 text-center">
+      <div className="mt-3 md:mt-4 grid grid-cols-3 gap-2 md:gap-4 text-center">
         <div>
-          <p className="text-xs text-slate-400 mb-1">Starting</p>
-          <p className="text-sm font-semibold text-slate-300">$0.00</p>
+          <p className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Starting</p>
+          <p className="text-xs md:text-sm font-semibold text-slate-300">$0.00</p>
         </div>
         <div>
-          <p className="text-xs text-slate-400 mb-1">Peak</p>
-          <p className="text-sm font-semibold text-profit">{formatCurrency(maxValue)}</p>
+          <p className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Peak</p>
+          <p className="text-xs md:text-sm font-semibold text-profit">{formatCurrency(maxValue)}</p>
         </div>
         <div>
-          <p className="text-xs text-slate-400 mb-1">Current</p>
-          <p className={`text-sm font-semibold ${isProfit ? 'text-profit' : 'text-loss'}`}>
+          <p className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Current</p>
+          <p className={`text-xs md:text-sm font-semibold ${isProfit ? 'text-profit' : 'text-loss'}`}>
             {formatCurrency(data[data.length - 1]?.cumulative || 0)}
           </p>
         </div>

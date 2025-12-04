@@ -9,6 +9,7 @@ import { formatCurrency, getPLColor } from '@/utils/formatting/currency'
 import { formatPercentage } from '@/utils/formatting/number'
 import { JournalQuickModal } from '@/components/journal/JournalQuickModal'
 import { useTrades } from '@/hooks/useTrades'
+import { MobileTradeCard } from './components/MobileTradeCard'
 
 interface TradeLogProps {
   calculationMethod: 'fifo' | 'perPosition'
@@ -135,12 +136,112 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
     )
   }
 
+  // Handle journal navigation for mobile
+  const handleMobileJournalClick = (trade: Trade) => {
+    navigate(`/app/journals/${trade.id}`, { state: { calculationMethod } })
+  }
+
   return (
     <PageLayout
       title="Trade Log"
       subtitle="Complete history of all your trades"
     >
-      <div className="bg-dark-secondary border border-dark-border rounded-lg p-6">
+      {/* ===== MOBILE VIEW ===== */}
+      <div className="md:hidden">
+        {/* Mobile header with sort and count */}
+        <div className="flex items-center justify-between mb-4">
+          <button
+            onClick={toggleDateSort}
+            className="flex items-center gap-1.5 px-3 py-2 bg-dark-secondary border border-dark-border rounded-lg text-sm text-slate-300 active:bg-dark-tertiary transition-colors"
+          >
+            {dateSortDirection === 'desc' ? 'Newest First' : 'Oldest First'}
+            {dateSortDirection === 'desc' ? (
+              <ChevronDown className="w-4 h-4" />
+            ) : (
+              <ChevronUp className="w-4 h-4" />
+            )}
+          </button>
+          <span className="text-xs text-slate-500">
+            {startIndex + 1}-{Math.min(endIndex, sortedTrades.length)} of {sortedTrades.length}
+          </span>
+        </div>
+
+        {/* Mobile trade cards */}
+        <div className="space-y-3">
+          {currentTrades.map((trade) => (
+            <MobileTradeCard
+              key={trade.id}
+              trade={trade}
+              onJournalClick={handleMobileJournalClick}
+              onAddJournal={setSelectedTrade}
+            />
+          ))}
+        </div>
+
+        {/* Mobile pagination */}
+        {totalPages > 1 && (
+          <div className="mt-6 flex items-center justify-between gap-2">
+            <button
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`flex-1 flex items-center justify-center gap-1 px-4 py-3 rounded-lg text-sm font-medium transition-colors touch-target ${
+                currentPage === 1
+                  ? 'bg-dark-tertiary/50 text-slate-500'
+                  : 'bg-dark-tertiary text-slate-300 active:bg-dark-tertiary/70'
+              }`}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Prev
+            </button>
+
+            <div className="flex items-center gap-1">
+              {/* Show fewer pages on mobile */}
+              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                let pageNum: number
+                if (totalPages <= 5) {
+                  pageNum = i + 1
+                } else if (currentPage <= 3) {
+                  pageNum = i + 1
+                } else if (currentPage >= totalPages - 2) {
+                  pageNum = totalPages - 4 + i
+                } else {
+                  pageNum = currentPage - 2 + i
+                }
+
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => goToPage(pageNum)}
+                    className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
+                      currentPage === pageNum
+                        ? 'bg-accent text-white'
+                        : 'bg-dark-secondary text-slate-400 active:bg-dark-tertiary'
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                )
+              })}
+            </div>
+
+            <button
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`flex-1 flex items-center justify-center gap-1 px-4 py-3 rounded-lg text-sm font-medium transition-colors touch-target ${
+                currentPage === totalPages
+                  ? 'bg-dark-tertiary/50 text-slate-500'
+                  : 'bg-dark-tertiary text-slate-300 active:bg-dark-tertiary/70'
+              }`}
+            >
+              Next
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* ===== DESKTOP VIEW ===== */}
+      <div className="hidden md:block bg-dark-secondary border border-dark-border rounded-lg p-6">
         {/* Items per page selector */}
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -266,10 +367,9 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
           </table>
         </div>
 
-        {/* Pagination controls */}
+        {/* Desktop pagination controls */}
         {totalPages > 1 && (
           <div className="mt-6 flex items-center justify-between">
-            {/* Previous button */}
             <button
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
@@ -283,7 +383,6 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
               Previous
             </button>
 
-            {/* Page numbers */}
             <div className="flex items-center gap-2">
               {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
                 let pageNum: number
@@ -314,7 +413,6 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
               })}
             </div>
 
-            {/* Next button */}
             <button
               onClick={() => goToPage(currentPage + 1)}
               disabled={currentPage === totalPages}

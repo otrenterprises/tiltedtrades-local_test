@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-reac
 import { formatCurrency } from '@/utils/formatting/currency'
 import { DayCell } from './DayCell'
 import { WeeklyCell } from './WeeklyCell'
+import { MobileCalendarAgenda } from './MobileCalendarAgenda'
 import type { MonthCalendarData } from '../types'
 
 interface CalendarDailyViewProps {
@@ -121,15 +122,15 @@ export function CalendarDailyView({
 
   return (
     <>
-      <div className="bg-slate-700 border border-slate-600 rounded-lg p-6">
-        {/* Month navigation header */}
-        <div className="flex items-center justify-between mb-6 relative">
+      {/* Shared Month Navigation Header */}
+      <div className="bg-slate-700 border border-slate-600 rounded-lg p-4 md:p-6 mb-4 md:mb-0">
+        <div className="flex items-center justify-between relative">
           <button
             onClick={onPreviousMonth}
             disabled={!canGoPrevious}
-            className={`p-2 rounded-lg transition-colors ${
+            className={`p-2 rounded-lg transition-colors touch-target ${
               canGoPrevious
-                ? 'bg-blue-900 border border-blue-800 hover:bg-blue-800 text-blue-200'
+                ? 'bg-blue-900 border border-blue-800 active:bg-blue-800 md:hover:bg-blue-800 text-blue-200'
                 : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
             }`}
           >
@@ -177,16 +178,27 @@ export function CalendarDailyView({
           <button
             onClick={onNextMonth}
             disabled={!canGoNext}
-            className={`p-2 rounded-lg transition-colors ${
+            className={`p-2 rounded-lg transition-colors touch-target ${
               canGoNext
-                ? 'bg-blue-900 border border-blue-800 hover:bg-blue-800 text-blue-200'
+                ? 'bg-blue-900 border border-blue-800 active:bg-blue-800 md:hover:bg-blue-800 text-blue-200'
                 : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
             }`}
           >
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
+      </div>
 
+      {/* ===== MOBILE VIEW: Agenda List ===== */}
+      <div className="md:hidden mt-4">
+        <MobileCalendarAgenda
+          calendarData={calendarData}
+          includeCommissions={includeCommissions}
+        />
+      </div>
+
+      {/* ===== DESKTOP VIEW: Calendar Table ===== */}
+      <div className="hidden md:block bg-slate-700 border border-slate-600 rounded-lg p-6 mt-4">
         {/* Calendar table */}
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
@@ -254,28 +266,28 @@ export function CalendarDailyView({
       </div>
 
       {/* Monthly Statistics */}
-      <div className="bg-slate-700 border border-slate-600 rounded-lg p-6">
-        <h3 className="text-sm font-semibold text-slate-100 mb-4">Monthly Statistics</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-            <div className="text-xs text-slate-400 mb-1">Monthly P&L</div>
-            <div className={`text-lg font-bold ${monthlyPL >= 0 ? 'text-teal-400' : 'text-red-400'}`}>
+      <div className="bg-slate-700 border border-slate-600 rounded-lg p-4 md:p-6 mt-4">
+        <h3 className="text-sm font-semibold text-slate-100 mb-3 md:mb-4">Monthly Statistics</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+          <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
+            <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Monthly P&L</div>
+            <div className={`text-base md:text-lg font-bold ${monthlyPL >= 0 ? 'text-teal-400' : 'text-red-400'}`}>
               {formatCurrency(monthlyPL)}
             </div>
           </div>
-          <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-            <div className="text-xs text-slate-400 mb-1">Trading Days</div>
-            <div className="text-lg font-bold text-slate-200">{tradingDays}</div>
+          <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
+            <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Trading Days</div>
+            <div className="text-base md:text-lg font-bold text-slate-200">{tradingDays}</div>
           </div>
-          <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-            <div className="text-xs text-slate-400 mb-1">Avg Daily P&L</div>
-            <div className={`text-lg font-bold ${avgDailyPL >= 0 ? 'text-teal-400' : 'text-red-400'}`}>
+          <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
+            <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Avg Daily P&L</div>
+            <div className={`text-base md:text-lg font-bold ${avgDailyPL >= 0 ? 'text-teal-400' : 'text-red-400'}`}>
               {formatCurrency(avgDailyPL)}
             </div>
           </div>
-          <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-600">
-            <div className="text-xs text-slate-400 mb-1">Win Rate</div>
-            <div className={`text-lg font-bold ${avgWinRate >= 50 ? 'text-teal-400' : 'text-red-400'}`}>
+          <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
+            <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Win Rate</div>
+            <div className={`text-base md:text-lg font-bold ${avgWinRate >= 50 ? 'text-teal-400' : 'text-red-400'}`}>
               {avgWinRate.toFixed(1)}%
             </div>
           </div>
