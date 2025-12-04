@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Settings as SettingsIcon, User, Shield, Bell, Palette, Key, Info } from 'lucide-react'
+import { Settings as SettingsIcon, User, Shield, Bell, Palette, Key, Info, ChevronDown, ChevronRight } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useNavigation } from '@/contexts/NavigationContext'
 import GeneralPanel from './GeneralPanel'
@@ -60,8 +60,21 @@ const tabs: Tab[] = [
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState<TabType>('general')
+  const [expandedMobileSections, setExpandedMobileSections] = useState<Set<TabType>>(new Set(['general']))
   const { isExpanded } = useNavigation()
   const { profile, preferences, isLoading, error, updateProfile, updatePreferences, isUpdating } = useSettings()
+
+  const toggleMobileSection = (tabId: TabType) => {
+    setExpandedMobileSections(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(tabId)) {
+        newSet.delete(tabId)
+      } else {
+        newSet.add(tabId)
+      }
+      return newSet
+    })
+  }
 
   if (isLoading) {
     return <LoadingSpinner fullScreen />
@@ -149,22 +162,35 @@ export default function Settings() {
 
         {/* ===== MOBILE: Accordion Layout (visible only on mobile) ===== */}
         <div className="md:hidden space-y-4">
-          {tabs.map((tab) => (
-            <div key={tab.id} className="bg-dark-secondary rounded-lg overflow-hidden">
-              {/* Section Header */}
-              <div className="flex items-center gap-3 p-4 border-b border-dark-border">
-                <span className="text-accent">{tab.icon}</span>
-                <div>
-                  <h2 className="font-medium text-white">{tab.label}</h2>
-                  <p className="text-xs text-gray-500">{tab.description}</p>
-                </div>
+          {tabs.map((tab) => {
+            const isExpanded = expandedMobileSections.has(tab.id)
+            return (
+              <div key={tab.id} className="bg-dark-secondary rounded-lg overflow-hidden">
+                {/* Section Header - Tappable */}
+                <button
+                  onClick={() => toggleMobileSection(tab.id)}
+                  className="w-full flex items-center gap-3 p-4 text-left hover:bg-dark-tertiary/30 transition-colors"
+                >
+                  <span className="text-accent">{tab.icon}</span>
+                  <div className="flex-1">
+                    <h2 className="font-medium text-white">{tab.label}</h2>
+                    <p className="text-xs text-gray-500">{tab.description}</p>
+                  </div>
+                  {isExpanded ? (
+                    <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                  ) : (
+                    <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                  )}
+                </button>
+                {/* Section Content - Collapsible */}
+                {isExpanded && (
+                  <div className="p-0 border-t border-dark-border">
+                    {renderPanelContent(tab.id)}
+                  </div>
+                )}
               </div>
-              {/* Section Content */}
-              <div className="p-0">
-                {renderPanelContent(tab.id)}
-              </div>
-            </div>
-          ))}
+            )
+          })}
 
           {/* Account Info - Mobile */}
           {profile && (
