@@ -71,8 +71,44 @@ export default function SiteInfoPanel() {
       {/* Navigation Toggles Section */}
       <CollapsibleSection title="Navigation Toggles" defaultOpen={false}>
         <p className="text-sm text-gray-400 mb-4">
-          These toggles in the navigation control how your P&L is displayed across the entire application.
+          These toggles control how your P&L is displayed across the entire application.
         </p>
+
+        {/* Mobile Quick Access Icons */}
+        <div className="bg-dark-tertiary rounded-lg p-4 border border-dark-border mb-4">
+          <h4 className="text-sm font-semibold text-white mb-3">Mobile Quick Access Icons</h4>
+          <p className="text-sm text-gray-300 mb-3">
+            On mobile devices, you'll see compact icon buttons in the top-right corner of page headers:
+          </p>
+          <div className="flex items-center gap-4 mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-dark-secondary rounded-lg flex items-center justify-center border border-dark-border">
+                <span className="text-xs font-bold text-accent">N</span>
+              </div>
+              <span className="text-sm text-gray-400">or</span>
+              <div className="w-8 h-8 bg-dark-secondary rounded-lg flex items-center justify-center border border-dark-border">
+                <span className="text-xs font-bold text-accent">G</span>
+              </div>
+              <span className="text-sm text-gray-300">Net / Gross P&L</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-dark-secondary rounded-lg flex items-center justify-center border border-dark-border">
+                <span className="text-xs font-bold text-accent">F</span>
+              </div>
+              <span className="text-sm text-gray-400">or</span>
+              <div className="w-8 h-8 bg-dark-secondary rounded-lg flex items-center justify-center border border-dark-border">
+                <span className="text-xs font-bold text-accent">P</span>
+              </div>
+              <span className="text-sm text-gray-300">FIFO / Per Position</span>
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 mt-3">
+            Tap the icon to toggle between settings. Available on Dashboard, Calendar, Analytics, and Trade Log pages.
+          </p>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Net/Gross Card */}
           <div className="bg-dark-tertiary rounded-lg p-4 border border-dark-border">

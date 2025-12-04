@@ -60,7 +60,7 @@ const tabs: Tab[] = [
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState<TabType>('general')
-  const [expandedMobileSections, setExpandedMobileSections] = useState<Set<TabType>>(new Set(['general']))
+  const [expandedMobileSections, setExpandedMobileSections] = useState<Set<TabType>>(new Set())
   const { isExpanded } = useNavigation()
   const { profile, preferences, isLoading, error, updateProfile, updatePreferences, isUpdating } = useSettings()
 
