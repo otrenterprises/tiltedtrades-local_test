@@ -144,7 +144,7 @@ function AuthCheck() {
     )
   }
 
-  return isAuthenticated ? <Navigate to="/app" replace /> : <Navigate to="/landing" replace />
+  return isAuthenticated ? <Navigate to="/app" replace /> : <Navigate to="/login" replace />
 }
 
 // Session manager component - handles idle timeout and browser close logout

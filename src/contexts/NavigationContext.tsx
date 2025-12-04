@@ -8,7 +8,7 @@ interface NavigationContextType {
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
 export function NavigationProvider({ children }: { children: React.ReactNode }) {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <NavigationContext.Provider value={{ isExpanded, setIsExpanded }}>
