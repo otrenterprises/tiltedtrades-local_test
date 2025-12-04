@@ -71,8 +71,9 @@ export default function Settings() {
     )
   }
 
-  const renderPanel = () => {
-    switch (activeTab) {
+  // Render panel content by tab id (used for both desktop and mobile)
+  const renderPanelContent = (tabId: TabType) => {
+    switch (tabId) {
       case 'general':
         return (
           <GeneralPanel
@@ -107,13 +108,13 @@ export default function Settings() {
         )
       case 'api':
         return (
-          <div className="bg-gray-900 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">API Key Management</h3>
-            <p className="text-gray-400 mb-6">
+          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
+            <h3 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">API Key Management</h3>
+            <p className="text-sm text-gray-400 mb-4 md:mb-6">
               API keys allow you to integrate TiltedTrades with external applications and services.
             </p>
-            <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-              <p className="text-gray-500 text-center">
+            <div className="bg-dark-tertiary rounded-lg p-4 md:p-6 border border-dark-border">
+              <p className="text-sm text-gray-500 text-center">
                 API key management coming soon. This feature will allow you to generate and manage
                 API keys for programmatic access to your trading data.
               </p>
@@ -126,21 +127,69 @@ export default function Settings() {
   }
 
   return (
-    <div className={`min-h-screen bg-gray-950 text-white p-4 md:p-6 lg:p-8 transition-all duration-300 ${isExpanded ? 'ml-60' : 'ml-16'}`}>
-      <div className="max-w-7xl mx-auto">
+    <div className={`min-h-screen bg-dark text-white transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center space-x-3 mb-2">
-            <SettingsIcon className="w-8 h-8 text-blue-500" />
-            <h1 className="text-3xl font-bold">Settings</h1>
+        <div className="mb-4 md:mb-8">
+          <div className="flex items-center space-x-2 md:space-x-3 mb-1 md:mb-2">
+            <SettingsIcon className="w-6 h-6 md:w-8 md:h-8 text-accent" />
+            <h1 className="text-2xl md:text-3xl font-bold">Settings</h1>
           </div>
-          <p className="text-gray-400">Manage your account settings and preferences</p>
+          <p className="text-sm md:text-base text-gray-400">Manage your account settings and preferences</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* ===== MOBILE: Accordion Layout (visible only on mobile) ===== */}
+        <div className="md:hidden space-y-4">
+          {tabs.map((tab) => (
+            <div key={tab.id} className="bg-dark-secondary rounded-lg overflow-hidden">
+              {/* Section Header */}
+              <div className="flex items-center gap-3 p-4 border-b border-dark-border">
+                <span className="text-accent">{tab.icon}</span>
+                <div>
+                  <h2 className="font-medium text-white">{tab.label}</h2>
+                  <p className="text-xs text-gray-500">{tab.description}</p>
+                </div>
+              </div>
+              {/* Section Content */}
+              <div className="p-0">
+                {renderPanelContent(tab.id)}
+              </div>
+            </div>
+          ))}
+
+          {/* Account Info - Mobile */}
+          {profile && (
+            <div className="bg-dark-secondary rounded-lg p-4">
+              <h3 className="text-sm font-medium text-gray-400 mb-3">Account Info</h3>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Member Since</span>
+                  <span className="text-white">
+                    {new Date(profile.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-500">Total Trades</span>
+                  <span className="text-white">{profile.totalTrades || 0}</span>
+                </div>
+                {profile.lastLoginAt && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">Last Login</span>
+                    <span className="text-white">
+                      {new Date(profile.lastLoginAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* ===== DESKTOP: Sidebar + Content Layout (hidden on mobile) ===== */}
+        <div className="hidden md:grid md:grid-cols-4 gap-6">
           {/* Sidebar Navigation */}
-          <div className="lg:col-span-1">
-            <div className="bg-gray-900 rounded-lg p-4">
+          <div className="md:col-span-1">
+            <div className="bg-dark-secondary rounded-lg p-4">
               <nav className="space-y-1">
                 {tabs.map((tab) => (
                   <button
@@ -148,8 +197,8 @@ export default function Settings() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`w-full flex items-start space-x-3 px-3 py-3 rounded-lg transition-colors ${
                       activeTab === tab.id
-                        ? 'bg-blue-500/10 text-blue-400'
-                        : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                        ? 'bg-accent/10 text-accent'
+                        : 'text-gray-400 hover:bg-dark-tertiary hover:text-white'
                     }`}
                   >
                     <span className="mt-0.5">{tab.icon}</span>
@@ -164,7 +213,7 @@ export default function Settings() {
 
             {/* Quick Stats */}
             {profile && (
-              <div className="bg-gray-900 rounded-lg p-4 mt-4">
+              <div className="bg-dark-secondary rounded-lg p-4 mt-4">
                 <h3 className="text-sm font-medium text-gray-400 mb-3">Account Info</h3>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
@@ -191,8 +240,8 @@ export default function Settings() {
           </div>
 
           {/* Main Content Area */}
-          <div className="lg:col-span-3">
-            {renderPanel()}
+          <div className="md:col-span-3">
+            {renderPanelContent(activeTab)}
           </div>
         </div>
       </div>

@@ -154,12 +154,12 @@ export const JournalList: React.FC = () => {
   }
 
   return (
-    <div className={`min-h-screen bg-gray-900 py-8 px-4 transition-all duration-300 ${isExpanded ? 'ml-60' : 'ml-16'}`}>
-      <div className="max-w-7xl mx-auto">
+    <div className={`min-h-screen bg-dark transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Trade Journals</h1>
-          <p className="text-gray-400">Document your trades and track your progress</p>
+        <div className="mb-4 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">Trade Journals</h1>
+          <p className="text-sm md:text-base text-gray-400">Document your trades and track your progress</p>
         </div>
 
         {/* Filters */}
@@ -181,27 +181,27 @@ export const JournalList: React.FC = () => {
 
         {/* Items per page selector and count */}
         {filteredJournals.length > 0 && (
-          <div className="mb-6 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-gray-400">Show:</span>
+          <div className="mb-4 md:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <span className="text-xs sm:text-sm text-gray-400">Show:</span>
               <div className="flex gap-1">
                 {[20, 50, 100].map((count) => (
                   <button
                     key={count}
                     onClick={() => handleItemsPerPageChange(count)}
-                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                    className={`px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-colors touch-target ${
                       itemsPerPage === count
                         ? 'bg-accent text-white'
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white'
+                        : 'bg-dark-tertiary text-gray-300 active:bg-dark-tertiary/80 active:text-white'
                     }`}
                   >
                     {count}
                   </button>
                 ))}
               </div>
-              <span className="text-sm text-gray-400">per page</span>
+              <span className="text-xs sm:text-sm text-gray-400 hidden sm:inline">per page</span>
             </div>
-            <div className="text-sm text-gray-400">
+            <div className="text-xs sm:text-sm text-gray-400">
               Showing {startIndex + 1}-{Math.min(endIndex, filteredJournals.length)} of {filteredJournals.length} journals
             </div>
           </div>
@@ -222,7 +222,7 @@ export const JournalList: React.FC = () => {
             }}
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {currentJournals.map(journal => {
               const trade = findMatchingTrade(journal)
               const isExpanded = expandedTradeId === journal.tradeId
