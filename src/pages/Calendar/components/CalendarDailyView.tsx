@@ -194,6 +194,7 @@ export function CalendarDailyView({
         <MobileCalendarAgenda
           calendarData={calendarData}
           includeCommissions={includeCommissions}
+          showWeeklyTotals={showWeeklyTotals}
         />
       </div>
 

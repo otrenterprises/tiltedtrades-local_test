@@ -82,9 +82,8 @@ export function CalendarNew({ showGrossPL }: CalendarNewProps) {
       subtitle={
         <div className="flex flex-col gap-2">
           <ViewSelector viewType={viewType} onViewChange={setViewType} />
-          {/* Weekly Totals toggle - hidden on mobile since mobile uses agenda view */}
           {viewType === 'daily' && (
-            <div className="hidden md:flex items-center gap-1 bg-slate-800 rounded-lg p-1 w-fit">
+            <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1 w-fit">
               <button
                 onClick={() => setShowWeeklyTotals(!showWeeklyTotals)}
                 className={`flex items-center justify-center gap-1.5 px-3 py-1.5 h-8 rounded-md text-sm font-medium transition-colors ${
