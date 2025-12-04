@@ -69,7 +69,7 @@ export default function SiteInfoPanel() {
   return (
     <div className="space-y-3 md:space-y-4">
       {/* Navigation Toggles Section */}
-      <CollapsibleSection title="Navigation Toggles" defaultOpen={true}>
+      <CollapsibleSection title="Navigation Toggles" defaultOpen={false}>
         <p className="text-sm text-gray-400 mb-4">
           These toggles in the navigation control how your P&L is displayed across the entire application.
         </p>
