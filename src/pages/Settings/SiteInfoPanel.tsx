@@ -1,4 +1,5 @@
-import { BarChart3, List, Wallet, BookOpen, TrendingUp, Calendar, AlertTriangle, Upload } from 'lucide-react'
+import { useState } from 'react'
+import { BarChart3, List, Wallet, BookOpen, TrendingUp, Calendar, AlertTriangle, Upload, ChevronDown, ChevronRight } from 'lucide-react'
 
 const sections = [
   {
@@ -33,12 +34,42 @@ const sections = [
   },
 ]
 
+interface CollapsibleSectionProps {
+  title: string
+  defaultOpen?: boolean
+  children: React.ReactNode
+}
+
+function CollapsibleSection({ title, defaultOpen = false, children }: CollapsibleSectionProps) {
+  const [isOpen, setIsOpen] = useState(defaultOpen)
+
+  return (
+    <div className="bg-dark-secondary rounded-lg overflow-hidden">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between p-4 md:p-5 text-left hover:bg-dark-tertiary/30 transition-colors"
+      >
+        <h3 className="text-base md:text-lg font-semibold text-white">{title}</h3>
+        {isOpen ? (
+          <ChevronDown className="w-5 h-5 text-gray-400" />
+        ) : (
+          <ChevronRight className="w-5 h-5 text-gray-400" />
+        )}
+      </button>
+      {isOpen && (
+        <div className="px-4 md:px-5 pb-4 md:pb-5">
+          {children}
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function SiteInfoPanel() {
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-3 md:space-y-4">
       {/* Navigation Toggles Section */}
-      <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-        <h3 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">Navigation Toggles</h3>
+      <CollapsibleSection title="Navigation Toggles" defaultOpen={true}>
         <p className="text-sm text-gray-400 mb-4">
           These toggles in the navigation control how your P&L is displayed across the entire application.
         </p>
@@ -81,11 +112,10 @@ export default function SiteInfoPanel() {
             </div>
           </div>
         </div>
-      </div>
+      </CollapsibleSection>
 
       {/* Main Sections */}
-      <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-        <h3 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">Main Sections</h3>
+      <CollapsibleSection title="Main Sections" defaultOpen={false}>
         <div className="space-y-3">
           {sections.map((section) => (
             <div
@@ -104,12 +134,10 @@ export default function SiteInfoPanel() {
             </div>
           ))}
         </div>
-      </div>
+      </CollapsibleSection>
 
       {/* Upload Requirements */}
-      <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-        <h3 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">Uploading Your Data</h3>
-
+      <CollapsibleSection title="Uploading Your Data" defaultOpen={false}>
         {/* Warning Box */}
         <div className="bg-caution/10 border border-caution/30 rounded-lg p-4 mb-4">
           <div className="flex items-start gap-3">
@@ -117,19 +145,47 @@ export default function SiteInfoPanel() {
             <div>
               <h4 className="text-sm font-semibold text-caution mb-2">File Requirements</h4>
               <p className="text-sm text-gray-300 mb-3">
-                Your upload file <strong className="text-white">MUST</strong> be a Statement Report downloaded directly from CQG QTrader. The file must meet these requirements:
-              </p>
-              <ul className="text-sm text-gray-300 space-y-1.5 list-disc list-inside">
-                <li>Downloaded from <span className="text-white">QTrader → Reports → Statement Report</span></li>
-                <li>All columns included (do not hide or remove any columns)</li>
-                <li>NOT modified after download (no edits to sheet name or headers)</li>
-                <li>File format: <span className="text-white">.xlsx</span> or <span className="text-white">.xls</span></li>
-              </ul>
-              <p className="text-sm text-gray-400 mt-3 italic">
-                The system validates the sheet name and column headers during upload. Modified files will fail validation.
+                Your upload file <strong className="text-white">MUST</strong> be a Statement Report downloaded directly from CQG QTrader.
               </p>
             </div>
           </div>
+        </div>
+
+        {/* How to Download from QTrader */}
+        <div className="bg-dark-tertiary rounded-lg p-4 border border-dark-border mb-4">
+          <h4 className="text-sm font-semibold text-white mb-3">How to Download from QTrader</h4>
+          <ol className="text-sm text-gray-300 space-y-2.5 list-decimal list-inside">
+            <li>Open the <span className="text-white font-medium">Orders & Positions</span> screen</li>
+            <li>Click <span className="text-white font-medium">Setup → Statement Reports</span></li>
+            <li>Click <span className="text-white font-medium">Configure Columns</span>:
+              <ul className="ml-6 mt-1.5 space-y-1 list-disc list-inside text-gray-400">
+                <li>Set Filter to <span className="text-accent">Orders</span></li>
+                <li>Click <span className="text-accent">Check All</span> in Selection</li>
+                <li>Click <span className="text-white">OK</span></li>
+              </ul>
+            </li>
+            <li>Check <span className="text-white font-medium">Excel Spreadsheet</span> and select your date range</li>
+            <li>Check only these boxes:
+              <ul className="ml-6 mt-1.5 space-y-1 list-disc list-inside text-gray-400">
+                <li><span className="text-accent">Orders and Order Fills</span></li>
+                <li><span className="text-accent">Filled</span></li>
+              </ul>
+            </li>
+            <li>Click <span className="text-white font-medium">OK</span> to download</li>
+          </ol>
+        </div>
+
+        {/* File Requirements */}
+        <div className="bg-dark-tertiary rounded-lg p-4 border border-dark-border mb-4">
+          <h4 className="text-sm font-semibold text-white mb-3">File Requirements</h4>
+          <ul className="text-sm text-gray-300 space-y-1.5 list-disc list-inside">
+            <li>All columns must be included (do not hide or remove any)</li>
+            <li>File must NOT be modified after download (no edits to sheet name or headers)</li>
+            <li>File format: <span className="text-white">.xlsx</span> or <span className="text-white">.xls</span></li>
+          </ul>
+          <p className="text-sm text-gray-400 mt-3 italic">
+            The system validates the sheet name and column headers during upload. Modified files will fail validation.
+          </p>
         </div>
 
         {/* Quick Start */}
@@ -145,7 +201,7 @@ export default function SiteInfoPanel() {
             <li>Use Nav toggles to switch between Net/Gross and FIFO/Per Position views</li>
           </ol>
         </div>
-      </div>
+      </CollapsibleSection>
     </div>
   )
 }
