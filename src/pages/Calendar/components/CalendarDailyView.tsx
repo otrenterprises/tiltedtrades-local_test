@@ -123,12 +123,12 @@ export function CalendarDailyView({
   return (
     <>
       {/* Shared Month Navigation Header */}
-      <div className="bg-slate-700 border border-slate-600 rounded-lg p-4 md:p-6 mb-4 md:mb-0">
+      <div className="bg-slate-700 border border-slate-600 rounded-lg p-3 md:p-6 mb-4 md:mb-0">
         <div className="flex items-center justify-between relative">
           <button
             onClick={onPreviousMonth}
             disabled={!canGoPrevious}
-            className={`p-2 rounded-lg transition-colors touch-target ${
+            className={`p-2 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${
               canGoPrevious
                 ? 'bg-blue-900 border border-blue-800 active:bg-blue-800 md:hover:bg-blue-800 text-blue-200'
                 : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
@@ -137,18 +137,18 @@ export function CalendarDailyView({
             <ChevronLeft className="w-5 h-5" />
           </button>
 
-          <div className="relative" ref={monthPickerRef}>
+          <div className="relative flex-1 flex justify-center" ref={monthPickerRef}>
             <button
               onClick={() => setShowMonthPicker(!showMonthPicker)}
-              className="text-2xl font-bold text-slate-50 hover:text-accent transition-colors flex items-center gap-2"
+              className="text-lg md:text-2xl font-bold text-slate-50 hover:text-accent transition-colors flex items-center gap-1.5 md:gap-2 px-2"
             >
-              {calendarData.monthName}
-              <CalendarIcon className="w-5 h-5" />
+              <span className="truncate">{calendarData.monthName}</span>
+              <CalendarIcon className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" />
             </button>
 
             {/* Month Picker Dropdown */}
             {showMonthPicker && (
-              <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-slate-800 border border-slate-600 rounded-lg shadow-2xl p-4 z-50 min-w-[320px] max-h-[400px] overflow-y-auto">
+              <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-slate-800 border border-slate-600 rounded-lg shadow-2xl p-3 md:p-4 z-50 w-[calc(100vw-2rem)] max-w-[320px] max-h-[60vh] md:max-h-[400px] overflow-y-auto">
                 <h4 className="text-sm font-semibold text-slate-200 mb-3">Select Month</h4>
                 <div className="space-y-1">
                   {availableMonths.map((monthData, index) => {
@@ -160,7 +160,7 @@ export function CalendarDailyView({
                       <button
                         key={`${monthData.year}-${monthData.month}`}
                         onClick={() => handleMonthSelectAndClose(index)}
-                        className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        className={`w-full text-left px-3 py-2.5 md:py-2 rounded-lg text-sm font-medium transition-colors ${
                           isSelected
                             ? 'bg-accent text-white'
                             : 'text-slate-300 hover:bg-slate-700 hover:text-slate-100'
@@ -178,7 +178,7 @@ export function CalendarDailyView({
           <button
             onClick={onNextMonth}
             disabled={!canGoNext}
-            className={`p-2 rounded-lg transition-colors touch-target ${
+            className={`p-2 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${
               canGoNext
                 ? 'bg-blue-900 border border-blue-800 active:bg-blue-800 md:hover:bg-blue-800 text-blue-200'
                 : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
