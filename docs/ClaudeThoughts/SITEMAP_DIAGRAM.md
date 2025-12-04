@@ -516,10 +516,10 @@ flowchart TB
     end
 
     subgraph AUTH_CONTEXT["🔐 AuthContext (useReducer)"]
-        AC1[user: User | null]
+        AC1["user: User or null"]
         AC2[isAuthenticated: boolean]
         AC3[isLoading: boolean]
-        AC4[error: string | null]
+        AC4["error: string or null"]
     end
 
     subgraph NAV_CONTEXT["📍 NavigationContext (Zustand)"]
@@ -528,7 +528,7 @@ flowchart TB
     end
 
     subgraph LOCAL_STATE["🔄 Component State (useState)"]
-        LS1[calculationMethod: 'fifo' | 'perPosition']
+        LS1["calculationMethod: fifo or perPosition"]
         LS2[showGrossPL: boolean]
         LS3[filters: object]
         LS4[selectedTrade: Trade]
@@ -539,11 +539,11 @@ flowchart TB
         LST2[preferences-cache]
     end
 
-    RQ1 & RQ2 & RQ3 & RQ4 & RQ5 -->|invalidateQueries| REFETCH[Refetch on Mutation]
-    AC1 -->|user.userId| RQ1 & RQ2 & RQ3 & RQ4
-    
-    LS1 -->|method param| RQ1
-    LS2 -->|grossPL mode| CALC[StatisticsCalculator]
+    RQ1 & RQ2 & RQ3 & RQ4 & RQ5 --> REFETCH[Refetch on Mutation]
+    AC1 --> RQ1 & RQ2 & RQ3 & RQ4
+
+    LS1 --> RQ1
+    LS2 --> CALC[StatisticsCalculator]
 
     style REACT_QUERY fill:#e3f2fd
     style AUTH_CONTEXT fill:#fff3e0
