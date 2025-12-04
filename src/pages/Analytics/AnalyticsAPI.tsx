@@ -10,6 +10,7 @@ import { LoadingSpinner } from '../../components/feedback/LoadingSpinner'
 import { formatCurrency, formatPercent } from '../../utils/formatting'
 import { useNavigation } from '@/contexts/NavigationContext'
 import { useTrades, useStats } from '@/hooks/useTrades'
+import { MobileSettingsToggle } from '@/components/layout/MobileSettingsToggle'
 import {
   LineChart,
   Line,
@@ -265,8 +266,15 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
         {/* Header */}
         <div className="mb-4 md:mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">Trading Analytics</h1>
-          <p className="text-sm md:text-base text-gray-400">Comprehensive analysis of your trading performance ({calculationMethod === 'perPosition' ? 'POSITIONAL' : 'FIFO'})</p>
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">Trading Analytics</h1>
+              <p className="text-sm md:text-base text-gray-400">Comprehensive analysis of your trading performance ({calculationMethod === 'perPosition' ? 'POSITIONAL' : 'FIFO'})</p>
+            </div>
+            <div className="flex-shrink-0 pt-1">
+              <MobileSettingsToggle showPLToggle showMethodToggle />
+            </div>
+          </div>
         </div>
 
         {/* Controls */}

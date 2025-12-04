@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { PageLayout } from '@/components/layout/PageLayout'
+import { MobileSettingsToggle } from '@/components/layout/MobileSettingsToggle'
 import { Trade } from '@/types/execution.types'
 import { formatCurrency, getPLColor } from '@/utils/formatting/currency'
 import { formatPercentage } from '@/utils/formatting/number'
@@ -145,6 +146,7 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
     <PageLayout
       title="Trade Log"
       subtitle="Complete history of all your trades"
+      mobileSettings={<MobileSettingsToggle showMethodToggle />}
     >
       {/* ===== MOBILE VIEW ===== */}
       <div className="md:hidden">

@@ -10,6 +10,7 @@ import { MonthlyPerformance } from '@/components/charts/MonthlyPerformance'
 import { WinLossDistribution } from '@/components/charts/WinLossDistribution'
 import { SymbolPerformance } from '@/components/charts/SymbolPerformance'
 import { PageLayout } from '@/components/layout/PageLayout'
+import { MobileSettingsToggle } from '@/components/layout/MobileSettingsToggle'
 import { useTrades, useStats } from '@/hooks/useTrades'
 import {
   getEquityCurveData,
@@ -108,6 +109,7 @@ export function DashboardNew({ calculationMethod, showGrossPL }: DashboardProps)
     <PageLayout
       title="Dashboard"
       subtitle="Your trading performance at a glance"
+      mobileSettings={<MobileSettingsToggle showPLToggle showMethodToggle />}
     >
       <div className="space-y-6">
         {/* Key Metrics Row */}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import { PageLayout } from '@/components/layout/PageLayout'
+import { MobileSettingsToggle } from '@/components/layout/MobileSettingsToggle'
 import { useCalendarData } from './hooks/useCalendarData'
 import { ViewSelector, CalendarDailyView, CalendarWeeklyView, CalendarMonthlyView } from './components'
 import type { ViewType, WeeklyGrouping } from './types'
@@ -79,6 +80,7 @@ export function CalendarNew({ showGrossPL }: CalendarNewProps) {
   return (
     <PageLayout
       title="Trading Calendar"
+      mobileSettings={<MobileSettingsToggle showPLToggle />}
       subtitle={
         <div className="flex flex-col gap-2">
           <ViewSelector viewType={viewType} onViewChange={setViewType} />

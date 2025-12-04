@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast'
 // Contexts - Using real Cognito Auth
 import { AuthProvider, useAuth } from '@/contexts/AuthContext'
 import { NavigationProvider } from '@/contexts/NavigationContext'
+import { SettingsProvider } from '@/contexts/SettingsContext'
 
 // Components
 import { Navigation } from './components/layout/Navigation'
@@ -74,14 +75,20 @@ function App() {
                 path="/app/*"
                 element={
                   <ProtectedRoute>
-                    <SessionManager>
-                      <Navigation
-                        calculationMethod={calculationMethod}
-                        onCalculationMethodChange={setCalculationMethod}
-                        showGrossPL={showGrossPL}
-                        onShowGrossPLChange={setShowGrossPL}
-                      />
-                      <Routes>
+                    <SettingsProvider
+                      showGrossPL={showGrossPL}
+                      onShowGrossPLChange={setShowGrossPL}
+                      calculationMethod={calculationMethod}
+                      onCalculationMethodChange={setCalculationMethod}
+                    >
+                      <SessionManager>
+                        <Navigation
+                          calculationMethod={calculationMethod}
+                          onCalculationMethodChange={setCalculationMethod}
+                          showGrossPL={showGrossPL}
+                          onShowGrossPLChange={setShowGrossPL}
+                        />
+                        <Routes>
                         <Route path="/" element={<DashboardNew calculationMethod={calculationMethod} showGrossPL={showGrossPL} />} />
                         <Route path="/trades" element={<TradeLog calculationMethod={calculationMethod} />} />
                         <Route path="/balance" element={<Balance />} />
@@ -94,9 +101,10 @@ function App() {
                         {/* <Route path="/leaderboard" element={<Leaderboard />} /> */}
                         {/* <Route path="/profile/:userId" element={<PublicProfile />} /> */}
                         <Route path="/settings" element={<Settings />} />
-                        <Route path="*" element={<Navigate to="/app" replace />} />
-                      </Routes>
-                    </SessionManager>
+                          <Route path="*" element={<Navigate to="/app" replace />} />
+                        </Routes>
+                      </SessionManager>
+                    </SettingsProvider>
                   </ProtectedRoute>
                 }
               />
