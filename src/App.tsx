@@ -52,38 +52,8 @@ const queryClient = new QueryClient({
 
 function App() {
   const [calculationMethod, setCalculationMethod] = useState<CalculationMethod>('fifo')
+  const [showGrossPL, setShowGrossPL] = useState(false)
 
-  // For local testing, we'll always use the app domain behavior
-  const isLandingDomain = false
-  const isAppDomain = true
-
-  // If we're on the landing domain, show the landing page
-  if (isLandingDomain && !isAppDomain) {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="*" element={<Landing />} />
-          </Routes>
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              duration: 4000,
-              style: {
-                background: '#1F2937',
-                color: '#F3F4F6',
-                border: '1px solid #374151',
-              },
-            }}
-          />
-        </BrowserRouter>
-      </QueryClientProvider>
-    )
-  }
-
-  // If we're on the app domain, show the full application
-  // Components now fetch their own data via React Query hooks
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -108,16 +78,18 @@ function App() {
                       <Navigation
                         calculationMethod={calculationMethod}
                         onCalculationMethodChange={setCalculationMethod}
+                        showGrossPL={showGrossPL}
+                        onShowGrossPLChange={setShowGrossPL}
                       />
                       <Routes>
-                        <Route path="/" element={<DashboardNew calculationMethod={calculationMethod} />} />
+                        <Route path="/" element={<DashboardNew calculationMethod={calculationMethod} showGrossPL={showGrossPL} />} />
                         <Route path="/trades" element={<TradeLog calculationMethod={calculationMethod} />} />
                         <Route path="/balance" element={<Balance />} />
-                        <Route path="/trades/:tradeId/journal" element={<JournalEditor />} />
-                        <Route path="/journal/:tradeId" element={<TradeDetail />} />
                         <Route path="/journals" element={<JournalList />} />
-                        <Route path="/analytics" element={<AnalyticsAPI calculationMethod={calculationMethod} />} />
-                        <Route path="/calendar" element={<CalendarNew />} />
+                        <Route path="/journals/:tradeId" element={<TradeDetail />} />
+                        <Route path="/journals/:tradeId/edit" element={<JournalEditor />} />
+                        <Route path="/analytics" element={<AnalyticsAPI calculationMethod={calculationMethod} showGrossPL={showGrossPL} />} />
+                        <Route path="/calendar" element={<CalendarNew showGrossPL={showGrossPL} />} />
                         {/* Leaderboard routes commented out for local testing (no multi-user) */}
                         {/* <Route path="/leaderboard" element={<Leaderboard />} /> */}
                         {/* <Route path="/profile/:userId" element={<PublicProfile />} /> */}
@@ -138,18 +110,18 @@ function App() {
               />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </div>
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                duration: 4000,
-                style: {
-                  background: '#1F2937',
-                  color: '#F3F4F6',
-                  border: '1px solid #374151',
-                },
-              }}
-            />
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: 4000,
+                  style: {
+                    background: '#1F2937',
+                    color: '#F3F4F6',
+                    border: '1px solid #374151',
+                  },
+                }}
+              />
+            </div>
           </BrowserRouter>
         </NavigationProvider>
       </AuthProvider>

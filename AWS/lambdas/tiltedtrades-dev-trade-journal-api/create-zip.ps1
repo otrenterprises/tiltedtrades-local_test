@@ -7,15 +7,15 @@ $zipFile = "lambda.zip"
 Remove-Item $zipFile -ErrorAction SilentlyContinue
 Remove-Item -Path $tempDir -Recurse -Force -ErrorAction SilentlyContinue
 
-# Create directory structure matching the original require paths
-# index.js requires ../../shared/types/config
-# So from trade-journal-api/src/index.js, it goes to shared/types/config
-New-Item -ItemType Directory -Force -Path "$tempDir/trade-journal-api/src" | Out-Null
-New-Item -ItemType Directory -Force -Path "$tempDir/shared/types" | Out-Null
+# Create directory structure
+# Note: shared/types/config.js is now provided by the shared-config Lambda Layer
+New-Item -ItemType Directory -Force -Path "$tempDir/trade-journal-api/src/routes" | Out-Null
+New-Item -ItemType Directory -Force -Path "$tempDir/trade-journal-api/src/utils" | Out-Null
 
 # Copy files
-Copy-Item "trade-journal-api/src/*" -Destination "$tempDir/trade-journal-api/src/" -Recurse -Force
-Copy-Item "shared/types/*" -Destination "$tempDir/shared/types/" -Recurse -Force
+Copy-Item "trade-journal-api/src/index.js" -Destination "$tempDir/trade-journal-api/src/" -Force
+Copy-Item "trade-journal-api/src/routes/*" -Destination "$tempDir/trade-journal-api/src/routes/" -Recurse -Force
+Copy-Item "trade-journal-api/src/utils/*" -Destination "$tempDir/trade-journal-api/src/utils/" -Recurse -Force
 
 # Create zip
 Compress-Archive -Path "$tempDir/*" -DestinationPath $zipFile -Force
@@ -24,3 +24,4 @@ Compress-Archive -Path "$tempDir/*" -DestinationPath $zipFile -Force
 Remove-Item -Path $tempDir -Recurse -Force
 
 Write-Host "Lambda zip created successfully: $zipFile"
+Write-Host "Note: Remember to attach the 'tiltedtrades-shared-config' layer to this Lambda function"

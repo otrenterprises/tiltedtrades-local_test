@@ -1,11 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { TrendingUp, DollarSign, Target, Activity } from 'lucide-react'
 import { CalculationMethod } from '@/utils/calculations/tradeMatching'
 import { StatisticsCalculator } from '@/utils/calculations/statistics'
 import { formatCurrency } from '@/utils/formatting/currency'
 import { formatPercentage } from '@/utils/formatting/number'
 import { MetricCard } from '@/components/common/MetricCard'
-import { PLToggle } from '@/components/common/PLToggle'
 import { EquityCurve } from '@/components/charts/EquityCurve'
 import { MonthlyPerformance } from '@/components/charts/MonthlyPerformance'
 import { WinLossDistribution } from '@/components/charts/WinLossDistribution'
@@ -21,11 +20,10 @@ import {
 
 interface DashboardProps {
   calculationMethod: CalculationMethod
+  showGrossPL: boolean
 }
 
-export function DashboardNew({ calculationMethod }: DashboardProps) {
-  // Commission toggle state - false = Net P&L (default), true = Gross P&L
-  const [showGrossPL, setShowGrossPL] = useState(false)
+export function DashboardNew({ calculationMethod, showGrossPL }: DashboardProps) {
 
   // Fetch trades from API
   const { data: tradesData, isLoading: isLoadingTrades, error: tradesError } = useTrades({
@@ -110,7 +108,6 @@ export function DashboardNew({ calculationMethod }: DashboardProps) {
     <PageLayout
       title="Dashboard"
       subtitle="Your trading performance at a glance"
-      actions={<PLToggle showGrossPL={showGrossPL} onToggle={setShowGrossPL} />}
     >
       <div className="space-y-6">
         {/* Key Metrics Row */}

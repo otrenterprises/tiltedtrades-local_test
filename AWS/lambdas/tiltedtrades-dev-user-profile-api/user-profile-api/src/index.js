@@ -10,7 +10,7 @@ exports.handler = handler;
 const client_dynamodb_1 = require("@aws-sdk/client-dynamodb");
 const { BatchGetItemCommand } = require("@aws-sdk/client-dynamodb");
 const util_dynamodb_1 = require("@aws-sdk/util-dynamodb");
-const config_1 = require("../../shared/types/config");
+const config_1 = require("@tiltedtrades/config");
 const { handleBalanceRoutes } = require("./routes/balance");
 // Get configuration from environment variables
 const config = (0, config_1.getConfig)();

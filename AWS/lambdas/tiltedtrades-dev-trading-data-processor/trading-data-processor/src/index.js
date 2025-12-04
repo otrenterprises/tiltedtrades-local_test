@@ -13,7 +13,7 @@ exports.handler = handler;
 const client_dynamodb_1 = require("@aws-sdk/client-dynamodb");
 const util_dynamodb_1 = require("@aws-sdk/util-dynamodb");
 const calculations_1 = require("@tiltedtrades/calculations");
-const config_1 = require("../../shared/types/config");
+const config_1 = require("@tiltedtrades/config");
 // Get configuration from environment variables
 const config = (0, config_1.getConfig)();
 // AWS SDK client

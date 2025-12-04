@@ -112,37 +112,6 @@ export default function GeneralPanel({ profile, onUpdate, isUpdating }: GeneralP
           </div>
         </div>
 
-        {/* Account Stats */}
-        <div className="border-t border-gray-800 pt-6">
-          <h3 className="text-sm font-medium text-gray-400 mb-4">Account Statistics</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-gray-800 rounded-lg p-3">
-              <p className="text-xs text-gray-500 mb-1">Total Trades</p>
-              <p className="text-lg font-semibold text-white">{profile.totalTrades || 0}</p>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-3">
-              <p className="text-xs text-gray-500 mb-1">Win Rate</p>
-              <p className="text-lg font-semibold text-white">
-                {profile.winRate ? `${(profile.winRate * 100).toFixed(1)}%` : 'N/A'}
-              </p>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-3">
-              <p className="text-xs text-gray-500 mb-1">Total P&L</p>
-              <p className={`text-lg font-semibold ${
-                (profile.totalPL || 0) >= 0 ? 'text-green-400' : 'text-red-400'
-              }`}>
-                ${Math.abs(profile.totalPL || 0).toLocaleString()}
-              </p>
-            </div>
-            <div className="bg-gray-800 rounded-lg p-3">
-              <p className="text-xs text-gray-500 mb-1">Profit Factor</p>
-              <p className="text-lg font-semibold text-white">
-                {profile.profitFactor?.toFixed(2) || 'N/A'}
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* Submit Button */}
         <div className="flex justify-end space-x-3 pt-4">
           <button

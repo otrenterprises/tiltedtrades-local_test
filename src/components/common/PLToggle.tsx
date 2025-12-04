@@ -16,9 +16,7 @@ export function PLToggle({ showGrossPL, onToggle }: PLToggleProps) {
       </span>
       <button
         onClick={() => onToggle(!showGrossPL)}
-        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-dark-secondary ${
-          showGrossPL ? 'bg-accent' : 'bg-dark-tertiary border border-dark-border'
-        }`}
+        className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-dark-secondary bg-dark-tertiary border border-slate-500"
         role="switch"
         aria-checked={showGrossPL}
         aria-label={showGrossPL ? 'Showing Gross P&L' : 'Showing Net P&L'}

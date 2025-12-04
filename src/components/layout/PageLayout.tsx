@@ -4,7 +4,7 @@ import { useNavigation } from '@/contexts/NavigationContext'
 interface PageLayoutProps {
   children: ReactNode
   title?: string
-  subtitle?: string
+  subtitle?: string | ReactNode
   actions?: ReactNode
 }
 
@@ -24,9 +24,9 @@ export function PageLayout({ children, title, subtitle, actions }: PageLayoutPro
                   </h1>
                 )}
                 {subtitle && (
-                  <p className="text-slate-400 text-sm">
+                  <div className="text-slate-400 text-sm">
                     {subtitle}
-                  </p>
+                  </div>
                 )}
               </div>
               {actions && (

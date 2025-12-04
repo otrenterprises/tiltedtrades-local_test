@@ -286,6 +286,7 @@ export const journalService = {
    * Save a commission override for a trade via the journal entry
    * This creates/updates a journal with the commission override info
    * and triggers a stats recalculation on the backend
+   * @param modifiedDate - Optional ISO date string to use as lastModified (e.g., trade exit date)
    */
   async saveCommissionOverride(
     userId: string,
@@ -293,15 +294,17 @@ export const journalService = {
     overrideCommission: number,
     reason?: string,
     existingJournalText?: string,
-    calculationMethod?: 'fifo' | 'perPosition'
+    calculationMethod?: 'fifo' | 'perPosition',
+    modifiedDate?: string
   ): Promise<TradeJournal> {
-    console.log('📡 API: saveCommissionOverride called', { tradeId, overrideCommission, reason, calculationMethod })
+    console.log('📡 API: saveCommissionOverride called', { tradeId, overrideCommission, reason, calculationMethod, modifiedDate })
 
     const data: CreateJournalRequest = {
       journalText: existingJournalText || reason || `Commission adjusted to ${overrideCommission}`,
       commissionOverride: {
         overrideCommission,
         reason,
+        lastModified: modifiedDate || new Date().toISOString(),
       },
       calculationMethod,
     }

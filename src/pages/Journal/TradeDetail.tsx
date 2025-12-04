@@ -306,7 +306,7 @@ export const TradeDetail: React.FC = () => {
                   {formatCurrency(trade.commission)}
                 </p>
                 <button
-                  onClick={() => navigate(`/app/trades/${tradeId}/journal`, { state: { calculationMethod: apiMethod } })}
+                  onClick={() => navigate(`/app/journals/${tradeId}/edit`, { state: { calculationMethod: apiMethod } })}
                   className="p-1 text-gray-400 hover:text-blue-400 hover:bg-blue-900/20 rounded transition"
                   title="Edit commission override"
                 >
@@ -345,7 +345,7 @@ export const TradeDetail: React.FC = () => {
                       Edit
                     </button>
                     <button
-                      onClick={() => navigate(`/app/trades/${tradeId}/journal`, { state: { calculationMethod: apiMethod } })}
+                      onClick={() => navigate(`/app/journals/${tradeId}/edit`, { state: { calculationMethod: apiMethod } })}
                       className="flex items-center gap-2 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition"
                       title="Open full editor with commission override"
                     >
@@ -445,7 +445,7 @@ export const TradeDetail: React.FC = () => {
           <div className="bg-gray-800 rounded-lg p-12 text-center">
             <p className="text-gray-400 mb-4">No journal entry for this trade yet.</p>
             <button
-              onClick={() => navigate(`/app/trades/${tradeId}/journal`, { state: { calculationMethod: apiMethod } })}
+              onClick={() => navigate(`/app/journals/${tradeId}/edit`, { state: { calculationMethod: apiMethod } })}
               className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition"
             >
               Create Journal Entry

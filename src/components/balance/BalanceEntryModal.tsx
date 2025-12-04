@@ -220,7 +220,7 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
               <option value="deposit">Deposit</option>
               <option value="withdrawal">Withdrawal</option>
               <option value="fee">Fee</option>
-              <option value="commission_adjustment">Commission Adjustment</option>
+              <option value="commission_adjustment">Bulk Commission Adjustment</option>
             </select>
           </div>
 

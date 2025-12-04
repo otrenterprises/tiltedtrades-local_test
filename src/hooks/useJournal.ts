@@ -238,7 +238,8 @@ export function useSaveCommissionOverride() {
       overrideCommission,
       reason,
       existingJournalText,
-      calculationMethod
+      calculationMethod,
+      modifiedDate
     }: {
       userId: string
       tradeId: string
@@ -246,8 +247,9 @@ export function useSaveCommissionOverride() {
       reason?: string
       existingJournalText?: string
       calculationMethod?: 'fifo' | 'perPosition'
+      modifiedDate?: string
     }) =>
-      journalService.saveCommissionOverride(userId, tradeId, overrideCommission, reason, existingJournalText, calculationMethod),
+      journalService.saveCommissionOverride(userId, tradeId, overrideCommission, reason, existingJournalText, calculationMethod, modifiedDate),
     onSuccess: (data, variables) => {
       // Invalidate journal queries with calculationMethod
       queryClient.invalidateQueries({

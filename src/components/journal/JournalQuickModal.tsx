@@ -67,7 +67,7 @@ export const JournalQuickModal: React.FC<JournalQuickModalProps> = ({
     onClose()
     // Pass calculationMethod in navigation state so JournalEditor uses the correct method
     const apiMethod = calculationMethod === 'FIFO' ? 'fifo' : 'perPosition'
-    navigate(`/app/trades/${trade.id}/journal`, { state: { calculationMethod: apiMethod } })
+    navigate(`/app/journals/${trade.id}/edit`, { state: { calculationMethod: apiMethod } })
   }
 
   // Calculate trade duration in seconds

@@ -141,7 +141,7 @@ const Landing: React.FC = () => {
               <a href="#features" className="hover:text-green-500 transition">Features</a>
               <a href="#pricing" className="hover:text-green-500 transition">Pricing</a>
               <a href="#testimonials" className="hover:text-green-500 transition">Testimonials</a>
-              <a href="http://app.tiltedtrades.com" className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition">
+              <a href="https://app.tiltedtrades.com" className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg transition">
                 Launch App
               </a>
             </div>
@@ -169,7 +169,7 @@ const Landing: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <a
-              href="http://app.tiltedtrades.com/signup"
+              href="https://app.tiltedtrades.com/signup"
               className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-semibold transition transform hover:scale-105 inline-flex items-center justify-center"
             >
               Start Free Trial
@@ -304,7 +304,7 @@ const Landing: React.FC = () => {
                 </ul>
 
                 <a
-                  href={plan.name === 'Enterprise' ? 'mailto:sales@tiltedtrades.com' : 'http://app.tiltedtrades.com/signup'}
+                  href={plan.name === 'Enterprise' ? 'mailto:sales@tiltedtrades.com' : 'https://app.tiltedtrades.com/signup'}
                   className={`block text-center py-3 rounded-lg font-semibold transition ${
                     plan.featured
                       ? 'bg-green-600 hover:bg-green-700 text-white'
@@ -355,14 +355,14 @@ const Landing: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="http://app.tiltedtrades.com/signup"
+              href="https://app.tiltedtrades.com/signup"
               className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-semibold transition transform hover:scale-105 inline-flex items-center justify-center"
             >
               Start Your Free Trial
               <ArrowRight className="ml-2 h-5 w-5" />
             </a>
             <a
-              href="http://app.tiltedtrades.com/demo"
+              href="https://app.tiltedtrades.com/demo"
               className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-4 rounded-lg font-semibold transition inline-flex items-center justify-center"
             >
               <Target className="mr-2 h-5 w-5" />
@@ -394,7 +394,7 @@ const Landing: React.FC = () => {
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><a href="#features" className="hover:text-white transition">Features</a></li>
                 <li><a href="#pricing" className="hover:text-white transition">Pricing</a></li>
-                <li><a href="http://app.tiltedtrades.com/demo" className="hover:text-white transition">Demo</a></li>
+                <li><a href="https://app.tiltedtrades.com/demo" className="hover:text-white transition">Demo</a></li>
                 <li><a href="/api-docs" className="hover:text-white transition">API</a></li>
               </ul>
             </div>
