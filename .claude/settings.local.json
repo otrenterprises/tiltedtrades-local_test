@@ -29,7 +29,9 @@
       "Bash(aws dynamodb scan:*)",
       "Bash(curl:*)",
       "Bash(find:*)",
-      "Bash(move:*)"
+      "Bash(move:*)",
+      "Bash(aws lambda list-layers:*)",
+      "Bash(aws lambda get-function-configuration:*)"
     ],
     "deny": [],
     "ask": []
