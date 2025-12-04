@@ -353,7 +353,7 @@ export class TradeMatchingEngine {
         // If we were already in a position, something went wrong
         if (inPosition && openPositionExecs.length > 0) {
           console.warn(`${symbol}: Found 'To Open' while position already open. Creating incomplete trade.`)
-          const incompleteTrade = this.createTradeFromPosition(symbol, openPositionExecs, positionSide!, tradeCounter++)
+          const incompleteTrade = await this.createTradeFromPosition(symbol, openPositionExecs, positionSide!, tradeCounter++)
           if (incompleteTrade) trades.push(incompleteTrade)
         }
 

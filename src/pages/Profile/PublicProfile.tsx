@@ -60,7 +60,25 @@ export const PublicProfile: React.FC = () => {
     value: Math.random() * 10000 + i * 100
   }))
 
-  const stats = profile.stats || {}
+  const stats = profile.stats || {
+    totalPL: 0,
+    totalTrades: 0,
+    winRate: 0,
+    profitFactor: 0,
+    returnPercent: 0,
+    averageWin: 0,
+    averageLoss: 0,
+    largestWin: 0,
+    largestLoss: 0,
+    maxDrawdown: 0,
+    sharpeRatio: 0,
+    avgWin: 0,
+    avgLoss: 0,
+    winLossRatio: 0,
+    winningTrades: 0,
+    losingTrades: 0,
+    avgHoldTime: 0
+  }
 
   return (
     <div className={`min-h-screen bg-gray-900 py-8 px-4 transition-all duration-300 ${isExpanded ? 'ml-60' : 'ml-16'}`}>
@@ -288,7 +306,7 @@ export const PublicProfile: React.FC = () => {
           <div className="bg-gray-800 rounded-lg p-6 mt-6">
             <h3 className="text-lg font-semibold text-white mb-4">Trading Style</h3>
             <div className="flex flex-wrap gap-2">
-              {profile.tradingStyle.split(',').map((style, index) => (
+              {profile.tradingStyle.split(',').map((style: string, index: number) => (
                 <span
                   key={index}
                   className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm"

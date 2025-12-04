@@ -225,10 +225,9 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
                     <td className="px-4 py-3 text-sm text-right text-loss font-mono">
                       <span className="inline-flex items-center gap-1">
                         {trade.hasCommissionOverride && (
-                          <Edit3
-                            className="w-3 h-3 text-yellow-400"
-                            title="Commission has been overridden"
-                          />
+                          <span title="Commission has been overridden">
+                            <Edit3 className="w-3 h-3 text-yellow-400" />
+                          </span>
                         )}
                         {formatCurrency(trade.commission)}
                       </span>

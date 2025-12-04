@@ -1,0 +1,78 @@
+{
+  "AMP": {
+    "rates": {
+      "ES": {
+        "name": "E-mini S&P 500",
+        "exchange": "CME",
+        "currency": "USD",
+        "tiers": { "1": 2.25, "2": 2.15, "3": 2.05, "4": 1.95 }
+      },
+      "MES": {
+        "name": "Micro E-mini S&P 500",
+        "exchange": "CME",
+        "currency": "USD",
+        "tiers": { "1": 0.62, "2": 0.57, "3": 0.52, "4": 0.47 }
+      },
+      "NQ": {
+        "name": "E-mini NASDAQ-100",
+        "exchange": "CME",
+        "currency": "USD",
+        "tiers": { "1": 2.25, "2": 2.15, "3": 2.05, "4": 1.95 }
+      },
+      "MNQ": {
+        "name": "Micro E-mini NASDAQ-100",
+        "exchange": "CME",
+        "currency": "USD",
+        "tiers": { "1": 0.62, "2": 0.57, "3": 0.52, "4": 0.47 }
+      },
+      "RTY": {
+        "name": "E-mini Russell 2000",
+        "exchange": "CME",
+        "currency": "USD",
+        "tiers": { "1": 2.25, "2": 2.15, "3": 2.05, "4": 1.95 }
+      },
+      "M2K": {
+        "name": "Micro E-mini Russell 2000",
+        "exchange": "CME",
+        "currency": "USD",
+        "tiers": { "1": 0.62, "2": 0.57, "3": 0.52, "4": 0.47 }
+      },
+      "YM": {
+        "name": "E-mini Dow",
+        "exchange": "CME",
+        "currency": "USD",
+        "tiers": { "1": 2.25, "2": 2.15, "3": 2.05, "4": 1.95 }
+      },
+      "MYM": {
+        "name": "Micro E-mini Dow",
+        "exchange": "CME",
+        "currency": "USD",
+        "tiers": { "1": 0.62, "2": 0.57, "3": 0.52, "4": 0.47 }
+      },
+      "CL": {
+        "name": "Crude Oil",
+        "exchange": "NYMEX",
+        "currency": "USD",
+        "tiers": { "1": 2.25, "2": 2.15, "3": 2.05, "4": 1.95 }
+      },
+      "MCL": {
+        "name": "Micro Crude Oil",
+        "exchange": "NYMEX",
+        "currency": "USD",
+        "tiers": { "1": 0.62, "2": 0.57, "3": 0.52, "4": 0.47 }
+      },
+      "GC": {
+        "name": "Gold",
+        "exchange": "COMEX",
+        "currency": "USD",
+        "tiers": { "1": 2.25, "2": 2.15, "3": 2.05, "4": 1.95 }
+      },
+      "MGC": {
+        "name": "Micro Gold",
+        "exchange": "COMEX",
+        "currency": "USD",
+        "tiers": { "1": 0.62, "2": 0.57, "3": 0.52, "4": 0.47 }
+      }
+    }
+  }
+}

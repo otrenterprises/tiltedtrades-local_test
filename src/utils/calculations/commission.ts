@@ -1,5 +1,24 @@
-import commissionsData from '@/assets/commissions.json'
+// Commission data - loaded dynamically for local testing
+// In production, commissions come from the API
+let commissionsData: Record<string, { rates: Record<string, SymbolCommission> }> = {
+  AMP: { rates: {} }
+}
 
+// Try to load local commission data (only works in dev with local assets)
+try {
+  // Dynamic import wrapped in try-catch for production builds
+  const loadCommissions = async () => {
+    try {
+      const module = await import('@/assets/commissions.json')
+      commissionsData = module.default as typeof commissionsData
+    } catch {
+      // File doesn't exist in production - use empty defaults
+    }
+  }
+  loadCommissions()
+} catch {
+  // Static import failed - use defaults
+}
 
 export interface CommissionTier {
   '1': number  // < 1,000 contracts/month

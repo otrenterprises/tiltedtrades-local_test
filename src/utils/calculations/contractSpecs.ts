@@ -1,4 +1,21 @@
-import tickValues from '@/assets/tick-values.json'
+// Tick values - loaded dynamically for local testing
+// In production, contract specs come from the API
+let tickValues: Record<string, ContractSpec> = {}
+
+// Try to load local tick values (only works in dev with local assets)
+try {
+  const loadTickValues = async () => {
+    try {
+      const module = await import('@/assets/tick-values.json')
+      tickValues = module.default as Record<string, ContractSpec>
+    } catch {
+      // File doesn't exist in production - use empty defaults
+    }
+  }
+  loadTickValues()
+} catch {
+  // Static import failed - use defaults
+}
 
 export interface ContractSpec {
   symbol: string

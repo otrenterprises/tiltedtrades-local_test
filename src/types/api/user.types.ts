@@ -67,9 +67,30 @@ export interface UpdatePreferencesRequest {
   riskSettings?: Partial<UserPreferences['riskSettings']>
 }
 
+export interface PublicProfileStats {
+  totalPL: number
+  totalTrades: number
+  winRate: number
+  profitFactor: number
+  returnPercent?: number
+  averageWin?: number
+  averageLoss?: number
+  largestWin?: number
+  largestLoss?: number
+  maxDrawdown?: number
+  sharpeRatio?: number
+  avgWin?: number
+  avgLoss?: number
+  winLossRatio?: number
+  winningTrades?: number
+  losingTrades?: number
+  avgHoldTime?: number
+}
+
 export interface PublicProfile {
   userId: string
   displayName: string
+  username?: string
   bio?: string
   totalTrades: number
   totalPL: number
@@ -78,7 +99,13 @@ export interface PublicProfile {
   sharpeRatio?: number
   maxDrawdown?: number
   joinedDate: string
+  createdAt?: string
   avatarUrl?: string
+  isVerified?: boolean
+  location?: string
+  rank?: number
+  tradingStyle?: string
+  stats?: PublicProfileStats
 }
 
 export interface LeaderboardEntry extends PublicProfile {

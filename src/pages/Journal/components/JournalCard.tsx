@@ -1,12 +1,12 @@
 import { forwardRef } from 'react'
 import { parseISO, format } from 'date-fns'
 import { formatCurrency } from '@/utils/formatting'
-import type { TradeJournal } from '@/types/journal'
-import type { Trade } from '@/types/trade'
+import type { TradeJournal } from '@/types/api/journal.types'
+import type { MatchedTrade } from '@/types/api/trade.types'
 
 interface JournalCardProps {
   journal: TradeJournal
-  trade: Trade | undefined
+  trade: MatchedTrade | undefined
   isExpanded: boolean
   onClick: () => void
 }
@@ -63,7 +63,7 @@ export const JournalCard = forwardRef<HTMLDivElement, JournalCardProps>(
         {/* Tags */}
         {journal.tags && journal.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
-            {journal.tags.slice(0, 3).map(tag => (
+            {journal.tags.slice(0, 3).map((tag: string) => (
               <span
                 key={tag}
                 className="px-2 py-1 bg-blue-600 bg-opacity-20 text-blue-400 text-xs rounded"

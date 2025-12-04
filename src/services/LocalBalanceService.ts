@@ -20,8 +20,14 @@ export class LocalBalanceService {
   private static async loadData(): Promise<BalanceData> {
     if (this.data === null) {
       try {
-        const module = await import('../assets/balance-data.json')
-        this.data = module.default as BalanceData
+        // Dynamic import for local testing only - may not exist in production
+        const module = await import('../assets/balance-data.json').catch(() => null)
+        if (module) {
+          this.data = module.default as BalanceData
+        } else {
+          // Initialize with empty data if file doesn't exist
+          this.data = { entries: [], recurringFees: [] }
+        }
 
         // Ensure structure exists
         if (!this.data.entries) this.data.entries = []

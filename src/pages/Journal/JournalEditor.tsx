@@ -629,7 +629,7 @@ export const JournalEditor: React.FC = () => {
           <ChartGallery
             userId={userId}
             tradeId={tradeId || ''}
-            charts={journal.charts || []}
+            charts={journal.chartReferences || []}
           />
         )}
 

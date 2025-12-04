@@ -76,7 +76,7 @@ export default function Settings() {
       case 'general':
         return (
           <GeneralPanel
-            profile={profile}
+            profile={profile ?? undefined}
             onUpdate={updateProfile}
             isUpdating={isUpdating}
           />
@@ -84,7 +84,7 @@ export default function Settings() {
       case 'preferences':
         return (
           <PreferencesPanel
-            preferences={preferences}
+            preferences={preferences ?? undefined}
             onUpdate={updatePreferences}
             isUpdating={isUpdating}
           />
@@ -92,7 +92,7 @@ export default function Settings() {
       case 'privacy':
         return (
           <PrivacyPanel
-            preferences={preferences}
+            preferences={preferences ?? undefined}
             onUpdate={updatePreferences}
             isUpdating={isUpdating}
           />
@@ -100,7 +100,7 @@ export default function Settings() {
       case 'notifications':
         return (
           <NotificationPanel
-            preferences={preferences}
+            preferences={preferences ?? undefined}
             onUpdate={updatePreferences}
             isUpdating={isUpdating}
           />

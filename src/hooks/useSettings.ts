@@ -71,7 +71,7 @@ export function useUserPreferences() {
       queryClient.setQueryData(QUERY_KEYS.preferences(userId), data)
 
       // Apply theme immediately if it was changed
-      if (data.displayPreferences?.theme) {
+      if (data && data.displayPreferences?.theme) {
         applyTheme(data.displayPreferences.theme)
       }
 
