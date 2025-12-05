@@ -1,11 +1,10 @@
 /**
  * File Upload Modal Component
- * Handles file upload with progress tracking, validation, and processing status
+ * Handles file upload with progress tracking and validation
  */
 
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { uploadService } from '@/services/api/upload.service'
-import { useUploadProcessing } from '@/hooks/useUploadProcessing'
 import toast from 'react-hot-toast'
 
 interface FileUploadModalProps {
@@ -20,43 +19,10 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
   onSuccess
 }) => {
   const [file, setFile] = useState<File | null>(null)
+  const [isUploading, setIsUploading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [validationError, setValidationError] = useState<string | null>(null)
-
-  // Use the upload processing hook for tracking upload + processing status
-  const {
-    status,
-    progress,
-    pollAttempt,
-    maxPollAttempts,
-    isProcessing,
-    isComplete,
-    captureBaseline,
-    setUploadProgress,
-    onUploadComplete,
-    reset: resetProcessing
-  } = useUploadProcessing({
-    onComplete: () => {
-      // Close modal after a short delay to show success state
-      setTimeout(() => {
-        setFile(null)
-        onSuccess?.()
-        onClose()
-        resetProcessing()
-      }, 1500)
-    }
-  })
-
-  // Reset processing state when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      resetProcessing()
-    }
-  }, [isOpen, resetProcessing])
-
-  const isUploading = status === 'uploading'
-  const isProcessingData = status === 'processing'
-  const isBusy = isUploading || isProcessingData
 
   const validateFile = (file: File): boolean => {
     setValidationError(null)
@@ -123,30 +89,39 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
   const handleUpload = async () => {
     if (!file) return
 
-    // Capture baseline stats timestamp before upload starts
-    await captureBaseline()
+    setIsUploading(true)
+    setUploadProgress(0)
 
     try {
       const fileId = await uploadService.uploadFile(file, {
-        onProgress: (uploadProgress) => {
-          setUploadProgress(uploadProgress)
+        onProgress: (progress) => {
+          setUploadProgress(progress)
         },
         onComplete: () => {
-          // S3 upload complete - now transition to processing state
-          toast.success('File uploaded! Processing your data...')
-          onUploadComplete() // This starts polling
+          toast.success('File uploaded successfully! Processing will begin shortly.')
+          setUploadProgress(100)
+
+          // Reset after a delay
+          setTimeout(() => {
+            setFile(null)
+            setUploadProgress(0)
+            setIsUploading(false)
+            onSuccess?.()
+            onClose()
+          }, 1500)
         },
         onError: (error) => {
           toast.error(`Upload failed: ${error.message}`)
-          resetProcessing()
+          setIsUploading(false)
+          setUploadProgress(0)
         }
       })
 
-      console.log('File uploaded with key:', fileId)
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Upload failed'
-      toast.error(errorMessage)
-      resetProcessing()
+      console.log('File uploaded with ID:', fileId)
+    } catch (error: any) {
+      toast.error(error.message || 'Upload failed')
+      setIsUploading(false)
+      setUploadProgress(0)
     }
   }
 
@@ -178,7 +153,6 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
               onClick={onClose}
               disabled={isUploading}
               className="text-gray-400 hover:text-white disabled:opacity-50"
-              title={isProcessingData ? 'Close modal - processing will continue in background' : 'Close'}
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -192,7 +166,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
               isDragging
                 ? 'border-blue-500 bg-blue-500/10'
                 : 'border-gray-600 hover:border-gray-500'
-            } ${isBusy ? 'pointer-events-none opacity-50' : ''}`}
+            } ${isUploading ? 'pointer-events-none opacity-50' : ''}`}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
             onDragOver={handleDragOver}
@@ -222,7 +196,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
                       className="hidden"
                       accept=".xlsx,.xls,.csv"
                       onChange={handleFileChange}
-                      disabled={isBusy}
+                      disabled={isUploading}
                     />
                   </label>
                 </p>
@@ -250,7 +224,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
                   <p className="text-white font-medium break-all text-sm leading-relaxed">{file.name}</p>
                   <p className="text-sm text-gray-400">{formatFileSize(file.size)}</p>
                 </div>
-                {!isBusy && (
+                {!isUploading && (
                   <button
                     onClick={() => setFile(null)}
                     className="text-sm text-red-400 hover:text-red-300"
@@ -269,68 +243,19 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
             </div>
           )}
 
-          {/* Progress Bar - Upload Phase */}
+          {/* Progress Bar */}
           {isUploading && (
             <div className="mt-4">
               <div className="flex justify-between text-sm text-gray-400 mb-1">
                 <span>Uploading...</span>
-                <span>{progress}%</span>
+                <span>{uploadProgress}%</span>
               </div>
               <div className="w-full bg-gray-700 rounded-full h-2">
                 <div
                   className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${progress}%` }}
+                  style={{ width: `${uploadProgress}%` }}
                 />
               </div>
-            </div>
-          )}
-
-          {/* Progress Bar - Processing Phase */}
-          {isProcessingData && (
-            <div className="mt-4">
-              <div className="flex justify-between text-sm text-gray-400 mb-1">
-                <span className="flex items-center gap-2">
-                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      fill="none"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  Processing data...
-                </span>
-                <span className="text-xs">
-                  {pollAttempt > 0 && `Check ${pollAttempt}/${maxPollAttempts}`}
-                </span>
-              </div>
-              <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
-                <div
-                  className="bg-green-500 h-2 rounded-full transition-all duration-500 animate-pulse"
-                  style={{ width: '100%' }}
-                />
-              </div>
-              <p className="text-xs text-gray-500 mt-1">
-                Your data is being processed. This may take a moment...
-              </p>
-            </div>
-          )}
-
-          {/* Success State */}
-          {isComplete && (
-            <div className="mt-4 p-3 bg-green-900/20 border border-green-800 rounded flex items-center gap-2">
-              <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              <span className="text-sm text-green-400">Processing complete! Your data is ready.</span>
             </div>
           )}
 
@@ -341,14 +266,14 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
               disabled={isUploading}
               className="px-4 py-2 text-gray-400 hover:text-white disabled:opacity-50"
             >
-              {isProcessingData ? 'Close (processing continues)' : 'Cancel'}
+              Cancel
             </button>
             <button
               onClick={handleUpload}
-              disabled={!file || isBusy}
+              disabled={!file || isUploading}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed transition"
             >
-              {isUploading ? 'Uploading...' : isProcessingData ? 'Processing...' : 'Upload'}
+              {isUploading ? 'Uploading...' : 'Upload'}
             </button>
           </div>
 
