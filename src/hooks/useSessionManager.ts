@@ -29,20 +29,61 @@ const BROWSER_SESSION_STORAGE_KEY = 'tiltedtrades_browser_session_marker'
 /**
  * Check if this is a new browser session (browser was closed and reopened)
  * This runs synchronously before React to catch the state early
+ *
+ * IMPORTANT: We need to distinguish between:
+ * 1. Browser close + reopen (should logout) - sessionStorage is empty AND no navigation type
+ * 2. Page refresh (should NOT logout) - can use performance.navigation or PerformanceNavigationTiming
+ * 3. Normal navigation (should NOT logout) - sessionStorage marker exists
  */
 function checkBrowserSessionOnLoad(): boolean {
   const sessionMarker = sessionStorage.getItem(BROWSER_SESSION_STORAGE_KEY)
   const hasLocalStorageSession = localStorage.getItem(SESSION_START_KEY) !== null
 
-  if (hasLocalStorageSession && !sessionMarker) {
-    // localStorage has session data but sessionStorage is empty
+  // If sessionStorage marker exists, this is definitely not a new browser session
+  if (sessionMarker) {
+    return false
+  }
+
+  // Check if this is a page refresh - if so, don't treat it as browser close
+  const isPageRefresh = checkIfPageRefresh()
+
+  if (hasLocalStorageSession && !sessionMarker && !isPageRefresh) {
+    // localStorage has session data but sessionStorage is empty and not a refresh
     // This means browser was closed and reopened = new browser session
+    console.log('Detected new browser session (browser was closed)')
     return true
   }
 
   // Mark this browser session as active
-  if (!sessionMarker) {
-    sessionStorage.setItem(BROWSER_SESSION_STORAGE_KEY, Date.now().toString())
+  sessionStorage.setItem(BROWSER_SESSION_STORAGE_KEY, Date.now().toString())
+
+  return false
+}
+
+/**
+ * Check if the current page load is a refresh rather than a new navigation
+ */
+function checkIfPageRefresh(): boolean {
+  // Modern browsers: use PerformanceNavigationTiming
+  if (typeof performance !== 'undefined' && performance.getEntriesByType) {
+    const navEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[]
+    if (navEntries.length > 0) {
+      const navType = navEntries[0].type
+      // 'reload' means page refresh, 'navigate' means new navigation, 'back_forward' means history nav
+      if (navType === 'reload') {
+        console.log('Page refresh detected via PerformanceNavigationTiming')
+        return true
+      }
+    }
+  }
+
+  // Fallback for older browsers: use deprecated performance.navigation
+  // performance.navigation.type: 0=navigate, 1=reload, 2=back_forward
+  if (typeof performance !== 'undefined' && performance.navigation) {
+    if (performance.navigation.type === 1) {
+      console.log('Page refresh detected via performance.navigation (legacy)')
+      return true
+    }
   }
 
   return false
