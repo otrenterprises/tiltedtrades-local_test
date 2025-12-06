@@ -7,6 +7,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { tradeService } from '@/services/api/trade.service'
 import { TradeQueryParams, MatchedTrade, TradingStats, StatsQueryParams } from '@/types/api/trade.types'
 import { Trade } from '@/types/execution.types'
+import { useAuth } from '@/contexts/AuthContext'
 
 /**
  * Transform API MatchedTrade to component Trade format
@@ -35,8 +36,11 @@ function transformToTrade(apiTrade: MatchedTrade): Trade {
 
 /**
  * Hook to fetch matched trades
+ * Only runs when user is authenticated
  */
 export const useTrades = (params?: TradeQueryParams) => {
+  const { isAuthenticated, user } = useAuth()
+
   return useQuery({
     queryKey: ['trades', params],
     queryFn: async () => {
@@ -48,30 +52,39 @@ export const useTrades = (params?: TradeQueryParams) => {
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     gcTime: 10 * 60 * 1000, // 10 minutes
+    enabled: isAuthenticated && !!user, // Only fetch when authenticated
   })
 }
 
 /**
  * Hook to fetch trading stats from API
+ * Only runs when user is authenticated
  */
 export const useStats = (params?: StatsQueryParams) => {
+  const { isAuthenticated, user } = useAuth()
+
   return useQuery({
     queryKey: ['stats', params],
     queryFn: () => tradeService.getStats(params),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
+    enabled: isAuthenticated && !!user, // Only fetch when authenticated
   })
 }
 
 /**
  * Hook to fetch executions from API
+ * Only runs when user is authenticated
  */
 export const useExecutions = (params?: { startDate?: string; endDate?: string; symbol?: string }) => {
+  const { isAuthenticated, user } = useAuth()
+
   return useQuery({
     queryKey: ['executions', params],
     queryFn: () => tradeService.getExecutions(params),
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
+    enabled: isAuthenticated && !!user, // Only fetch when authenticated
   })
 }
 
@@ -142,8 +155,11 @@ export const useTrade = (
 
 /**
  * Hook to fetch all trades (handles pagination)
+ * Only runs when user is authenticated
  */
 export const useAllTrades = (params?: Omit<TradeQueryParams, 'nextToken'>) => {
+  const { isAuthenticated, user } = useAuth()
+
   return useQuery({
     queryKey: ['allTrades', params],
     queryFn: async () => {
@@ -155,17 +171,21 @@ export const useAllTrades = (params?: Omit<TradeQueryParams, 'nextToken'>) => {
     },
     staleTime: 5 * 60 * 1000,
     gcTime: 10 * 60 * 1000,
+    enabled: isAuthenticated && !!user, // Only fetch when authenticated
   })
 }
 
 /**
  * Hook to fetch trades by date range
+ * Only runs when user is authenticated
  */
 export const useTradesByDateRange = (
   startDate: string | Date,
   endDate: string | Date,
   params?: Omit<TradeQueryParams, 'startDate' | 'endDate'>
 ) => {
+  const { isAuthenticated, user } = useAuth()
+
   return useQuery({
     queryKey: ['trades', 'dateRange', startDate, endDate, params],
     queryFn: async () => {
@@ -175,14 +195,17 @@ export const useTradesByDateRange = (
         total: result.total,
       }
     },
-    enabled: !!startDate && !!endDate,
+    enabled: isAuthenticated && !!user && !!startDate && !!endDate, // Only fetch when authenticated
   })
 }
 
 /**
  * Hook to fetch trades by symbol
+ * Only runs when user is authenticated
  */
 export const useTradesBySymbol = (symbol: string, params?: Omit<TradeQueryParams, 'symbol'>) => {
+  const { isAuthenticated, user } = useAuth()
+
   return useQuery({
     queryKey: ['trades', 'symbol', symbol, params],
     queryFn: async () => {
@@ -192,7 +215,7 @@ export const useTradesBySymbol = (symbol: string, params?: Omit<TradeQueryParams
         total: result.total,
       }
     },
-    enabled: !!symbol,
+    enabled: isAuthenticated && !!user && !!symbol, // Only fetch when authenticated
   })
 }
 

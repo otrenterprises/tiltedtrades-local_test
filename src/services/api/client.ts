@@ -54,6 +54,16 @@ class ApiClient {
             config.url = config.url.replace(':userId', user.userId)
             config.url = config.url.replace('{userId}', user.userId)
           }
+
+          // Safety check: abort if URL still contains userId placeholder (user not authenticated)
+          if (config.url && (config.url.includes(':userId') || config.url.includes('{userId}'))) {
+            console.warn('API request aborted: userId placeholder not replaced (user not authenticated)')
+            return Promise.reject(new ApiError(
+              'User not authenticated',
+              401,
+              'UNAUTHORIZED'
+            ))
+          }
         } catch (error) {
           console.warn('Failed to add auth token:', error)
         }
