@@ -32,9 +32,28 @@ import {
 class AuthService {
   /**
    * Sign in a user with email and password
+   * Implements smart login detection:
+   * - If same user is already signed in → return current user (no re-auth needed)
+   * - If different user is signed in → sign out first, then sign in new user
    */
   async signIn({ email, password }: SignInParams): Promise<User> {
     try {
+      // Check if a user is already signed in
+      const currentUserEmail = await this.getCurrentUserEmail()
+
+      if (currentUserEmail) {
+        // Same user trying to sign in again - just return current user
+        if (currentUserEmail.toLowerCase() === email.toLowerCase()) {
+          console.log('Same user already signed in, returning current session')
+          const user = await this.getCurrentUser()
+          return user
+        }
+
+        // Different user - sign out current user first
+        console.log('Different user detected, signing out current user before new sign in')
+        await this.signOut()
+      }
+
       const signInResult: SignInOutput = await amplifySignIn({
         username: email,
         password,
@@ -55,6 +74,21 @@ class AuthService {
 
       throw new AuthError('Sign in incomplete', AuthErrorCode.UNKNOWN_ERROR)
     } catch (error: any) {
+      // Handle UserAlreadyAuthenticatedException gracefully
+      // This shouldn't happen with our check above, but handle it just in case
+      if (error.name === 'UserAlreadyAuthenticatedException') {
+        try {
+          const user = await this.getCurrentUser()
+          return user
+        } catch {
+          // If we can't get the user, sign out and let them try again
+          await this.signOut()
+          throw new AuthError(
+            'Session conflict detected. Please try signing in again.',
+            AuthErrorCode.UNKNOWN_ERROR
+          )
+        }
+      }
       throw this.handleAuthError(error)
     }
   }
@@ -262,6 +296,22 @@ class AuthService {
   }
 
   /**
+   * Get the email of the currently authenticated user (if any)
+   * Used for smart login detection - comparing current user with login attempt
+   */
+  async getCurrentUserEmail(): Promise<string | null> {
+    try {
+      const isAuth = await this.isAuthenticated()
+      if (!isAuth) return null
+
+      const attributes = await fetchUserAttributes()
+      return attributes.email || null
+    } catch {
+      return null
+    }
+  }
+
+  /**
    * Handle and transform auth errors
    */
   private handleAuthError(error: any): AuthError {
@@ -300,6 +350,9 @@ class AuthService {
         break
       case 'NetworkError':
         message = 'Network error. Please check your connection'
+        break
+      case 'UserAlreadyAuthenticatedException':
+        message = 'You are already signed in'
         break
     }
 

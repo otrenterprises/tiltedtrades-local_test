@@ -12,7 +12,7 @@ import { SignInParams } from '@/types/auth/auth.types'
 export const LoginForm: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { signIn, isLoading, error, clearError } = useAuth()
+  const { signIn, isLoading, error, clearError, isAuthenticated, user } = useAuth()
   const [formData, setFormData] = useState<SignInParams>({
     email: '',
     password: ''
@@ -20,6 +20,13 @@ export const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [rememberMe, setRememberMe] = useState(true)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+
+  // Redirect if already authenticated - handles case where user navigates back to login
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      navigate('/app', { replace: true })
+    }
+  }, [isAuthenticated, user, navigate])
 
   // Check for success message from navigation state (e.g., after email verification)
   useEffect(() => {
@@ -37,7 +44,11 @@ export const LoginForm: React.FC = () => {
 
     try {
       await signIn(formData)
-      navigate('/app')
+      // Reset session markers on successful login (fresh session)
+      sessionStorage.setItem('tiltedtrades_browser_session_marker', Date.now().toString())
+      localStorage.setItem('tiltedtrades_session_start', Date.now().toString())
+      localStorage.setItem('tiltedtrades_last_activity', Date.now().toString())
+      navigate('/app', { replace: true })
     } catch (err: any) {
       // Check if user needs to confirm email
       if (err.code === AuthErrorCode.USER_NOT_CONFIRMED) {

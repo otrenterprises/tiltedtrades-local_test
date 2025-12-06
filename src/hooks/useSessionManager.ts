@@ -15,6 +15,7 @@
 
 import { useEffect, useRef, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
+import { authService } from '@/services/auth/auth.service'
 
 interface SessionManagerOptions {
   idleTimeoutMinutes?: number      // Default: 30 minutes
@@ -25,6 +26,7 @@ interface SessionManagerOptions {
 const LAST_ACTIVITY_KEY = 'tiltedtrades_last_activity'
 const SESSION_START_KEY = 'tiltedtrades_session_start'
 const BROWSER_SESSION_STORAGE_KEY = 'tiltedtrades_browser_session_marker'
+const LAST_VISIBILITY_KEY = 'tiltedtrades_last_visibility'
 
 /**
  * Check if this is a new browser session (browser was closed and reopened)
@@ -71,9 +73,10 @@ export const useSessionManager = (options: SessionManagerOptions = {}) => {
     isSigningOut.current = true
     console.log(`Session ended: ${reason}`)
 
-    // Clear session timestamps
+    // Clear all session timestamps
     localStorage.removeItem(LAST_ACTIVITY_KEY)
     localStorage.removeItem(SESSION_START_KEY)
+    localStorage.removeItem(LAST_VISIBILITY_KEY)
 
     try {
       await signOut()
@@ -233,6 +236,89 @@ export const useSessionManager = (options: SessionManagerOptions = {}) => {
       clearInterval(intervalId)
     }
   }, [isAuthenticated, maxSessionMs, maxSessionHours, handleSignOut])
+
+  // Mobile background timeout detection using Page Visibility API
+  // Mobile browsers don't truly "close" so sessionStorage detection doesn't work
+  // Instead, we track how long the app was in background and log out if too long
+  useEffect(() => {
+    if (!isAuthenticated) return
+
+    // Use the same timeout as idle timeout for consistency
+    const MOBILE_BACKGROUND_TIMEOUT = idleTimeout
+
+    const handleVisibilityChange = () => {
+      const now = Date.now()
+
+      if (document.hidden) {
+        // Page going to background - record timestamp
+        localStorage.setItem(LAST_VISIBILITY_KEY, now.toString())
+      } else {
+        // Page becoming visible - check how long it was hidden
+        const lastVisibility = localStorage.getItem(LAST_VISIBILITY_KEY)
+        if (lastVisibility) {
+          const hiddenDuration = now - parseInt(lastVisibility, 10)
+
+          // If hidden for longer than timeout, end session
+          if (hiddenDuration > MOBILE_BACKGROUND_TIMEOUT) {
+            console.log(`Session ended: app was in background for ${Math.round(hiddenDuration / 1000 / 60)} minutes`)
+            handleSignOut('mobile background timeout')
+            return
+          }
+        }
+
+        // Page is visible and active - update activity and reset timer
+        updateLastActivity()
+        resetIdleTimer()
+        // Clear visibility timestamp since we're now active
+        localStorage.removeItem(LAST_VISIBILITY_KEY)
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    // Also check on mount if we were in background too long (app was suspended)
+    const lastVisibility = localStorage.getItem(LAST_VISIBILITY_KEY)
+    if (lastVisibility && !document.hidden) {
+      const hiddenDuration = Date.now() - parseInt(lastVisibility, 10)
+      if (hiddenDuration > MOBILE_BACKGROUND_TIMEOUT) {
+        console.log(`Session ended on mount: app was in background for ${Math.round(hiddenDuration / 1000 / 60)} minutes`)
+        handleSignOut('mobile background timeout on resume')
+      } else {
+        // Clear the stale visibility timestamp
+        localStorage.removeItem(LAST_VISIBILITY_KEY)
+      }
+    }
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [isAuthenticated, idleTimeout, handleSignOut, updateLastActivity, resetIdleTimer])
+
+  // Periodic session validation - catches server-side token revocation
+  // Also validates session on visibility restore for extra security
+  useEffect(() => {
+    if (!isAuthenticated) return
+
+    const validateSession = async () => {
+      try {
+        const isValid = await authService.isAuthenticated()
+        if (!isValid) {
+          console.log('Session validation failed - tokens invalid or expired')
+          handleSignOut('session validation failed')
+        }
+      } catch (error) {
+        console.error('Session validation error:', error)
+        // Don't sign out on network errors - let the idle/background timeouts handle it
+      }
+    }
+
+    // Validate every 5 minutes while active
+    const intervalId = setInterval(validateSession, 5 * 60 * 1000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [isAuthenticated, handleSignOut])
 
   return {
     resetIdleTimer
