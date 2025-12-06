@@ -11,8 +11,8 @@ interface WeeklyCellProps {
 }
 
 export function WeeklyCell({ weeklyPL, commissions, trades, days, bgColor, textColor, includeCommissions }: WeeklyCellProps) {
-  // includeCommissions = showGrossPL: true = Gross (weeklyPL), false = Net (weeklyPL + commissions)
-  const effectivePL = includeCommissions ? weeklyPL : weeklyPL + commissions
+  // includeCommissions = !showGrossPL: true = Net (weeklyPL + commissions), false = Gross (weeklyPL)
+  const effectivePL = includeCommissions ? weeklyPL + commissions : weeklyPL
 
   // Build tooltip
   const tooltipParts = [

@@ -2,15 +2,17 @@ import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 import { PageLayout } from '@/components/layout/PageLayout'
 import { MobileSettingsToggle } from '@/components/layout/MobileSettingsToggle'
+import { CalculationMethod } from '@/utils/calculations/tradeMatching'
 import { useCalendarData } from './hooks/useCalendarData'
 import { ViewSelector, CalendarDailyView, CalendarWeeklyView, CalendarMonthlyView } from './components'
 import type { ViewType, WeeklyGrouping } from './types'
 
 interface CalendarNewProps {
+  calculationMethod: CalculationMethod
   showGrossPL: boolean
 }
 
-export function CalendarNew({ showGrossPL }: CalendarNewProps) {
+export function CalendarNew({ calculationMethod, showGrossPL }: CalendarNewProps) {
   const [viewType, setViewType] = useState<ViewType>('daily')
   const [weeklyGrouping, setWeeklyGrouping] = useState<WeeklyGrouping>('quarterly')
   const [showWeeklyTotals, setShowWeeklyTotals] = useState(true)
@@ -50,7 +52,7 @@ export function CalendarNew({ showGrossPL }: CalendarNewProps) {
     handlePreviousYear,
     handleNextYear,
     handleYearSelect,
-  } = useCalendarData()
+  } = useCalendarData({ calculationMethod })
 
   // Loading state
   if (isLoading) {

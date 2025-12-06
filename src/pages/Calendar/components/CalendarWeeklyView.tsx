@@ -107,10 +107,11 @@ export function CalendarWeeklyView({
   }
 
   // Calculate quarter statistics
-  const totalPL = weeklySummaries.reduce((sum, w) => sum + (includeCommissions ? w.pl : w.pl + w.commissions), 0)
+  // Calendar stores Gross P&L in 'pl' field, so we add back commissions (negative) to get Net
+  const totalPL = weeklySummaries.reduce((sum, w) => sum + (includeCommissions ? w.pl + w.commissions : w.pl), 0)
   const totalTrades = weeklySummaries.reduce((sum, w) => sum + w.trades, 0)
   const totalDays = weeklySummaries.reduce((sum, w) => sum + w.tradingDays, 0)
-  const winningWeeks = weeklySummaries.filter(w => (includeCommissions ? w.pl : w.pl + w.commissions) > 0).length
+  const winningWeeks = weeklySummaries.filter(w => (includeCommissions ? w.pl + w.commissions : w.pl) > 0).length
   const winRate = weeklySummaries.length > 0 ? (winningWeeks / weeklySummaries.length) * 100 : 0
 
   return (
@@ -202,7 +203,7 @@ export function CalendarWeeklyView({
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
           {weeklySummaries.map((week) => {
-            const effectivePL = includeCommissions ? week.pl : week.pl + week.commissions
+            const effectivePL = includeCommissions ? week.pl + week.commissions : week.pl
             const bgColor = getBgColor(effectivePL)
             const textColor = getTextColor(effectivePL)
             const borderColor = getBorderColor(effectivePL)

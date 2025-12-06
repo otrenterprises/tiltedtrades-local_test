@@ -96,7 +96,7 @@ function App() {
                         <Route path="/journals/:tradeId" element={<TradeDetail />} />
                         <Route path="/journals/:tradeId/edit" element={<JournalEditor />} />
                         <Route path="/analytics" element={<AnalyticsAPI calculationMethod={calculationMethod} showGrossPL={showGrossPL} />} />
-                        <Route path="/calendar" element={<CalendarNew showGrossPL={showGrossPL} />} />
+                        <Route path="/calendar" element={<CalendarNew calculationMethod={calculationMethod} showGrossPL={showGrossPL} />} />
                         {/* Leaderboard routes commented out for local testing (no multi-user) */}
                         {/* <Route path="/leaderboard" element={<Leaderboard />} /> */}
                         {/* <Route path="/profile/:userId" element={<PublicProfile />} /> */}

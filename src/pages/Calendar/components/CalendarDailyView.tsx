@@ -20,8 +20,9 @@ interface CalendarDailyViewProps {
 }
 
 // Style helper functions
+// Calendar stores Gross P&L in 'pl' field, so we add back commissions (negative) to get Net
 const getEffectivePL = (pl: number, commissions: number, includeCommissions: boolean): number => {
-  return includeCommissions ? pl : pl + commissions
+  return includeCommissions ? pl + commissions : pl
 }
 
 const getBgColor = (pl: number, isCurrentMonth: boolean = true): string => {
@@ -107,7 +108,7 @@ export function CalendarDailyView({
   calendarData.weeks.forEach(week => {
     week.days.forEach(dayData => {
       if (dayData && dayData.trades > 0 && dayData.isCurrentMonth) {
-        const effectivePL = includeCommissions ? dayData.pl : dayData.pl + dayData.commissions
+        const effectivePL = includeCommissions ? dayData.pl + dayData.commissions : dayData.pl
         monthlyPL += effectivePL
         tradingDays++
         if (effectivePL > 0) {

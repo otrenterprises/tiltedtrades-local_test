@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay, getISOWeek, getYear, subDays, addDays, isSameMonth } from 'date-fns'
 import { useTrades } from '@/hooks/useTrades'
+import { CalculationMethod } from '@/utils/calculations/tradeMatching'
 import type { DailyPLData, WeekData, MonthCalendarData, WeeklySummary, MonthlySummary, WeeklyPL } from '../types'
 
 // Helper to parse date string without timezone issues
@@ -10,7 +11,11 @@ export const parseDateString = (dateStr: string): Date => {
   return new Date(year, month - 1, day)
 }
 
-export function useCalendarData() {
+interface UseCalendarDataOptions {
+  calculationMethod: CalculationMethod
+}
+
+export function useCalendarData({ calculationMethod }: UseCalendarDataOptions) {
   const [currentMonthIndex, setCurrentMonthIndex] = useState(0)
   const [currentYearIndex, setCurrentYearIndex] = useState(0)
   const [currentQuarterIndex, setCurrentQuarterIndex] = useState(0)
@@ -18,8 +23,8 @@ export function useCalendarData() {
   const [availableYears, setAvailableYears] = useState<number[]>([])
   const [availableQuarters, setAvailableQuarters] = useState<Array<{ year: number; quarter: number }>>([])
 
-  // Fetch trades from API
-  const { data: tradesData, isLoading, error } = useTrades({ method: 'fifo' })
+  // Fetch trades from API using the selected calculation method
+  const { data: tradesData, isLoading, error } = useTrades({ method: calculationMethod })
   const trades = tradesData?.trades || []
 
   // Process trades into daily P&L data

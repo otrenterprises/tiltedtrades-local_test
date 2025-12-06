@@ -8,8 +8,9 @@ interface MobileCalendarAgendaProps {
 }
 
 // Style helper functions
+// Calendar stores Gross P&L in 'pl' field, so we add back commissions (negative) to get Net
 const getEffectivePL = (pl: number, commissions: number, includeCommissions: boolean): number => {
-  return includeCommissions ? pl : pl + commissions
+  return includeCommissions ? pl + commissions : pl
 }
 
 const getPLColor = (pl: number): string => {

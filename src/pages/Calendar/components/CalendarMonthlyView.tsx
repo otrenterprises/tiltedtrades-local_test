@@ -71,10 +71,11 @@ export function CalendarMonthlyView({
   }
 
   // Calculate year statistics
-  const totalPL = monthlySummaries.reduce((sum, m) => sum + (includeCommissions ? m.pl : m.pl + m.commissions), 0)
+  // Calendar stores Gross P&L in 'pl' field, so we add back commissions (negative) to get Net
+  const totalPL = monthlySummaries.reduce((sum, m) => sum + (includeCommissions ? m.pl + m.commissions : m.pl), 0)
   const totalTrades = monthlySummaries.reduce((sum, m) => sum + m.trades, 0)
   const totalDays = monthlySummaries.reduce((sum, m) => sum + m.tradingDays, 0)
-  const winningMonths = monthlySummaries.filter(m => (includeCommissions ? m.pl : m.pl + m.commissions) > 0).length
+  const winningMonths = monthlySummaries.filter(m => (includeCommissions ? m.pl + m.commissions : m.pl) > 0).length
   const winRate = monthlySummaries.length > 0 ? (winningMonths / monthlySummaries.length) * 100 : 0
   const avgMonthlyPL = monthlySummaries.length > 0 ? totalPL / monthlySummaries.length : 0
 
@@ -148,7 +149,7 @@ export function CalendarMonthlyView({
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
           {monthlySummaries.map((month) => {
-            const effectivePL = includeCommissions ? month.pl : month.pl + month.commissions
+            const effectivePL = includeCommissions ? month.pl + month.commissions : month.pl
             const bgColor = getBgColor(effectivePL)
             const textColor = getTextColor(effectivePL)
             const borderColor = getBorderColor(effectivePL)

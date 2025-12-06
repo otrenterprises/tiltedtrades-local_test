@@ -12,9 +12,9 @@ interface DayCellProps {
 export function DayCell({ dayData, bgColor, textColor, borderColor, includeCommissions }: DayCellProps) {
   const dayNum = parseInt(dayData.tradingDay.split('-')[2], 10)
   const isCurrentMonth = dayData.isCurrentMonth !== false
-  // includeCommissions = showGrossPL from toggle
-  // true = Gross (just pl), false = Net (pl + commissions where commissions is negative)
-  const effectivePL = includeCommissions ? dayData.pl : dayData.pl + dayData.commissions
+  // includeCommissions = !showGrossPL from toggle
+  // true = Net (pl + commissions where commissions is negative), false = Gross (just pl)
+  const effectivePL = includeCommissions ? dayData.pl + dayData.commissions : dayData.pl
 
   if (dayData.isHoliday) {
     return (
