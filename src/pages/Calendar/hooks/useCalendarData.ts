@@ -75,10 +75,27 @@ export function useCalendarData({ calculationMethod }: UseCalendarDataOptions) {
       })
   }, [trades])
 
-  // Initialize available months and set to most recent
+  // Initialize available months and preserve selected month when calculation method changes
   useEffect(() => {
     if (computedAvailableMonths.length > 0) {
+      // Get the currently selected month before updating
+      const currentSelection = availableMonths[currentMonthIndex]
+
       setAvailableMonths(computedAvailableMonths)
+
+      // Try to find the same month in the new available months list
+      if (currentSelection) {
+        const newIndex = computedAvailableMonths.findIndex(
+          m => m.year === currentSelection.year && m.month === currentSelection.month
+        )
+        if (newIndex !== -1) {
+          // Preserve the current month selection
+          setCurrentMonthIndex(newIndex)
+          return
+        }
+      }
+
+      // Only default to most recent if no previous selection or month not found
       setCurrentMonthIndex(computedAvailableMonths.length - 1)
     }
   }, [computedAvailableMonths])
@@ -328,18 +345,50 @@ export function useCalendarData({ calculationMethod }: UseCalendarDataOptions) {
       })
   }, [weeklySummaries])
 
-  // Initialize available years and set to most recent
+  // Initialize available years and preserve selected year when calculation method changes
   useEffect(() => {
     if (computedAvailableYears.length > 0) {
+      // Get the currently selected year before updating
+      const currentYear = availableYears[currentYearIndex]
+
       setAvailableYears(computedAvailableYears)
+
+      // Try to find the same year in the new available years list
+      if (currentYear !== undefined) {
+        const newIndex = computedAvailableYears.indexOf(currentYear)
+        if (newIndex !== -1) {
+          // Preserve the current year selection
+          setCurrentYearIndex(newIndex)
+          return
+        }
+      }
+
+      // Only default to most recent if no previous selection or year not found
       setCurrentYearIndex(computedAvailableYears.length - 1)
     }
   }, [computedAvailableYears])
 
-  // Initialize available quarters and set to most recent
+  // Initialize available quarters and preserve selected quarter when calculation method changes
   useEffect(() => {
     if (computedAvailableQuarters.length > 0) {
+      // Get the currently selected quarter before updating
+      const currentSelection = availableQuarters[currentQuarterIndex]
+
       setAvailableQuarters(computedAvailableQuarters)
+
+      // Try to find the same quarter in the new available quarters list
+      if (currentSelection) {
+        const newIndex = computedAvailableQuarters.findIndex(
+          q => q.year === currentSelection.year && q.quarter === currentSelection.quarter
+        )
+        if (newIndex !== -1) {
+          // Preserve the current quarter selection
+          setCurrentQuarterIndex(newIndex)
+          return
+        }
+      }
+
+      // Only default to most recent if no previous selection or quarter not found
       setCurrentQuarterIndex(computedAvailableQuarters.length - 1)
     }
   }, [computedAvailableQuarters])
