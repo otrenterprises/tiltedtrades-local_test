@@ -36,23 +36,42 @@ export function Balance() {
   const totalTradingPL = trades.reduce((sum, trade) => sum + trade.pl, 0)
 
   // Calculate summary stats and net funding (deposits - withdrawals only, excluding fees)
-  const { totalDeposits, totalWithdrawals, totalFees, totalCommissionAdjustments, netFunding } = useMemo(() => {
+  // Also calculate correct running balance for each entry (funding only, not fees)
+  const { totalDeposits, totalWithdrawals, totalFees, totalCommissionAdjustments, netFunding, entriesWithCorrectBalance } = useMemo(() => {
     let deposits = 0
     let withdrawals = 0
     let fees = 0
     let commissionAdj = 0
 
-    for (const entry of entries) {
+    // Sort entries by date to calculate running balance
+    const sortedEntries = [...entries].sort((a, b) => a.date.localeCompare(b.date))
+
+    // Calculate running funding balance (deposits - withdrawals only)
+    let runningFunding = 0
+    const balanceMap = new Map<string, number>()
+
+    for (const entry of sortedEntries) {
       if (entry.type === 'deposit') {
         deposits += entry.amount
+        runningFunding += entry.amount
       } else if (entry.type === 'withdrawal') {
         withdrawals += entry.amount
+        runningFunding -= entry.amount
       } else if (entry.type === 'fee') {
         fees += entry.amount
+        // Fees don't affect running funding balance
       } else if (entry.type === 'commission_adjustment') {
         commissionAdj += entry.amount
+        // Commission adjustments don't affect running funding balance
       }
+      balanceMap.set(entry.entryId, runningFunding)
     }
+
+    // Create entries with corrected balance values
+    const correctedEntries = entries.map(entry => ({
+      ...entry,
+      balance: balanceMap.get(entry.entryId) ?? entry.balance
+    }))
 
     // Net Funding = Deposits - Withdrawals (fees are separate, not part of funding)
     const funding = deposits - withdrawals
@@ -62,7 +81,8 @@ export function Balance() {
       totalWithdrawals: withdrawals,
       totalFees: fees,
       totalCommissionAdjustments: commissionAdj,
-      netFunding: funding
+      netFunding: funding,
+      entriesWithCorrectBalance: correctedEntries
     }
   }, [entries])
 
@@ -251,7 +271,7 @@ export function Balance() {
         />
 
         <TransactionTable
-          entries={entries}
+          entries={entriesWithCorrectBalance}
           onEditEntry={handleEditEntry}
           onDeleteEntry={handleDeleteEntry}
         />

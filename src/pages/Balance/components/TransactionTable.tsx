@@ -95,12 +95,10 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
                     </p>
                   )}
 
-                  {/* Bottom row: Date, Balance, Actions */}
+                  {/* Bottom row: Date and Actions */}
                   <div className="flex justify-between items-center pt-2 border-t border-dark-border/50">
                     <div className="text-xs text-slate-400">
-                      <span>{format(parseISO(entry.date), 'MMM dd, yyyy')}</span>
-                      <span className="mx-2">•</span>
-                      <span>Bal: <span className="font-mono text-slate-300">{formatCurrency(entry.balance || 0)}</span></span>
+                      {format(parseISO(entry.date), 'MMM dd, yyyy')}
                     </div>
                     {!isGenerated && (
                       <div className="flex items-center gap-1">
@@ -136,7 +134,7 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
                   <th className="px-4 py-3 text-left text-sm font-semibold text-slate-300">Type</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-slate-300">Description</th>
                   <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">Amount</th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">Balance</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">Funding</th>
                   <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">Actions</th>
                 </tr>
               </thead>
