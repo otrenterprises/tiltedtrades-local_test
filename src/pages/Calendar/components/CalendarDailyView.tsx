@@ -288,7 +288,7 @@ export function CalendarDailyView({
             </div>
           </div>
           <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
-            <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Win Rate</div>
+            <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Profitable Days</div>
             <div className={`text-base md:text-lg font-bold ${avgWinRate >= 50 ? 'text-teal-400' : 'text-red-400'}`}>
               {avgWinRate.toFixed(1)}%
             </div>

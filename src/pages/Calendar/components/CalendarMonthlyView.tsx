@@ -203,7 +203,7 @@ export function CalendarMonthlyView({
               <div className="text-base md:text-lg font-bold text-slate-200">{totalTrades}</div>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600 col-span-2 md:col-span-1">
-              <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Win Rate</div>
+              <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Profitable Months</div>
               <div className={`text-base md:text-lg font-bold ${winRate >= 50 ? 'text-teal-400' : 'text-red-400'}`}>
                 {winRate.toFixed(1)}%
               </div>
