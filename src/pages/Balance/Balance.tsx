@@ -31,16 +31,12 @@ export function Balance() {
   // Extract data from balance response
   const entries = balanceData?.entries || []
   const templates = balanceData?.templates || []
-  const currentBalance = balanceData?.runningBalance || 0
 
   // Calculate total trading P&L
   const totalTradingPL = trades.reduce((sum, trade) => sum + trade.pl, 0)
 
-  // Calculate account value (funding + trading P&L)
-  const currentAccountValue = currentBalance + totalTradingPL
-
-  // Calculate summary stats
-  const { totalDeposits, totalWithdrawals, totalFees, totalCommissionAdjustments } = useMemo(() => {
+  // Calculate summary stats and net funding (deposits - withdrawals only, excluding fees)
+  const { totalDeposits, totalWithdrawals, totalFees, totalCommissionAdjustments, netFunding } = useMemo(() => {
     let deposits = 0
     let withdrawals = 0
     let fees = 0
@@ -58,23 +54,56 @@ export function Balance() {
       }
     }
 
+    // Net Funding = Deposits - Withdrawals (fees are separate, not part of funding)
+    const funding = deposits - withdrawals
+
     return {
       totalDeposits: deposits,
       totalWithdrawals: withdrawals,
       totalFees: fees,
-      totalCommissionAdjustments: commissionAdj
+      totalCommissionAdjustments: commissionAdj,
+      netFunding: funding
     }
   }, [entries])
 
+  // Calculate account value: Funding - Fees + Commission Adjustments + Trading P&L
+  // Note: fees are stored as positive but represent costs, so we subtract them
+  const currentAccountValue = netFunding - totalFees + totalCommissionAdjustments + totalTradingPL
+
   // Build account value history for chart
+  // Funding = Deposits - Withdrawals (NOT including fees)
   const accountValueHistory = useMemo(() => {
     if (entries.length === 0) return []
 
+    // Sort entries by date to calculate running totals
+    const sortedEntries = [...entries].sort((a, b) => a.date.localeCompare(b.date))
+
+    // Calculate cumulative funding, fees, and commission adjustments by date
     const fundingByDate = new Map<string, number>()
-    entries.forEach(entry => {
-      fundingByDate.set(entry.date, entry.balance || 0)
+    const feesByDate = new Map<string, number>()
+    const commAdjByDate = new Map<string, number>()
+
+    let cumulativeFunding = 0
+    let cumulativeFees = 0
+    let cumulativeCommAdj = 0
+
+    sortedEntries.forEach(entry => {
+      if (entry.type === 'deposit') {
+        cumulativeFunding += entry.amount
+      } else if (entry.type === 'withdrawal') {
+        cumulativeFunding -= entry.amount
+      } else if (entry.type === 'fee') {
+        cumulativeFees += entry.amount
+      } else if (entry.type === 'commission_adjustment') {
+        cumulativeCommAdj += entry.amount
+      }
+
+      fundingByDate.set(entry.date, cumulativeFunding)
+      feesByDate.set(entry.date, cumulativeFees)
+      commAdjByDate.set(entry.date, cumulativeCommAdj)
     })
 
+    // Calculate cumulative trading P&L by date
     const tradingPLByDate = new Map<string, number>()
     let cumulativePL = 0
     const sortedTrades = [...trades]
@@ -87,26 +116,34 @@ export function Balance() {
       tradingPLByDate.set(dateStr, cumulativePL)
     })
 
+    // Combine all dates
     const allDates = new Set([...fundingByDate.keys(), ...tradingPLByDate.keys()])
     const sortedDates = Array.from(allDates).sort()
 
     const history: Array<{ date: string; accountValue: number; fundingBalance: number; tradingPL: number }> = []
-    let lastFundingBalance = 0
+    let lastFunding = 0
+    let lastFees = 0
+    let lastCommAdj = 0
     let lastTradingPL = 0
 
     sortedDates.forEach(date => {
       if (fundingByDate.has(date)) {
-        lastFundingBalance = fundingByDate.get(date)!
+        lastFunding = fundingByDate.get(date)!
+        lastFees = feesByDate.get(date) || lastFees
+        lastCommAdj = commAdjByDate.get(date) || lastCommAdj
       }
       if (tradingPLByDate.has(date)) {
         lastTradingPL = tradingPLByDate.get(date)!
       }
 
+      // Account Value = Funding - Fees + Commission Adjustments + Trading P&L
+      const accountValue = lastFunding - lastFees + lastCommAdj + lastTradingPL
+
       history.push({
         date,
-        fundingBalance: lastFundingBalance,
+        fundingBalance: lastFunding, // Pure funding (deposits - withdrawals)
         tradingPL: lastTradingPL,
-        accountValue: lastFundingBalance + lastTradingPL
+        accountValue
       })
     })
 
@@ -183,17 +220,18 @@ export function Balance() {
       actions={
         <button
           onClick={handleAddEntry}
-          className="flex items-center gap-2 px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors"
+          className="flex items-center gap-2 px-3 py-2 md:px-4 bg-accent text-white rounded-lg hover:bg-accent/90 active:bg-accent/80 transition-colors text-sm md:text-base touch-target"
         >
           <Plus className="w-4 h-4" />
-          Add Entry
+          <span className="hidden sm:inline">Add Entry</span>
+          <span className="sm:hidden">Add</span>
         </button>
       }
     >
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         <AccountValueCard
           currentAccountValue={currentAccountValue}
-          currentBalance={currentBalance}
+          netFunding={netFunding}
           totalTradingPL={totalTradingPL}
         />
 

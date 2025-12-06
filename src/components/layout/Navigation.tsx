@@ -308,12 +308,12 @@ export function Navigation({ calculationMethod, onCalculationMethodChange, showG
           {/* Bottom Sheet */}
           <div className={`md:hidden fixed bottom-0 left-0 right-0 bg-dark-secondary border-t border-dark-border rounded-t-2xl z-50 flex flex-col max-h-[85vh] ${isClosingMenu ? 'animate-slide-down' : 'animate-slide-up'}`}>
             {/* Drag Handle Indicator */}
-            <div className="flex justify-center pt-3 pb-2">
+            <div className="flex justify-center pt-3 pb-2 flex-shrink-0">
               <div className="w-12 h-1.5 bg-slate-600 rounded-full" />
             </div>
 
             {/* Header */}
-            <div className="flex items-center justify-between px-4 pb-3 border-b border-dark-border">
+            <div className="flex items-center justify-between px-4 pb-3 border-b border-dark-border flex-shrink-0">
               <div className="w-10" /> {/* Spacer for centering */}
               <h2 className="text-lg font-semibold text-slate-50">Menu</h2>
               <button
@@ -324,9 +324,10 @@ export function Navigation({ calculationMethod, onCalculationMethodChange, showG
               </button>
             </div>
 
-            {/* Navigation Links - 2 column grid */}
-            <div className="flex-1 overflow-y-auto p-4">
-              <div className="grid grid-cols-2 gap-3">
+            {/* Scrollable Content - entire menu scrolls */}
+            <div className="flex-1 overflow-y-auto">
+              {/* Navigation Links - row layout */}
+              <div className="p-4 space-y-2">
                 {allMobileLinks.map((link) => (
                   <NavLink
                     key={link.to}
@@ -334,105 +335,105 @@ export function Navigation({ calculationMethod, onCalculationMethodChange, showG
                     end={link.to === '/app'}
                     onClick={handleCloseMenu}
                     className={({ isActive }) =>
-                      `flex flex-col items-center justify-center p-4 rounded-xl text-sm font-medium transition-colors touch-target ${
+                      `flex items-center gap-4 px-4 py-3.5 rounded-xl text-sm font-medium transition-colors touch-target ${
                         isActive
                           ? 'bg-accent/20 text-accent border border-accent/30'
                           : 'bg-dark-tertiary/50 text-slate-300 active:bg-dark-tertiary border border-transparent'
                       }`
                     }
                   >
-                    <link.icon className="w-6 h-6 mb-2" />
+                    <link.icon className="w-5 h-5 flex-shrink-0" />
                     <span>{link.label}</span>
                   </NavLink>
                 ))}
+
+                {/* Upload Button - full width */}
+                <button
+                  onClick={() => {
+                    handleCloseMenu()
+                    setTimeout(() => setShowUploadModal(true), 300)
+                  }}
+                  className="w-full flex items-center gap-4 px-4 py-3.5 mt-2 rounded-xl text-sm font-medium bg-accent active:bg-accent/90 text-white touch-target"
+                >
+                  <Upload className="w-5 h-5 flex-shrink-0" />
+                  <span>Upload Data</span>
+                </button>
               </div>
 
-              {/* Upload Button - full width */}
-              <button
-                onClick={() => {
-                  handleCloseMenu()
-                  setTimeout(() => setShowUploadModal(true), 300)
-                }}
-                className="w-full flex items-center justify-center gap-3 px-4 py-4 mt-4 rounded-xl text-sm font-medium bg-accent active:bg-accent/90 text-white touch-target"
-              >
-                <Upload className="w-5 h-5" />
-                <span>Upload Data</span>
-              </button>
-            </div>
+              {/* Settings Section - P&L toggles */}
+              <div className="border-t border-dark-border p-4 space-y-4">
+                {/* P&L Display Toggle */}
+                <div className="space-y-2">
+                  <span className="text-xs text-slate-400 block">P&L Display:</span>
+                  <div className="flex bg-dark-tertiary rounded-lg p-0.5">
+                    <button
+                      onClick={() => onShowGrossPLChange(false)}
+                      className={`flex-1 px-3 py-2.5 text-sm font-medium rounded-md transition-colors touch-target ${
+                        !showGrossPL
+                          ? 'bg-accent text-white'
+                          : 'text-slate-300 active:text-white'
+                      }`}
+                    >
+                      Net
+                    </button>
+                    <button
+                      onClick={() => onShowGrossPLChange(true)}
+                      className={`flex-1 px-3 py-2.5 text-sm font-medium rounded-md transition-colors touch-target ${
+                        showGrossPL
+                          ? 'bg-accent text-white'
+                          : 'text-slate-300 active:text-white'
+                      }`}
+                    >
+                      Gross
+                    </button>
+                  </div>
+                </div>
 
-            {/* Settings Section - P&L toggles */}
-            <div className="border-t border-dark-border p-4 space-y-4">
-              {/* P&L Display Toggle */}
-              <div className="space-y-2">
-                <span className="text-xs text-slate-400 block">P&L Display:</span>
-                <div className="flex bg-dark-tertiary rounded-lg p-0.5">
-                  <button
-                    onClick={() => onShowGrossPLChange(false)}
-                    className={`flex-1 px-3 py-2.5 text-sm font-medium rounded-md transition-colors touch-target ${
-                      !showGrossPL
-                        ? 'bg-accent text-white'
-                        : 'text-slate-300 active:text-white'
-                    }`}
-                  >
-                    Net
-                  </button>
-                  <button
-                    onClick={() => onShowGrossPLChange(true)}
-                    className={`flex-1 px-3 py-2.5 text-sm font-medium rounded-md transition-colors touch-target ${
-                      showGrossPL
-                        ? 'bg-accent text-white'
-                        : 'text-slate-300 active:text-white'
-                    }`}
-                  >
-                    Gross
-                  </button>
+                {/* Calculation Method Toggle */}
+                <div className="space-y-2">
+                  <span className="text-xs text-slate-400 block">P&L Method:</span>
+                  <div className="flex bg-dark-tertiary rounded-lg p-0.5">
+                    <button
+                      onClick={() => onCalculationMethodChange('fifo')}
+                      className={`flex-1 px-3 py-2.5 text-sm font-medium rounded-md transition-colors touch-target ${
+                        calculationMethod === 'fifo'
+                          ? 'bg-accent text-white'
+                          : 'text-slate-300 active:text-white'
+                      }`}
+                    >
+                      FIFO
+                    </button>
+                    <button
+                      onClick={() => onCalculationMethodChange('perPosition')}
+                      className={`flex-1 px-3 py-2.5 text-sm font-medium rounded-md transition-colors touch-target ${
+                        calculationMethod === 'perPosition'
+                          ? 'bg-accent text-white'
+                          : 'text-slate-300 active:text-white'
+                      }`}
+                    >
+                      Per Pos
+                    </button>
+                  </div>
                 </div>
               </div>
 
-              {/* Calculation Method Toggle */}
-              <div className="space-y-2">
-                <span className="text-xs text-slate-400 block">P&L Method:</span>
-                <div className="flex bg-dark-tertiary rounded-lg p-0.5">
-                  <button
-                    onClick={() => onCalculationMethodChange('fifo')}
-                    className={`flex-1 px-3 py-2.5 text-sm font-medium rounded-md transition-colors touch-target ${
-                      calculationMethod === 'fifo'
-                        ? 'bg-accent text-white'
-                        : 'text-slate-300 active:text-white'
-                    }`}
-                  >
-                    FIFO
-                  </button>
-                  <button
-                    onClick={() => onCalculationMethodChange('perPosition')}
-                    className={`flex-1 px-3 py-2.5 text-sm font-medium rounded-md transition-colors touch-target ${
-                      calculationMethod === 'perPosition'
-                        ? 'bg-accent text-white'
-                        : 'text-slate-300 active:text-white'
-                    }`}
-                  >
-                    Per Pos
-                  </button>
+              {/* User Info & Logout */}
+              <div className="border-t border-dark-border p-4 space-y-3 safe-area-bottom">
+                <div className="flex items-center gap-2 text-sm text-slate-400">
+                  <User className="w-4 h-4" />
+                  <span className="truncate">{user?.email || 'Not logged in'}</span>
                 </div>
+                <button
+                  onClick={() => {
+                    handleCloseMenu()
+                    setTimeout(handleLogout, 300)
+                  }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-slate-300 active:text-white border border-slate-600 active:border-red-500 active:bg-red-600/20 touch-target"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Sign Out</span>
+                </button>
               </div>
-            </div>
-
-            {/* User Info & Logout */}
-            <div className="border-t border-dark-border p-4 space-y-3 safe-area-bottom">
-              <div className="flex items-center gap-2 text-sm text-slate-400">
-                <User className="w-4 h-4" />
-                <span className="truncate">{user?.email || 'Not logged in'}</span>
-              </div>
-              <button
-                onClick={() => {
-                  handleCloseMenu()
-                  setTimeout(handleLogout, 300)
-                }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-slate-300 active:text-white border border-slate-600 active:border-red-500 active:bg-red-600/20 touch-target"
-              >
-                <LogOut className="w-4 h-4" />
-                <span>Sign Out</span>
-              </button>
             </div>
           </div>
         </>
