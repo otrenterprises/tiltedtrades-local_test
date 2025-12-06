@@ -93,11 +93,11 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
 
   if (showVerification) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-primary px-4">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center">
             <h2 className="text-3xl font-extrabold text-white">Check your email</h2>
-            <p className="mt-2 text-sm text-gray-400">
+            <p className="mt-2 text-sm text-tertiary">
               We've sent a verification code to {formData.email}
             </p>
             <Link
@@ -113,13 +113,13 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-primary px-4">
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
             Create your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-400">
+          <p className="mt-2 text-center text-sm text-tertiary">
             Start tracking your trades and improving your performance
           </p>
         </div>
@@ -139,7 +139,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
 
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="email" className="block text-sm font-medium text-secondary">
                 Email address
               </label>
               <input
@@ -151,8 +151,8 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
                 value={formData.email}
                 onChange={handleChange}
                 className={`mt-1 appearance-none relative block w-full px-3 py-2 border ${
-                  validationErrors.email ? 'border-red-500' : 'border-gray-700'
-                } bg-gray-800 text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm`}
+                  validationErrors.email ? 'border-red-500' : 'border-theme'
+                } bg-secondary text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm`}
                 placeholder="Enter your email"
               />
               {validationErrors.email && (
@@ -161,7 +161,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
             </div>
 
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="username" className="block text-sm font-medium text-secondary">
                 Username (optional)
               </label>
               <input
@@ -171,13 +171,13 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
                 autoComplete="username"
                 value={formData.username}
                 onChange={handleChange}
-                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-700 bg-gray-800 text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="mt-1 appearance-none relative block w-full px-3 py-2 border border-theme bg-secondary text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="Choose a username"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="password" className="block text-sm font-medium text-secondary">
                 Password
               </label>
               <div className="mt-1 relative">
@@ -190,8 +190,8 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
                   value={formData.password}
                   onChange={handleChange}
                   className={`appearance-none relative block w-full px-3 py-2 border ${
-                    validationErrors.password ? 'border-red-500' : 'border-gray-700'
-                  } bg-gray-800 text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm pr-10`}
+                    validationErrors.password ? 'border-red-500' : 'border-theme'
+                  } bg-secondary text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm pr-10`}
                   placeholder="Create a password"
                 />
                 <button
@@ -199,7 +199,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  <span className="text-gray-400 hover:text-gray-300">
+                  <span className="text-tertiary hover:text-secondary">
                     {showPassword ? 'Hide' : 'Show'}
                   </span>
                 </button>
@@ -207,13 +207,13 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
               {validationErrors.password && (
                 <p className="mt-1 text-xs text-red-400">{validationErrors.password}</p>
               )}
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-muted">
                 Must be at least 8 characters with upper/lower case, number, and special character
               </p>
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-secondary">
                 Confirm Password
               </label>
               <input
@@ -225,8 +225,8 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 className={`mt-1 appearance-none relative block w-full px-3 py-2 border ${
-                  validationErrors.confirmPassword ? 'border-red-500' : 'border-gray-700'
-                } bg-gray-800 text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm`}
+                  validationErrors.confirmPassword ? 'border-red-500' : 'border-theme'
+                } bg-secondary text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm`}
                 placeholder="Confirm your password"
               />
               {validationErrors.confirmPassword && (
@@ -241,9 +241,9 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
               name="agree-terms"
               type="checkbox"
               required
-              className="h-4 w-4 bg-gray-800 border-gray-700 rounded text-blue-600 focus:ring-blue-500"
+              className="h-4 w-4 bg-secondary border-theme rounded text-blue-600 focus:ring-blue-500"
             />
-            <label htmlFor="agree-terms" className="ml-2 block text-sm text-gray-300">
+            <label htmlFor="agree-terms" className="ml-2 block text-sm text-secondary">
               I agree to the{' '}
               <a href="/terms" className="text-blue-400 hover:text-blue-300">
                 Terms of Service
@@ -270,7 +270,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
           </div>
 
           <div className="text-center">
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-tertiary">
               Already have an account?{' '}
               <Link to="/login" className="font-medium text-blue-400 hover:text-blue-300">
                 Sign in

@@ -16,8 +16,8 @@ export function AccountValueChart({ chartData }: AccountValueChartProps) {
   if (chartData.length === 0) return null
 
   return (
-    <div className="bg-dark-secondary border border-dark-border rounded-lg p-4 md:p-6">
-      <h3 className="text-base md:text-lg font-semibold text-slate-50 mb-3 md:mb-4">Account Value History</h3>
+    <div className="bg-secondary border border-theme rounded-lg p-4 md:p-6">
+      <h3 className="text-base md:text-lg font-semibold text-primary mb-3 md:mb-4">Account Value History</h3>
       {/* Responsive chart height: smaller on mobile */}
       <ResponsiveContainer width="100%" height={200} className="md:!h-[300px]">
         <LineChart data={chartData} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
@@ -67,7 +67,7 @@ export function AccountValueChart({ chartData }: AccountValueChartProps) {
         </LineChart>
       </ResponsiveContainer>
       {/* Mobile: Wrap legend items, Desktop: Single row */}
-      <div className="mt-3 md:mt-4 text-[10px] md:text-xs text-slate-400 flex flex-wrap items-center gap-x-4 gap-y-2 md:gap-6">
+      <div className="mt-3 md:mt-4 text-[10px] md:text-xs text-tertiary flex flex-wrap items-center gap-x-4 gap-y-2 md:gap-6">
         <div className="flex items-center gap-1.5 md:gap-2">
           <div className="w-5 md:w-8 h-0.5 bg-blue-500"></div>
           <span className="hidden sm:inline">Account Value (Funding + Trading P&L)</span>

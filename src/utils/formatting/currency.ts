@@ -35,5 +35,5 @@ export function formatPL(amount: number): string {
 export function getPLColor(amount: number): string {
   if (amount > 0) return 'text-profit'
   if (amount < 0) return 'text-loss'
-  return 'text-slate-400'
+  return 'text-tertiary'
 }

@@ -254,7 +254,7 @@ export const JournalEditor: React.FC = () => {
   const backButton = (
     <button
       onClick={() => navigate('/app/journals')}
-      className="text-gray-400 hover:text-white flex items-center group active:text-blue-400 transition-colors"
+      className="text-tertiary hover:text-white flex items-center group active:text-blue-400 transition-colors"
     >
       <ArrowLeft className="w-5 h-5 mr-1 md:mr-2 group-hover:-translate-x-1 transition-transform" />
       <span className="hidden sm:inline">Back to Journals</span>
@@ -272,16 +272,16 @@ export const JournalEditor: React.FC = () => {
     return (
       <button
         onClick={() => toggleSection(id)}
-        className="md:hidden w-full flex items-center justify-between p-4 bg-gray-800 rounded-lg hover:bg-gray-750 active:bg-gray-700 transition-colors"
+        className="md:hidden w-full flex items-center justify-between p-4 bg-secondary rounded-lg hover:bg-tertiary active:bg-tertiary transition-colors"
       >
         <div>
           <span className="font-medium text-white">{title}</span>
-          {subtitle && <span className="text-xs text-gray-400 block">{subtitle}</span>}
+          {subtitle && <span className="text-xs text-tertiary block">{subtitle}</span>}
         </div>
         {isExpanded ? (
-          <ChevronDown className="w-5 h-5 text-gray-400" />
+          <ChevronDown className="w-5 h-5 text-tertiary" />
         ) : (
-          <ChevronRight className="w-5 h-5 text-gray-400" />
+          <ChevronRight className="w-5 h-5 text-tertiary" />
         )}
       </button>
     )
@@ -296,7 +296,7 @@ export const JournalEditor: React.FC = () => {
           <span className={isGrossProfitable ? 'text-green-400' : 'text-red-400'}>
             {formatCurrency(grossPL)}
           </span>
-          <span className="text-gray-400 text-xs sm:text-sm">
+          <span className="text-tertiary text-xs sm:text-sm">
             {trade.exitDate ? format(parseISO(trade.exitDate.toISOString()), 'MMM dd, yyyy') : 'N/A'}
           </span>
         </span>
@@ -310,32 +310,32 @@ export const JournalEditor: React.FC = () => {
           <>
             <SectionHeader id="summary" title="Trade Summary" />
             {expandedSections.has('summary') && (
-              <div className="bg-gray-800 rounded-lg p-4 mx-1">
+              <div className="bg-secondary rounded-lg p-4 mx-1">
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <p className="text-gray-400 text-xs">Entry</p>
+                    <p className="text-tertiary text-xs">Entry</p>
                     <p className="text-white">{format(parseISO(trade.entryDate.toISOString()), 'MMM dd')}</p>
                   </div>
                   <div>
-                    <p className="text-gray-400 text-xs">Exit</p>
+                    <p className="text-tertiary text-xs">Exit</p>
                     <p className="text-white">{trade.exitDate ? format(parseISO(trade.exitDate.toISOString()), 'MMM dd') : 'N/A'}</p>
                   </div>
                   <div>
-                    <p className="text-gray-400 text-xs">Entry Price</p>
+                    <p className="text-tertiary text-xs">Entry Price</p>
                     <p className="text-white">{formatCurrency(trade.entryPrice)}</p>
                   </div>
                   <div>
-                    <p className="text-gray-400 text-xs">Exit Price</p>
+                    <p className="text-tertiary text-xs">Exit Price</p>
                     <p className="text-white">{trade.exitPrice ? formatCurrency(trade.exitPrice) : 'N/A'}</p>
                   </div>
                   <div>
-                    <p className="text-gray-400 text-xs">Gross P&L</p>
+                    <p className="text-tertiary text-xs">Gross P&L</p>
                     <p className={isGrossProfitable ? 'text-green-400' : 'text-red-400'}>
                       {formatCurrency(grossPL)}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-400 text-xs">Return</p>
+                    <p className="text-tertiary text-xs">Return</p>
                     <p className={trade.plPercent >= 0 ? 'text-green-400' : 'text-red-400'}>
                       {trade.plPercent.toFixed(2)}%
                     </p>
@@ -355,7 +355,7 @@ export const JournalEditor: React.FC = () => {
               subtitle={journal?.commissionOverride ? 'Override applied' : `$${Math.abs(trade.commission).toFixed(2)}`}
             />
             {expandedSections.has('commission') && (
-              <div className="bg-gray-800 rounded-lg p-4 mx-1">
+              <div className="bg-secondary rounded-lg p-4 mx-1">
                 {renderCommissionSection()}
               </div>
             )}
@@ -365,29 +365,29 @@ export const JournalEditor: React.FC = () => {
         {/* Journal Form Section */}
         <SectionHeader id="journal" title="Journal Entry" />
         {expandedSections.has('journal') && (
-          <div className="bg-gray-800 rounded-lg p-4 mx-1 space-y-4">
+          <div className="bg-secondary rounded-lg p-4 mx-1 space-y-4">
             {/* Templates - horizontal scroll on mobile */}
             {!isEditing && (
               <div>
-                <label className="block text-xs font-medium text-gray-300 mb-2">
+                <label className="block text-xs font-medium text-secondary mb-2">
                   Quick Templates
                 </label>
                 <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
                   <button
                     onClick={() => applyTemplate('entry')}
-                    className="px-3 py-1.5 bg-gray-700 text-gray-300 rounded text-xs whitespace-nowrap active:bg-gray-600"
+                    className="px-3 py-1.5 bg-tertiary text-secondary rounded text-xs whitespace-nowrap active:bg-tertiary"
                   >
                     Entry
                   </button>
                   <button
                     onClick={() => applyTemplate('exit')}
-                    className="px-3 py-1.5 bg-gray-700 text-gray-300 rounded text-xs whitespace-nowrap active:bg-gray-600"
+                    className="px-3 py-1.5 bg-tertiary text-secondary rounded text-xs whitespace-nowrap active:bg-tertiary"
                   >
                     Exit
                   </button>
                   <button
                     onClick={() => applyTemplate('analysis')}
-                    className="px-3 py-1.5 bg-gray-700 text-gray-300 rounded text-xs whitespace-nowrap active:bg-gray-600"
+                    className="px-3 py-1.5 bg-tertiary text-secondary rounded text-xs whitespace-nowrap active:bg-tertiary"
                   >
                     Full Analysis
                   </button>
@@ -397,7 +397,7 @@ export const JournalEditor: React.FC = () => {
 
             {/* Notes */}
             <div>
-              <label className="block text-xs font-medium text-gray-300 mb-1.5">
+              <label className="block text-xs font-medium text-secondary mb-1.5">
                 Notes
               </label>
               <textarea
@@ -405,13 +405,13 @@ export const JournalEditor: React.FC = () => {
                 onChange={(e) => setNotes(e.target.value)}
                 rows={8}
                 placeholder="Document your trade..."
-                className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-sm"
+                className="w-full px-3 py-2 bg-tertiary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none text-sm"
               />
             </div>
 
             {/* Tags */}
             <div>
-              <label className="block text-xs font-medium text-gray-300 mb-1.5">
+              <label className="block text-xs font-medium text-secondary mb-1.5">
                 Tags
               </label>
               <TagInput
@@ -433,7 +433,7 @@ export const JournalEditor: React.FC = () => {
               <div className="flex gap-2">
                 <button
                   onClick={() => navigate('/app/journals')}
-                  className="flex-1 py-2 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white rounded-lg text-sm transition"
+                  className="flex-1 py-2 bg-tertiary hover:bg-tertiary active:bg-tertiary text-white rounded-lg text-sm transition"
                 >
                   Cancel
                 </button>
@@ -471,43 +471,43 @@ export const JournalEditor: React.FC = () => {
       <div className="hidden md:block">
         {/* Trade Summary Card */}
         {trade && (
-          <div className="bg-gray-800 rounded-lg p-6 mb-6">
+          <div className="bg-secondary rounded-lg p-6 mb-6">
             <h2 className="text-lg font-semibold text-white mb-4">Trade Summary</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div>
-                <p className="text-gray-400">Entry Date</p>
+                <p className="text-tertiary">Entry Date</p>
                 <p className="text-white">{format(parseISO(trade.entryDate.toISOString()), 'MMM dd, yyyy')}</p>
               </div>
               <div>
-                <p className="text-gray-400">Exit Date</p>
+                <p className="text-tertiary">Exit Date</p>
                 <p className="text-white">{trade.exitDate ? format(parseISO(trade.exitDate.toISOString()), 'MMM dd, yyyy') : 'N/A'}</p>
               </div>
               <div>
-                <p className="text-gray-400">Duration</p>
+                <p className="text-tertiary">Duration</p>
                 <p className="text-white">{Math.floor(trade.duration / (24 * 60))} days</p>
               </div>
               <div>
-                <p className="text-gray-400">Return</p>
+                <p className="text-tertiary">Return</p>
                 <p className={trade.plPercent >= 0 ? 'text-green-400' : 'text-red-400'}>
                   {trade.plPercent.toFixed(2)}%
                 </p>
               </div>
               <div>
-                <p className="text-gray-400">Entry Price</p>
+                <p className="text-tertiary">Entry Price</p>
                 <p className="text-white">{formatCurrency(trade.entryPrice)}</p>
               </div>
               <div>
-                <p className="text-gray-400">Exit Price</p>
+                <p className="text-tertiary">Exit Price</p>
                 <p className="text-white">{trade.exitPrice ? formatCurrency(trade.exitPrice) : 'N/A'}</p>
               </div>
               <div>
-                <p className="text-gray-400">Gross P&L</p>
+                <p className="text-tertiary">Gross P&L</p>
                 <p className={isGrossProfitable ? 'text-green-400' : 'text-red-400'}>
                   {formatCurrency(grossPL)}
                 </p>
               </div>
               <div>
-                <p className="text-gray-400">Commissions</p>
+                <p className="text-tertiary">Commissions</p>
                 <p className="text-yellow-400">{formatCurrency(trade.commission)}</p>
               </div>
             </div>
@@ -516,7 +516,7 @@ export const JournalEditor: React.FC = () => {
 
         {/* Commission Override Section */}
         {trade && (
-          <div className="bg-gray-800 rounded-lg p-6 mb-6">
+          <div className="bg-secondary rounded-lg p-6 mb-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-white">Commission Override</h2>
               {!showCommissionOverride && (
@@ -542,29 +542,29 @@ export const JournalEditor: React.FC = () => {
         )}
 
         {/* Journal Form */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-6">
+        <div className="bg-secondary rounded-lg p-6 mb-6">
           {/* Templates */}
           {!isEditing && (
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-secondary mb-2">
                 Quick Templates
               </label>
               <div className="flex space-x-2">
                 <button
                   onClick={() => applyTemplate('entry')}
-                  className="px-4 py-2 bg-gray-700 text-gray-300 rounded hover:bg-gray-600 text-sm"
+                  className="px-4 py-2 bg-tertiary text-secondary rounded hover:bg-tertiary text-sm"
                 >
                   Entry Analysis
                 </button>
                 <button
                   onClick={() => applyTemplate('exit')}
-                  className="px-4 py-2 bg-gray-700 text-gray-300 rounded hover:bg-gray-600 text-sm"
+                  className="px-4 py-2 bg-tertiary text-secondary rounded hover:bg-tertiary text-sm"
                 >
                   Exit Review
                 </button>
                 <button
                   onClick={() => applyTemplate('analysis')}
-                  className="px-4 py-2 bg-gray-700 text-gray-300 rounded hover:bg-gray-600 text-sm"
+                  className="px-4 py-2 bg-tertiary text-secondary rounded hover:bg-tertiary text-sm"
                 >
                   Full Analysis
                 </button>
@@ -574,7 +574,7 @@ export const JournalEditor: React.FC = () => {
 
           {/* Notes */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-secondary mb-2">
               Journal Notes
             </label>
             <textarea
@@ -582,14 +582,14 @@ export const JournalEditor: React.FC = () => {
               onChange={(e) => setNotes(e.target.value)}
               rows={12}
               placeholder="Document your trade analysis, thoughts, and lessons learned..."
-              className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none font-mono text-sm"
+              className="w-full px-4 py-3 bg-tertiary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none font-mono text-sm"
             />
-            <p className="text-xs text-gray-500 mt-1">Supports Markdown formatting</p>
+            <p className="text-xs text-muted mt-1">Supports Markdown formatting</p>
           </div>
 
           {/* Tags */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-secondary mb-2">
               Tags
             </label>
             <TagInput
@@ -614,7 +614,7 @@ export const JournalEditor: React.FC = () => {
             <div className="flex space-x-3">
               <button
                 onClick={() => navigate('/app/journals')}
-                className="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition"
+                className="px-6 py-2 bg-tertiary hover:bg-tertiary text-white rounded-lg font-medium transition"
               >
                 Cancel
               </button>
@@ -642,15 +642,15 @@ export const JournalEditor: React.FC = () => {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
+          <div className="bg-secondary rounded-lg p-6 max-w-md w-full">
             <h3 className="text-xl font-bold text-white mb-4">Delete Journal?</h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-secondary mb-6">
               Are you sure you want to delete this journal entry? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white rounded-lg transition"
+                className="px-4 py-2 bg-tertiary hover:bg-tertiary active:bg-tertiary text-white rounded-lg transition"
               >
                 Cancel
               </button>
@@ -684,19 +684,19 @@ export const JournalEditor: React.FC = () => {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 text-xs md:text-sm">
               <div>
-                <span className="text-gray-500 block">Original</span>
-                <span className="text-gray-300 font-mono">
+                <span className="text-muted block">Original</span>
+                <span className="text-secondary font-mono">
                   ${Math.abs(journal.commissionOverride.originalCommission).toFixed(2)}
                 </span>
               </div>
               <div>
-                <span className="text-gray-500 block">Current</span>
+                <span className="text-muted block">Current</span>
                 <span className="text-yellow-400 font-mono font-medium">
                   ${Math.abs(journal.commissionOverride.overrideCommission).toFixed(2)}
                 </span>
               </div>
               <div>
-                <span className="text-gray-500 block">Savings</span>
+                <span className="text-muted block">Savings</span>
                 {(() => {
                   const originalAbs = Math.abs(journal.commissionOverride.originalCommission)
                   const currentAbs = Math.abs(journal.commissionOverride.overrideCommission)
@@ -710,8 +710,8 @@ export const JournalEditor: React.FC = () => {
                 })()}
               </div>
               <div>
-                <span className="text-gray-500 block">Modified</span>
-                <span className="text-gray-300 text-xs">
+                <span className="text-muted block">Modified</span>
+                <span className="text-secondary text-xs">
                   {journal.commissionOverride.lastModified
                     ? format(parseISO(journal.commissionOverride.lastModified), 'MMM d, yyyy')
                     : 'Unknown'}
@@ -720,9 +720,9 @@ export const JournalEditor: React.FC = () => {
             </div>
 
             {journal.commissionOverride.reason && (
-              <div className="mt-3 pt-3 border-t border-gray-700">
-                <span className="text-gray-500 text-xs md:text-sm">Reason: </span>
-                <span className="text-gray-300 text-xs md:text-sm italic">"{journal.commissionOverride.reason}"</span>
+              <div className="mt-3 pt-3 border-t border-theme">
+                <span className="text-muted text-xs md:text-sm">Reason: </span>
+                <span className="text-secondary text-xs md:text-sm italic">"{journal.commissionOverride.reason}"</span>
               </div>
             )}
 
@@ -750,7 +750,7 @@ export const JournalEditor: React.FC = () => {
               <Info className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
               <span className="text-blue-400 font-medium text-sm md:text-base">Override applied</span>
             </div>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-tertiary">
               Current: <span className="text-yellow-400 font-mono">${Math.abs(trade.commission).toFixed(2)}</span>
             </p>
             <button
@@ -767,9 +767,9 @@ export const JournalEditor: React.FC = () => {
 
         {/* No override exists - show current commission */}
         {!journal?.commissionOverride && !trade.hasCommissionOverride && !showCommissionOverride && (
-          <div className="text-sm text-gray-400">
+          <div className="text-sm text-tertiary">
             Current: <span className="text-yellow-400 font-mono">${Math.abs(trade.commission).toFixed(2)}</span>
-            <span className="text-gray-500 ml-2">— No override</span>
+            <span className="text-muted ml-2">— No override</span>
             <button
               onClick={() => {
                 setOverrideCommission(Math.abs(trade.commission).toFixed(2))
@@ -794,18 +794,18 @@ export const JournalEditor: React.FC = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <span className="text-gray-500">Original: </span>
-                    <span className="text-gray-300 font-mono">${Math.abs(journal.commissionOverride.originalCommission).toFixed(2)}</span>
+                    <span className="text-muted">Original: </span>
+                    <span className="text-secondary font-mono">${Math.abs(journal.commissionOverride.originalCommission).toFixed(2)}</span>
                   </div>
                   <div>
-                    <span className="text-gray-500">Previous: </span>
+                    <span className="text-muted">Previous: </span>
                     <span className="text-yellow-400 font-mono">${Math.abs(journal.commissionOverride.overrideCommission).toFixed(2)}</span>
                   </div>
                 </div>
               </div>
             )}
 
-            <p className="text-xs md:text-sm text-gray-400">
+            <p className="text-xs md:text-sm text-tertiary">
               Override the commission for this trade.
               {!journal?.commissionOverride && (
                 <> Current: <span className="text-yellow-400 font-mono">${Math.abs(trade.commission).toFixed(2)}</span></>
@@ -814,11 +814,11 @@ export const JournalEditor: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
               <div>
-                <label className="block text-xs md:text-sm font-medium text-gray-300 mb-1.5 md:mb-2">
+                <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
                   New Amount
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">$</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-tertiary">$</span>
                   <input
                     type="number"
                     step="0.01"
@@ -828,13 +828,13 @@ export const JournalEditor: React.FC = () => {
                     placeholder={Math.abs(journal?.commissionOverride
                       ? journal.commissionOverride.originalCommission
                       : trade.commission).toFixed(2)}
-                    className="w-full pl-8 pr-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-sm"
+                    className="w-full pl-8 pr-3 py-2 bg-tertiary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none text-sm"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs md:text-sm font-medium text-gray-300 mb-1.5 md:mb-2">
+                <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
                   Reason
                 </label>
                 <input
@@ -842,7 +842,7 @@ export const JournalEditor: React.FC = () => {
                   value={overrideReason}
                   onChange={(e) => setOverrideReason(e.target.value)}
                   placeholder="e.g., Volume rebate"
-                  className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none text-sm"
+                  className="w-full px-3 py-2 bg-tertiary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none text-sm"
                 />
               </div>
             </div>
@@ -854,9 +854,9 @@ export const JournalEditor: React.FC = () => {
                   type="checkbox"
                   checked={useExitDateAsModified}
                   onChange={(e) => setUseExitDateAsModified(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded border-gray-600 bg-gray-700 text-blue-500 focus:ring-blue-500"
+                  className="mt-0.5 w-4 h-4 rounded border-theme bg-tertiary text-blue-500 focus:ring-blue-500"
                 />
-                <span className="text-xs md:text-sm text-gray-300">
+                <span className="text-xs md:text-sm text-secondary">
                   Use exit date as modified ({format(
                     typeof trade.exitDate === 'string' ? parseISO(trade.exitDate) : trade.exitDate,
                     'MMM d'
@@ -878,7 +878,7 @@ export const JournalEditor: React.FC = () => {
                     setOverrideReason('')
                   }
                 }}
-                className="flex-1 md:flex-none px-4 py-2 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white rounded-lg text-sm"
+                className="flex-1 md:flex-none px-4 py-2 bg-tertiary hover:bg-tertiary active:bg-tertiary text-white rounded-lg text-sm"
               >
                 Cancel
               </button>

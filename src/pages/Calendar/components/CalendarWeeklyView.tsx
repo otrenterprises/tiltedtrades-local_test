@@ -31,19 +31,19 @@ interface CalendarWeeklyViewProps {
 
 // Style helper functions
 const getBgColor = (pl: number): string => {
-  if (pl === 0) return 'bg-slate-800'
+  if (pl === 0) return 'bg-secondary'
   if (pl > 0) return 'bg-teal-700/60'
   return 'bg-red-800/60'
 }
 
 const getTextColor = (pl: number): string => {
-  if (pl === 0) return 'text-slate-400'
+  if (pl === 0) return 'text-tertiary'
   if (pl > 0) return 'text-teal-200'
   return 'text-red-200'
 }
 
 const getBorderColor = (pl: number): string => {
-  if (pl === 0) return 'border-slate-400/50'
+  if (pl === 0) return 'border-theme/50'
   if (pl > 0) return 'border-teal-400/50'
   return 'border-red-400/50'
 }
@@ -115,7 +115,7 @@ export function CalendarWeeklyView({
   const winRate = weeklySummaries.length > 0 ? (winningWeeks / weeklySummaries.length) * 100 : 0
 
   return (
-    <div className="bg-slate-700 border border-slate-600 rounded-lg p-3 md:p-6">
+    <div className="bg-tertiary border border-theme rounded-lg p-3 md:p-6">
       {/* Period navigation header */}
       <div className="flex items-center justify-between mb-4 md:mb-6 relative">
         <button
@@ -124,7 +124,7 @@ export function CalendarWeeklyView({
           className={`p-2 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${
             canGoPrevious
               ? 'bg-blue-900 border border-blue-800 active:bg-blue-800 md:hover:bg-blue-800 text-blue-200'
-              : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
+              : 'bg-primary border border-theme text-muted cursor-not-allowed'
           }`}
         >
           <ChevronLeft className="w-5 h-5" />
@@ -133,7 +133,7 @@ export function CalendarWeeklyView({
         <div className="relative flex-1 flex justify-center" ref={pickerRef}>
           <button
             onClick={() => setShowPicker(!showPicker)}
-            className="text-lg md:text-2xl font-bold text-slate-50 hover:text-accent transition-colors flex items-center gap-1.5 md:gap-2 px-2"
+            className="text-lg md:text-2xl font-bold text-primary hover:text-accent transition-colors flex items-center gap-1.5 md:gap-2 px-2"
           >
             <span className="truncate">{currentLabel}</span>
             <CalendarIcon className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" />
@@ -141,8 +141,8 @@ export function CalendarWeeklyView({
 
           {/* Period Picker Dropdown */}
           {showPicker && (
-            <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-slate-800 border border-slate-600 rounded-lg shadow-2xl p-3 md:p-4 z-50 w-[calc(100vw-2rem)] max-w-[200px] max-h-[60vh] md:max-h-[300px] overflow-y-auto">
-              <h4 className="text-sm font-semibold text-slate-200 mb-3">Select {periodType}</h4>
+            <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-secondary border border-theme rounded-lg shadow-2xl p-3 md:p-4 z-50 w-[calc(100vw-2rem)] max-w-[200px] max-h-[60vh] md:max-h-[300px] overflow-y-auto">
+              <h4 className="text-sm font-semibold text-secondary mb-3">Select {periodType}</h4>
               <div className="space-y-1">
                 {isYearly ? (
                   availableYears.map((year, index) => {
@@ -154,7 +154,7 @@ export function CalendarWeeklyView({
                         className={`w-full text-left px-3 py-2.5 md:py-2 rounded-lg text-sm font-medium transition-colors ${
                           isSelected
                             ? 'bg-accent text-white'
-                            : 'text-slate-300 hover:bg-slate-700 hover:text-slate-100'
+                            : 'text-secondary hover:bg-tertiary hover:text-primary'
                         }`}
                       >
                         {year}
@@ -172,7 +172,7 @@ export function CalendarWeeklyView({
                         className={`w-full text-left px-3 py-2.5 md:py-2 rounded-lg text-sm font-medium transition-colors ${
                           isSelected
                             ? 'bg-accent text-white'
-                            : 'text-slate-300 hover:bg-slate-700 hover:text-slate-100'
+                            : 'text-secondary hover:bg-tertiary hover:text-primary'
                         }`}
                       >
                         {label}
@@ -191,7 +191,7 @@ export function CalendarWeeklyView({
           className={`p-2 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${
             canGoNext
               ? 'bg-blue-900 border border-blue-800 active:bg-blue-800 md:hover:bg-blue-800 text-blue-200'
-              : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
+              : 'bg-primary border border-theme text-muted cursor-not-allowed'
           }`}
         >
           <ChevronRight className="w-5 h-5" />
@@ -199,7 +199,7 @@ export function CalendarWeeklyView({
       </div>
 
       {weeklySummaries.length === 0 ? (
-        <p className="text-slate-300 text-center py-8">No trading data available for {currentLabel}</p>
+        <p className="text-secondary text-center py-8">No trading data available for {currentLabel}</p>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
           {weeklySummaries.map((week) => {
@@ -215,13 +215,13 @@ export function CalendarWeeklyView({
                 title={`Week ${week.weekNum}, ${week.year} | ${week.startDate} to ${week.endDate} | Gross: ${formatCurrency(week.pl)} | Net: ${formatCurrency(week.pl + week.commissions)} | ${week.trades} trades`}
               >
                 <div className="flex justify-between items-start">
-                  <span className="text-sm font-semibold text-slate-300">W{week.weekNum}</span>
-                  <span className="text-xs text-slate-500">{format(parseDateString(week.startDate), 'MMM d')}</span>
+                  <span className="text-sm font-semibold text-secondary">W{week.weekNum}</span>
+                  <span className="text-xs text-muted">{format(parseDateString(week.startDate), 'MMM d')}</span>
                 </div>
                 <div className={`text-base font-bold ${textColor} text-center`}>
                   {formatCurrency(effectivePL)}
                 </div>
-                <div className="text-sm text-slate-400 text-center">
+                <div className="text-sm text-tertiary text-center">
                   {week.tradingDays}d / {week.trades}t
                 </div>
               </div>
@@ -232,29 +232,29 @@ export function CalendarWeeklyView({
 
       {/* Period Summary Stats */}
       {weeklySummaries.length > 0 && (
-        <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-slate-600">
-          <h3 className="text-sm font-semibold text-slate-100 mb-3 md:mb-4">{periodType} Statistics by Week</h3>
+        <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-theme">
+          <h3 className="text-sm font-semibold text-primary mb-3 md:mb-4">{periodType} Statistics by Week</h3>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-4">
-            <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
-              <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">{periodType} P&L</div>
+            <div className="bg-secondary/50 rounded-lg p-3 md:p-4 border border-theme">
+              <div className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">{periodType} P&L</div>
               <div className={`text-base md:text-lg font-bold ${totalPL >= 0 ? 'text-teal-400' : 'text-red-400'}`}>
                 {formatCurrency(totalPL)}
               </div>
             </div>
-            <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
-              <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Weeks</div>
-              <div className="text-base md:text-lg font-bold text-slate-200">{weeklySummaries.length}</div>
+            <div className="bg-secondary/50 rounded-lg p-3 md:p-4 border border-theme">
+              <div className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">Weeks</div>
+              <div className="text-base md:text-lg font-bold text-secondary">{weeklySummaries.length}</div>
             </div>
-            <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
-              <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Trading Days</div>
-              <div className="text-base md:text-lg font-bold text-slate-200">{totalDays}</div>
+            <div className="bg-secondary/50 rounded-lg p-3 md:p-4 border border-theme">
+              <div className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">Trading Days</div>
+              <div className="text-base md:text-lg font-bold text-secondary">{totalDays}</div>
             </div>
-            <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
-              <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Total Trades</div>
-              <div className="text-base md:text-lg font-bold text-slate-200">{totalTrades}</div>
+            <div className="bg-secondary/50 rounded-lg p-3 md:p-4 border border-theme">
+              <div className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">Total Trades</div>
+              <div className="text-base md:text-lg font-bold text-secondary">{totalTrades}</div>
             </div>
-            <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600 col-span-2 md:col-span-1">
-              <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Profitable Weeks</div>
+            <div className="bg-secondary/50 rounded-lg p-3 md:p-4 border border-theme col-span-2 md:col-span-1">
+              <div className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">Profitable Weeks</div>
               <div className={`text-base md:text-lg font-bold ${winRate >= 50 ? 'text-teal-400' : 'text-red-400'}`}>
                 {winRate.toFixed(1)}%
               </div>

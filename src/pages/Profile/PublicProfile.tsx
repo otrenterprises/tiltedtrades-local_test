@@ -81,24 +81,24 @@ export const PublicProfile: React.FC = () => {
   }
 
   return (
-    <div className={`min-h-screen bg-gray-900 py-8 px-4 transition-all duration-300 ${isExpanded ? 'ml-60' : 'ml-16'}`}>
+    <div className={`min-h-screen bg-primary py-8 px-4 transition-all duration-300 ${isExpanded ? 'ml-60' : 'ml-16'}`}>
       <div className="max-w-6xl mx-auto">
         {/* Back Button */}
         <button
           onClick={() => navigate('/app/leaderboard')}
-          className="flex items-center text-gray-400 hover:text-white mb-6"
+          className="flex items-center text-tertiary hover:text-primary mb-6"
         >
           <ChevronLeft className="w-5 h-5 mr-1" />
           Back to Leaderboard
         </button>
 
         {/* Profile Header */}
-        <div className="bg-gray-800 rounded-lg p-8 mb-6">
+        <div className="bg-secondary rounded-lg p-8 mb-6">
           <div className="flex items-start justify-between">
             <div className="flex items-center">
               {/* Avatar */}
               <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-6">
-                <span className="text-white font-bold text-2xl">
+                <span className="text-primary font-bold text-2xl">
                   {profile.username?.charAt(0).toUpperCase() || 'T'}
                 </span>
               </div>
@@ -106,7 +106,7 @@ export const PublicProfile: React.FC = () => {
               {/* Profile Info */}
               <div>
                 <div className="flex items-center mb-2">
-                  <h1 className="text-2xl font-bold text-white mr-3">
+                  <h1 className="text-2xl font-bold text-primary mr-3">
                     {profile.username || `Trader${userId?.slice(-4)}`}
                   </h1>
                   {profile.isVerified && (
@@ -120,10 +120,10 @@ export const PublicProfile: React.FC = () => {
                 </div>
 
                 {profile.bio && (
-                  <p className="text-gray-400 mb-3 max-w-2xl">{profile.bio}</p>
+                  <p className="text-tertiary mb-3 max-w-2xl">{profile.bio}</p>
                 )}
 
-                <div className="flex items-center space-x-4 text-sm text-gray-500">
+                <div className="flex items-center space-x-4 text-sm text-muted">
                   <div className="flex items-center">
                     <Calendar className="w-4 h-4 mr-1" />
                     Joined {formatDate(profile.createdAt || new Date())}
@@ -152,7 +152,7 @@ export const PublicProfile: React.FC = () => {
                     'text-orange-400'
                   }`} />
                 </div>
-                <p className="text-sm text-gray-400 mt-2">Rank #{profile.rank}</p>
+                <p className="text-sm text-tertiary mt-2">Rank #{profile.rank}</p>
               </div>
             )}
           </div>
@@ -160,53 +160,53 @@ export const PublicProfile: React.FC = () => {
 
         {/* Key Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary rounded-lg p-6">
             <div className="flex items-center justify-between mb-2">
               <TrendingUp className="w-5 h-5 text-blue-400" />
               <span className={`text-sm ${stats.totalPL >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                 {stats.totalPL >= 0 ? '+' : ''}{formatPercent(stats.returnPercent || 0)}
               </span>
             </div>
-            <p className="text-sm text-gray-400 mb-1">Total P&L</p>
+            <p className="text-sm text-tertiary mb-1">Total P&L</p>
             <p className={`text-xl font-bold ${stats.totalPL >= 0 ? 'text-green-400' : 'text-red-400'}`}>
               {formatCurrency(stats.totalPL || 0)}
             </p>
           </div>
 
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary rounded-lg p-6">
             <div className="flex items-center justify-between mb-2">
               <Target className="w-5 h-5 text-green-400" />
             </div>
-            <p className="text-sm text-gray-400 mb-1">Win Rate</p>
-            <p className="text-xl font-bold text-white">
+            <p className="text-sm text-tertiary mb-1">Win Rate</p>
+            <p className="text-xl font-bold text-primary">
               {formatPercent(stats.winRate || 0)}
             </p>
           </div>
 
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary rounded-lg p-6">
             <div className="flex items-center justify-between mb-2">
               <Activity className="w-5 h-5 text-yellow-400" />
             </div>
-            <p className="text-sm text-gray-400 mb-1">Profit Factor</p>
-            <p className="text-xl font-bold text-white">
+            <p className="text-sm text-tertiary mb-1">Profit Factor</p>
+            <p className="text-xl font-bold text-primary">
               {stats.profitFactor?.toFixed(2) || 'N/A'}
             </p>
           </div>
 
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary rounded-lg p-6">
             <div className="flex items-center justify-between mb-2">
               <Award className="w-5 h-5 text-purple-400" />
             </div>
-            <p className="text-sm text-gray-400 mb-1">Total Trades</p>
-            <p className="text-xl font-bold text-white">
+            <p className="text-sm text-tertiary mb-1">Total Trades</p>
+            <p className="text-xl font-bold text-primary">
               {stats.totalTrades || 0}
             </p>
           </div>
         </div>
 
         {/* Performance Chart */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-8">
-          <h2 className="text-lg font-semibold text-white mb-4">Equity Curve (Last 30 Days)</h2>
+        <div className="bg-secondary rounded-lg p-6 mb-8">
+          <h2 className="text-lg font-semibold text-primary mb-4">Equity Curve (Last 30 Days)</h2>
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={equityCurve}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -231,35 +231,35 @@ export const PublicProfile: React.FC = () => {
         {/* Detailed Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Performance Metrics */}
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Performance Metrics</h3>
+          <div className="bg-secondary rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-primary mb-4">Performance Metrics</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-400">Average Win</span>
+                <span className="text-tertiary">Average Win</span>
                 <span className="text-green-400">
                   {formatCurrency(stats.avgWin || 0)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Average Loss</span>
+                <span className="text-tertiary">Average Loss</span>
                 <span className="text-red-400">
                   {formatCurrency(stats.avgLoss || 0)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Win/Loss Ratio</span>
-                <span className="text-white">
+                <span className="text-tertiary">Win/Loss Ratio</span>
+                <span className="text-primary">
                   {stats.winLossRatio?.toFixed(2) || 'N/A'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Sharpe Ratio</span>
-                <span className="text-white">
+                <span className="text-tertiary">Sharpe Ratio</span>
+                <span className="text-primary">
                   {stats.sharpeRatio?.toFixed(2) || 'N/A'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Max Drawdown</span>
+                <span className="text-tertiary">Max Drawdown</span>
                 <span className="text-red-400">
                   {formatCurrency(stats.maxDrawdown || 0)}
                 </span>
@@ -268,31 +268,31 @@ export const PublicProfile: React.FC = () => {
           </div>
 
           {/* Trading Activity */}
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Trading Activity</h3>
+          <div className="bg-secondary rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-primary mb-4">Trading Activity</h3>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-400">Winning Trades</span>
+                <span className="text-tertiary">Winning Trades</span>
                 <span className="text-green-400">{stats.winningTrades || 0}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Losing Trades</span>
+                <span className="text-tertiary">Losing Trades</span>
                 <span className="text-red-400">{stats.losingTrades || 0}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Avg Hold Time</span>
-                <span className="text-white">
+                <span className="text-tertiary">Avg Hold Time</span>
+                <span className="text-primary">
                   {stats.avgHoldTime?.toFixed(1) || 0} days
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Best Trade</span>
+                <span className="text-tertiary">Best Trade</span>
                 <span className="text-green-400">
                   {formatCurrency(stats.largestWin || 0)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Worst Trade</span>
+                <span className="text-tertiary">Worst Trade</span>
                 <span className="text-red-400">
                   {formatCurrency(stats.largestLoss || 0)}
                 </span>
@@ -303,8 +303,8 @@ export const PublicProfile: React.FC = () => {
 
         {/* Trading Style */}
         {profile.tradingStyle && (
-          <div className="bg-gray-800 rounded-lg p-6 mt-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Trading Style</h3>
+          <div className="bg-secondary rounded-lg p-6 mt-6">
+            <h3 className="text-lg font-semibold text-primary mb-4">Trading Style</h3>
             <div className="flex flex-wrap gap-2">
               {profile.tradingStyle.split(',').map((style: string, index: number) => (
                 <span

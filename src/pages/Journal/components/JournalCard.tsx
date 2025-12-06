@@ -16,7 +16,7 @@ export const JournalCard = forwardRef<HTMLDivElement, JournalCardProps>(
     return (
       <div
         ref={ref}
-        className={`bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition cursor-pointer ${
+        className={`bg-secondary rounded-lg p-6 hover:bg-gray-750 transition cursor-pointer ${
           isExpanded ? 'ring-2 ring-accent shadow-lg shadow-accent/20' : ''
         }`}
         onClick={onClick}
@@ -25,7 +25,7 @@ export const JournalCard = forwardRef<HTMLDivElement, JournalCardProps>(
         <div className="mb-4">
           <div className="flex justify-between items-start mb-2">
             <div className="flex items-center gap-2">
-              <h3 className="text-lg font-semibold text-white">
+              <h3 className="text-lg font-semibold text-primary">
                 {journal.symbol || trade?.symbol || 'Unknown Symbol'}
               </h3>
               {journal.calculationMethod && (
@@ -44,7 +44,7 @@ export const JournalCard = forwardRef<HTMLDivElement, JournalCardProps>(
               {trade ? formatCurrency(trade.pl + Math.abs(trade.commission || 0)) : 'N/A'}
             </span>
           </div>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-tertiary">
             {journal.exitDate
               ? format(parseISO(journal.exitDate), 'MMM dd, yyyy')
               : journal.updatedAt
@@ -55,7 +55,7 @@ export const JournalCard = forwardRef<HTMLDivElement, JournalCardProps>(
 
         {/* Notes Preview */}
         {journal.journalText && (
-          <p className="text-gray-300 text-sm mb-4 line-clamp-3">
+          <p className="text-secondary text-sm mb-4 line-clamp-3">
             {journal.journalText}
           </p>
         )}
@@ -72,7 +72,7 @@ export const JournalCard = forwardRef<HTMLDivElement, JournalCardProps>(
               </span>
             ))}
             {journal.tags.length > 3 && (
-              <span className="px-2 py-1 text-gray-400 text-xs">
+              <span className="px-2 py-1 text-tertiary text-xs">
                 +{journal.tags.length - 3} more
               </span>
             )}
@@ -80,7 +80,7 @@ export const JournalCard = forwardRef<HTMLDivElement, JournalCardProps>(
         )}
 
         {/* Metadata */}
-        <div className="flex items-center justify-between text-xs text-gray-500">
+        <div className="flex items-center justify-between text-xs text-muted">
           <span>
             {journal.chartReferences?.length || 0} chart{journal.chartReferences?.length !== 1 ? 's' : ''}
           </span>

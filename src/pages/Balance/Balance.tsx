@@ -221,7 +221,7 @@ export function Balance() {
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <div className="animate-spin w-12 h-12 border-4 border-accent border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p className="text-slate-400">Loading balance data...</p>
+            <p className="text-tertiary">Loading balance data...</p>
           </div>
         </div>
       </PageLayout>

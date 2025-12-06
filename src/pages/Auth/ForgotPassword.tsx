@@ -55,9 +55,9 @@ export const ForgotPassword: React.FC = () => {
   // Success state after email sent
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-primary px-4">
         <div className="max-w-md w-full">
-          <div className="bg-gray-800 rounded-lg shadow-xl p-8">
+          <div className="bg-secondary rounded-lg shadow-xl p-8">
             <div className="text-center">
               {/* Success Icon */}
               <div className="mx-auto w-16 h-16 bg-green-900/50 rounded-full flex items-center justify-center mb-6">
@@ -66,9 +66,9 @@ export const ForgotPassword: React.FC = () => {
                 </svg>
               </div>
 
-              <h2 className="text-2xl font-bold text-white mb-2">Check Your Email</h2>
-              <p className="text-gray-400 mb-6">
-                We've sent a password reset code to <span className="text-white font-medium">{email}</span>
+              <h2 className="text-2xl font-bold text-primary mb-2">Check Your Email</h2>
+              <p className="text-tertiary mb-6">
+                We've sent a password reset code to <span className="text-primary font-medium">{email}</span>
               </p>
 
               <button
@@ -81,7 +81,7 @@ export const ForgotPassword: React.FC = () => {
               <div className="mt-4">
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="text-gray-400 hover:text-white text-sm transition-colors"
+                  className="text-tertiary hover:text-primary text-sm transition-colors"
                 >
                   Didn't receive an email? Try again
                 </button>
@@ -94,13 +94,13 @@ export const ForgotPassword: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-primary px-4">
       <div className="max-w-md w-full">
-        <div className="bg-gray-800 rounded-lg shadow-xl p-8">
+        <div className="bg-secondary rounded-lg shadow-xl p-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-white">Forgot Password?</h2>
-            <p className="text-gray-400 mt-2">
+            <h2 className="text-2xl font-bold text-primary">Forgot Password?</h2>
+            <p className="text-tertiary mt-2">
               Enter your email address and we'll send you a reset code
             </p>
           </div>
@@ -116,7 +116,7 @@ export const ForgotPassword: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-secondary mb-2">
                 Email Address
               </label>
               <input
@@ -124,7 +124,7 @@ export const ForgotPassword: React.FC = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 bg-tertiary border border-theme rounded-lg text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter your email"
                 disabled={isLoading}
                 autoFocus
@@ -152,7 +152,7 @@ export const ForgotPassword: React.FC = () => {
           <div className="mt-6 text-center">
             <Link
               to="/login"
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-tertiary hover:text-primary text-sm transition-colors"
             >
               &larr; Back to Login
             </Link>

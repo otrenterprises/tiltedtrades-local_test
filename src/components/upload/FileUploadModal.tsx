@@ -145,14 +145,14 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
         />
 
         {/* Modal */}
-        <div className="relative bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+        <div className="relative bg-secondary rounded-lg shadow-xl max-w-md w-full p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-semibold text-white">Upload Trading Data</h3>
             <button
               onClick={onClose}
               disabled={isUploading}
-              className="text-gray-400 hover:text-white disabled:opacity-50"
+              className="text-tertiary hover:text-white disabled:opacity-50"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -165,7 +165,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
             className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
               isDragging
                 ? 'border-blue-500 bg-blue-500/10'
-                : 'border-gray-600 hover:border-gray-500'
+                : 'border-theme hover:border-theme'
             } ${isUploading ? 'pointer-events-none opacity-50' : ''}`}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
@@ -175,7 +175,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
             {!file ? (
               <>
                 <svg
-                  className="mx-auto h-12 w-12 text-gray-400 mb-4"
+                  className="mx-auto h-12 w-12 text-tertiary mb-4"
                   stroke="currentColor"
                   fill="none"
                   viewBox="0 0 48 48"
@@ -200,10 +200,10 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
                     />
                   </label>
                 </p>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-tertiary">
                   Supported formats: Excel (.xlsx, .xls) or CSV
                 </p>
-                <p className="text-sm text-gray-400">Maximum file size: 50MB</p>
+                <p className="text-sm text-tertiary">Maximum file size: 50MB</p>
               </>
             ) : (
               <div className="space-y-3">
@@ -222,7 +222,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
                 </svg>
                 <div className="max-w-full px-2">
                   <p className="text-white font-medium break-all text-sm leading-relaxed">{file.name}</p>
-                  <p className="text-sm text-gray-400">{formatFileSize(file.size)}</p>
+                  <p className="text-sm text-tertiary">{formatFileSize(file.size)}</p>
                 </div>
                 {!isUploading && (
                   <button
@@ -246,11 +246,11 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
           {/* Progress Bar */}
           {isUploading && (
             <div className="mt-4">
-              <div className="flex justify-between text-sm text-gray-400 mb-1">
+              <div className="flex justify-between text-sm text-tertiary mb-1">
                 <span>Uploading...</span>
                 <span>{uploadProgress}%</span>
               </div>
-              <div className="w-full bg-gray-700 rounded-full h-2">
+              <div className="w-full bg-tertiary rounded-full h-2">
                 <div
                   className="bg-blue-500 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${uploadProgress}%` }}
@@ -264,7 +264,7 @@ export const FileUploadModal: React.FC<FileUploadModalProps> = ({
             <button
               onClick={onClose}
               disabled={isUploading}
-              className="px-4 py-2 text-gray-400 hover:text-white disabled:opacity-50"
+              className="px-4 py-2 text-tertiary hover:text-white disabled:opacity-50"
             >
               Cancel
             </button>

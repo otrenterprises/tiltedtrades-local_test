@@ -14,13 +14,13 @@ const getEffectivePL = (pl: number, commissions: number, includeCommissions: boo
 }
 
 const getPLColor = (pl: number): string => {
-  if (pl === 0) return 'text-slate-400'
+  if (pl === 0) return 'text-tertiary'
   if (pl > 0) return 'text-profit'
   return 'text-loss'
 }
 
 const getPLBgColor = (pl: number): string => {
-  if (pl === 0) return 'bg-slate-800/50'
+  if (pl === 0) return 'bg-secondary/50'
   if (pl > 0) return 'bg-profit/10'
   return 'bg-loss/10'
 }
@@ -45,8 +45,8 @@ export function MobileCalendarAgenda({ calendarData, includeCommissions, showWee
 
   if (tradingDays.length === 0) {
     return (
-      <div className="bg-dark-secondary border border-dark-border rounded-lg p-6 text-center">
-        <p className="text-slate-400">No trading days this month</p>
+      <div className="bg-secondary border border-theme rounded-lg p-6 text-center">
+        <p className="text-tertiary">No trading days this month</p>
       </div>
     )
   }
@@ -61,7 +61,7 @@ export function MobileCalendarAgenda({ calendarData, includeCommissions, showWee
       {/* Weekly Totals Section */}
       {showWeeklyTotals && weeksWithTrades.length > 0 && (
         <div className="space-y-2">
-          <h3 className="text-sm font-semibold text-slate-300 px-1">Weekly Totals</h3>
+          <h3 className="text-sm font-semibold text-secondary px-1">Weekly Totals</h3>
           {weeksWithTrades.map(week => {
             const weeklyPL = week.weeklyPL!
             const effectivePL = getEffectivePL(weeklyPL.pl, weeklyPL.commissions, includeCommissions)
@@ -69,23 +69,23 @@ export function MobileCalendarAgenda({ calendarData, includeCommissions, showWee
             return (
               <div
                 key={`${week.year}-W${week.weekNum}`}
-                className={`${getPLBgColor(effectivePL)} border border-dark-border rounded-lg p-4`}
+                className={`${getPLBgColor(effectivePL)} border border-theme rounded-lg p-4`}
               >
                 <div className="flex items-center justify-between">
                   {/* Week info */}
                   <div className="flex items-center gap-3">
                     <div className="text-center min-w-[50px]">
-                      <div className="text-xs text-slate-500 uppercase">Week</div>
-                      <div className="text-xl font-bold text-slate-200">{week.weekNum}</div>
-                      <div className="text-xs text-slate-500">{week.year}</div>
+                      <div className="text-xs text-muted uppercase">Week</div>
+                      <div className="text-xl font-bold text-secondary">{week.weekNum}</div>
+                      <div className="text-xs text-muted">{week.year}</div>
                     </div>
 
-                    <div className="border-l border-dark-border pl-3">
-                      <div className="text-sm text-slate-300">
+                    <div className="border-l border-theme pl-3">
+                      <div className="text-sm text-secondary">
                         {weeklyPL.trades} {weeklyPL.trades === 1 ? 'trade' : 'trades'}
                       </div>
                       {weeklyPL.commissions !== 0 && (
-                        <div className="text-xs text-slate-500">
+                        <div className="text-xs text-muted">
                           Comm: {formatCurrency(weeklyPL.commissions)}
                         </div>
                       )}
@@ -98,7 +98,7 @@ export function MobileCalendarAgenda({ calendarData, includeCommissions, showWee
                       {formatCurrency(effectivePL)}
                     </div>
                     {!includeCommissions && weeklyPL.commissions !== 0 && (
-                      <div className="text-xs text-slate-500">
+                      <div className="text-xs text-muted">
                         Gross: {formatCurrency(weeklyPL.pl)}
                       </div>
                     )}
@@ -113,7 +113,7 @@ export function MobileCalendarAgenda({ calendarData, includeCommissions, showWee
       {/* Daily Trading Days Section */}
       <div className="space-y-2">
         {showWeeklyTotals && weeksWithTrades.length > 0 && (
-          <h3 className="text-sm font-semibold text-slate-300 px-1">Daily Breakdown</h3>
+          <h3 className="text-sm font-semibold text-secondary px-1">Daily Breakdown</h3>
         )}
         {tradingDays.map(day => {
           const date = new Date(day.tradingDay)
@@ -125,23 +125,23 @@ export function MobileCalendarAgenda({ calendarData, includeCommissions, showWee
           return (
             <div
               key={day.tradingDay}
-              className={`${getPLBgColor(effectivePL)} border border-dark-border rounded-lg p-4 transition-colors active:bg-dark-tertiary/50`}
+              className={`${getPLBgColor(effectivePL)} border border-theme rounded-lg p-4 transition-colors active:bg-tertiary/50`}
             >
               <div className="flex items-center justify-between">
                 {/* Date info */}
                 <div className="flex items-center gap-3">
                   <div className="text-center min-w-[50px]">
-                    <div className="text-xs text-slate-500 uppercase">{dayName}</div>
-                    <div className="text-xl font-bold text-slate-200">{dayNum}</div>
-                    <div className="text-xs text-slate-500">{monthName}</div>
+                    <div className="text-xs text-muted uppercase">{dayName}</div>
+                    <div className="text-xl font-bold text-secondary">{dayNum}</div>
+                    <div className="text-xs text-muted">{monthName}</div>
                   </div>
 
-                  <div className="border-l border-dark-border pl-3">
-                    <div className="text-sm text-slate-300">
+                  <div className="border-l border-theme pl-3">
+                    <div className="text-sm text-secondary">
                       {day.trades} {day.trades === 1 ? 'trade' : 'trades'}
                     </div>
                     {day.commissions !== 0 && (
-                      <div className="text-xs text-slate-500">
+                      <div className="text-xs text-muted">
                         Comm: {formatCurrency(day.commissions)}
                       </div>
                     )}
@@ -154,7 +154,7 @@ export function MobileCalendarAgenda({ calendarData, includeCommissions, showWee
                     {formatCurrency(effectivePL)}
                   </div>
                   {!includeCommissions && day.commissions !== 0 && (
-                    <div className="text-xs text-slate-500">
+                    <div className="text-xs text-muted">
                       Gross: {formatCurrency(day.pl)}
                     </div>
                   )}

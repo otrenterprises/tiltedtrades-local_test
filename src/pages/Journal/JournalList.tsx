@@ -154,12 +154,12 @@ export const JournalList: React.FC = () => {
   }
 
   return (
-    <div className={`min-h-screen bg-dark transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
+    <div className={`min-h-screen bg-primary transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
         {/* Header */}
         <div className="mb-4 md:mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">Trade Journals</h1>
-          <p className="text-sm md:text-base text-gray-400">Document your trades and track your progress</p>
+          <p className="text-sm md:text-base text-tertiary">Document your trades and track your progress</p>
         </div>
 
         {/* Filters */}
@@ -183,7 +183,7 @@ export const JournalList: React.FC = () => {
         {filteredJournals.length > 0 && (
           <div className="mb-4 md:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex items-center gap-2 sm:gap-3">
-              <span className="text-xs sm:text-sm text-gray-400">Show:</span>
+              <span className="text-xs sm:text-sm text-tertiary">Show:</span>
               <div className="flex gap-1">
                 {[20, 50, 100].map((count) => (
                   <button
@@ -192,16 +192,16 @@ export const JournalList: React.FC = () => {
                     className={`px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-colors touch-target ${
                       itemsPerPage === count
                         ? 'bg-accent text-white'
-                        : 'bg-dark-tertiary text-gray-300 active:bg-dark-tertiary/80 active:text-white'
+                        : 'bg-tertiary text-secondary active:bg-tertiary/80 active:text-white'
                     }`}
                   >
                     {count}
                   </button>
                 ))}
               </div>
-              <span className="text-xs sm:text-sm text-gray-400 hidden sm:inline">per page</span>
+              <span className="text-xs sm:text-sm text-tertiary hidden sm:inline">per page</span>
             </div>
-            <div className="text-xs sm:text-sm text-gray-400">
+            <div className="text-xs sm:text-sm text-tertiary">
               Showing {startIndex + 1}-{Math.min(endIndex, filteredJournals.length)} of {filteredJournals.length} journals
             </div>
           </div>

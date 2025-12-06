@@ -11,12 +11,12 @@ interface PLToggleProps {
 export function PLToggle({ showGrossPL, onToggle }: PLToggleProps) {
   return (
     <div className="flex items-center gap-3">
-      <span className={`text-sm font-medium transition-colors ${!showGrossPL ? 'text-slate-200' : 'text-slate-500'}`}>
+      <span className={`text-sm font-medium transition-colors ${!showGrossPL ? 'text-primary' : 'text-muted'}`}>
         Net
       </span>
       <button
         onClick={() => onToggle(!showGrossPL)}
-        className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-dark-secondary bg-dark-tertiary border border-slate-500"
+        className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-secondary bg-tertiary border border-theme"
         role="switch"
         aria-checked={showGrossPL}
         aria-label={showGrossPL ? 'Showing Gross P&L' : 'Showing Net P&L'}
@@ -27,7 +27,7 @@ export function PLToggle({ showGrossPL, onToggle }: PLToggleProps) {
           }`}
         />
       </button>
-      <span className={`text-sm font-medium transition-colors ${showGrossPL ? 'text-slate-200' : 'text-slate-500'}`}>
+      <span className={`text-sm font-medium transition-colors ${showGrossPL ? 'text-primary' : 'text-muted'}`}>
         Gross
       </span>
     </div>

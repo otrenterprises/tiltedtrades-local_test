@@ -26,10 +26,10 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
   if (!preferences) return null
 
   return (
-    <div className="bg-gray-900 rounded-lg p-6">
+    <div className="bg-primary rounded-lg p-6">
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-white mb-2">Privacy Settings</h2>
-        <p className="text-gray-400 text-sm">
+        <h2 className="text-xl font-semibold text-primary mb-2">Privacy Settings</h2>
+        <p className="text-tertiary text-sm">
           Control what information is visible to other users
         </p>
       </div>
@@ -43,7 +43,7 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
               <h3 className="text-sm font-medium text-blue-400 mb-1">
                 Your Privacy Matters
               </h3>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-secondary">
                 We respect your privacy. All settings below are optional and you have full control
                 over what information is shared publicly.
               </p>
@@ -52,8 +52,8 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
         </div>
 
         {/* Leaderboard Visibility */}
-        <div className="border-b border-gray-800 pb-6">
-          <h3 className="text-lg font-medium text-white mb-4 flex items-center">
+        <div className="border-b border-theme pb-6">
+          <h3 className="text-lg font-medium text-primary mb-4 flex items-center">
             <Trophy className="w-5 h-5 mr-2 text-yellow-400" />
             Leaderboard Settings
           </h3>
@@ -64,13 +64,13 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
                 type="checkbox"
                 id="showOnLeaderboard"
                 {...register('privacySettings.showOnLeaderboard')}
-                className="mt-1 w-5 h-5 bg-gray-800 border-gray-700 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-gray-900"
+                className="mt-1 w-5 h-5 bg-secondary border-theme rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-primary"
               />
               <div className="flex-1">
-                <label htmlFor="showOnLeaderboard" className="block text-sm font-medium text-white cursor-pointer">
+                <label htmlFor="showOnLeaderboard" className="block text-sm font-medium text-primary cursor-pointer">
                   Appear on Public Leaderboard
                 </label>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-muted mt-1">
                   Allow your trading performance to be displayed on the public leaderboard
                 </p>
               </div>
@@ -81,13 +81,13 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
                 type="checkbox"
                 id="showRealName"
                 {...register('privacySettings.showRealName')}
-                className="mt-1 w-5 h-5 bg-gray-800 border-gray-700 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-gray-900"
+                className="mt-1 w-5 h-5 bg-secondary border-theme rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-primary"
               />
               <div className="flex-1">
-                <label htmlFor="showRealName" className="block text-sm font-medium text-white cursor-pointer">
+                <label htmlFor="showRealName" className="block text-sm font-medium text-primary cursor-pointer">
                   Display Real Name
                 </label>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-muted mt-1">
                   Show your real name instead of username on public profiles
                 </p>
               </div>
@@ -96,8 +96,8 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
         </div>
 
         {/* Statistics Visibility */}
-        <div className="border-b border-gray-800 pb-6">
-          <h3 className="text-lg font-medium text-white mb-4 flex items-center">
+        <div className="border-b border-theme pb-6">
+          <h3 className="text-lg font-medium text-primary mb-4 flex items-center">
             <ChartBar className="w-5 h-5 mr-2 text-green-400" />
             Statistics Visibility
           </h3>
@@ -108,13 +108,13 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
                 type="checkbox"
                 id="showStats"
                 {...register('privacySettings.showStats')}
-                className="mt-1 w-5 h-5 bg-gray-800 border-gray-700 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-gray-900"
+                className="mt-1 w-5 h-5 bg-secondary border-theme rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-primary"
               />
               <div className="flex-1">
-                <label htmlFor="showStats" className="block text-sm font-medium text-white cursor-pointer">
+                <label htmlFor="showStats" className="block text-sm font-medium text-primary cursor-pointer">
                   Share Trading Statistics
                 </label>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-muted mt-1">
                   Allow other users to view your trading statistics on your public profile
                 </p>
               </div>
@@ -122,12 +122,12 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
           </div>
 
           {/* What's Shared */}
-          <div className="mt-6 bg-gray-800 rounded-lg p-4">
-            <h4 className="text-sm font-medium text-gray-400 mb-3 flex items-center">
+          <div className="mt-6 bg-secondary rounded-lg p-4">
+            <h4 className="text-sm font-medium text-tertiary mb-3 flex items-center">
               <Eye className="w-4 h-4 mr-2" />
               Information visible when statistics are shared:
             </h4>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <ul className="space-y-2 text-sm text-muted">
               <li className="flex items-center">
                 <span className="w-2 h-2 bg-blue-400 rounded-full mr-2"></span>
                 Total number of trades
@@ -148,12 +148,12 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
           </div>
 
           {/* What's Not Shared */}
-          <div className="mt-4 bg-gray-800 rounded-lg p-4">
-            <h4 className="text-sm font-medium text-gray-400 mb-3 flex items-center">
+          <div className="mt-4 bg-secondary rounded-lg p-4">
+            <h4 className="text-sm font-medium text-tertiary mb-3 flex items-center">
               <EyeOff className="w-4 h-4 mr-2" />
               Information never shared publicly:
             </h4>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <ul className="space-y-2 text-sm text-muted">
               <li className="flex items-center">
                 <span className="w-2 h-2 bg-red-400 rounded-full mr-2"></span>
                 Individual trade details
@@ -176,16 +176,16 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
 
         {/* Data Sharing */}
         <div className="pb-6">
-          <h3 className="text-lg font-medium text-white mb-4 flex items-center">
+          <h3 className="text-lg font-medium text-primary mb-4 flex items-center">
             <Users className="w-5 h-5 mr-2 text-purple-400" />
             Data Usage
           </h3>
 
-          <div className="bg-gray-800 rounded-lg p-4">
-            <p className="text-sm text-gray-400 mb-3">
+          <div className="bg-secondary rounded-lg p-4">
+            <p className="text-sm text-tertiary mb-3">
               We take your privacy seriously. Your data is:
             </p>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <ul className="space-y-2 text-sm text-muted">
               <li className="flex items-start">
                 <span className="text-green-400 mr-2">✓</span>
                 Encrypted at rest and in transit
@@ -207,11 +207,11 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-end space-x-3 pt-4 border-t border-gray-800">
+        <div className="flex justify-end space-x-3 pt-4 border-t border-theme">
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+            className="px-4 py-2 text-tertiary hover:text-primary transition-colors"
             disabled={isUpdating}
           >
             Cancel
@@ -219,7 +219,7 @@ export default function PrivacyPanel({ preferences, onUpdate, isUpdating }: Priv
           <button
             type="submit"
             disabled={isUpdating}
-            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="px-6 py-2 bg-blue-500 text-primary rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             {isUpdating ? 'Saving...' : 'Save Privacy Settings'}
           </button>

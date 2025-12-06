@@ -27,7 +27,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
     <div className={`text-center py-12 ${className}`}>
       {icon || (
         <svg
-          className="mx-auto h-12 w-12 text-gray-500 mb-4"
+          className="mx-auto h-12 w-12 text-muted mb-4"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -40,9 +40,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
           />
         </svg>
       )}
-      <h3 className="text-lg font-medium text-white mb-2">{title}</h3>
+      <h3 className="text-lg font-medium text-primary mb-2">{title}</h3>
       {description && (
-        <p className="text-gray-400 mb-4 max-w-md mx-auto">{description}</p>
+        <p className="text-tertiary mb-4 max-w-md mx-auto">{description}</p>
       )}
       {action && (
         <button

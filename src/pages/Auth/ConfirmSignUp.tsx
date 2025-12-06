@@ -77,13 +77,13 @@ export const ConfirmSignUp: React.FC = () => {
   const displayError = localError || error
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-primary px-4">
       <div className="max-w-md w-full">
-        <div className="bg-gray-800 rounded-lg shadow-xl p-8">
+        <div className="bg-secondary rounded-lg shadow-xl p-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-white">Verify Your Email</h2>
-            <p className="text-gray-400 mt-2">
+            <h2 className="text-2xl font-bold text-primary">Verify Your Email</h2>
+            <p className="text-tertiary mt-2">
               Enter the verification code sent to your email
             </p>
           </div>
@@ -106,7 +106,7 @@ export const ConfirmSignUp: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-secondary mb-2">
                 Email Address
               </label>
               <input
@@ -114,7 +114,7 @@ export const ConfirmSignUp: React.FC = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 bg-tertiary border border-theme rounded-lg text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter your email"
                 disabled={isLoading}
               />
@@ -122,7 +122,7 @@ export const ConfirmSignUp: React.FC = () => {
 
             {/* Verification Code Field */}
             <div>
-              <label htmlFor="code" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="code" className="block text-sm font-medium text-secondary mb-2">
                 Verification Code
               </label>
               <input
@@ -130,7 +130,7 @@ export const ConfirmSignUp: React.FC = () => {
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-2xl tracking-widest"
+                className="w-full px-4 py-3 bg-tertiary border border-theme rounded-lg text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-2xl tracking-widest"
                 placeholder="000000"
                 maxLength={6}
                 disabled={isLoading}
@@ -156,7 +156,7 @@ export const ConfirmSignUp: React.FC = () => {
 
           {/* Resend Code */}
           <div className="mt-6 text-center">
-            <p className="text-gray-400 text-sm">
+            <p className="text-tertiary text-sm">
               Didn't receive a code?{' '}
               <button
                 type="button"
@@ -173,7 +173,7 @@ export const ConfirmSignUp: React.FC = () => {
           <div className="mt-4 text-center">
             <Link
               to="/login"
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-tertiary hover:text-primary text-sm transition-colors"
             >
               &larr; Back to Login
             </Link>

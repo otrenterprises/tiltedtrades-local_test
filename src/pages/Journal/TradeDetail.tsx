@@ -190,7 +190,7 @@ export const TradeDetail: React.FC = () => {
   const backButton = (
     <button
       onClick={() => navigate('/app/journals')}
-      className="text-gray-400 hover:text-white flex items-center group active:text-blue-400 transition-colors"
+      className="text-tertiary hover:text-primary flex items-center group active:text-blue-400 transition-colors"
     >
       <ArrowLeft className="w-5 h-5 mr-1 md:mr-2 group-hover:-translate-x-1 transition-transform" />
       <span className="hidden sm:inline">Back to Journals</span>
@@ -202,7 +202,7 @@ export const TradeDetail: React.FC = () => {
   const deleteButton = journal ? (
     <button
       onClick={() => setShowDeleteConfirm(true)}
-      className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-900/20 rounded-lg transition active:bg-red-900/40"
+      className="p-2 text-tertiary hover:text-red-400 hover:bg-red-900/20 rounded-lg transition active:bg-red-900/40"
       title="Delete journal"
     >
       <Trash2 className="w-5 h-5" />
@@ -220,16 +220,16 @@ export const TradeDetail: React.FC = () => {
     return (
       <button
         onClick={() => toggleSection(id)}
-        className="md:hidden w-full flex items-center justify-between p-4 bg-gray-800 rounded-lg hover:bg-gray-750 active:bg-gray-700 transition-colors"
+        className="md:hidden w-full flex items-center justify-between p-4 bg-secondary rounded-lg hover:bg-tertiary active:bg-tertiary transition-colors"
       >
         <div className="flex items-center gap-3">
           {icon && <span className={iconColor}>{icon}</span>}
-          <span className="font-medium text-white">{title}</span>
+          <span className="font-medium text-primary">{title}</span>
         </div>
         {isExpanded ? (
-          <ChevronDown className="w-5 h-5 text-gray-400" />
+          <ChevronDown className="w-5 h-5 text-tertiary" />
         ) : (
-          <ChevronRight className="w-5 h-5 text-gray-400" />
+          <ChevronRight className="w-5 h-5 text-tertiary" />
         )}
       </button>
     )
@@ -259,28 +259,28 @@ export const TradeDetail: React.FC = () => {
         {expandedSections.has('summary') && (
           <div className="grid grid-cols-2 gap-3 px-1">
             {/* Gross P&L */}
-            <div className={`bg-gray-800 rounded-lg p-4 border-l-4 ${isGrossProfitable ? 'border-green-500' : 'border-red-500'}`}>
-              <p className="text-gray-400 text-xs mb-1">Gross P&L</p>
+            <div className={`bg-secondary rounded-lg p-4 border-l-4 ${isGrossProfitable ? 'border-green-500' : 'border-red-500'}`}>
+              <p className="text-tertiary text-xs mb-1">Gross P&L</p>
               <p className={`text-lg font-bold ${isGrossProfitable ? 'text-green-400' : 'text-red-400'}`}>
                 {formatCurrency(grossPL)}
               </p>
             </div>
             {/* Return % */}
-            <div className="bg-gray-800 rounded-lg p-4">
-              <p className="text-gray-400 text-xs mb-1">Return</p>
+            <div className="bg-secondary rounded-lg p-4">
+              <p className="text-tertiary text-xs mb-1">Return</p>
               <p className={`text-lg font-bold ${isProfitable ? 'text-green-400' : 'text-red-400'}`}>
                 {trade.plPercent?.toFixed(2) || '0.00'}%
               </p>
             </div>
             {/* Duration */}
-            <div className="bg-gray-800 rounded-lg p-4">
-              <p className="text-gray-400 text-xs mb-1">Duration</p>
-              <p className="text-lg font-bold text-white">{getDuration()}</p>
+            <div className="bg-secondary rounded-lg p-4">
+              <p className="text-tertiary text-xs mb-1">Duration</p>
+              <p className="text-lg font-bold text-primary">{getDuration()}</p>
             </div>
             {/* Quantity */}
-            <div className="bg-gray-800 rounded-lg p-4">
-              <p className="text-gray-400 text-xs mb-1">Quantity</p>
-              <p className="text-lg font-bold text-white">{trade.quantity}</p>
+            <div className="bg-secondary rounded-lg p-4">
+              <p className="text-tertiary text-xs mb-1">Quantity</p>
+              <p className="text-lg font-bold text-primary">{trade.quantity}</p>
             </div>
           </div>
         )}
@@ -292,10 +292,10 @@ export const TradeDetail: React.FC = () => {
           icon={<span className="w-2 h-2 bg-green-500 rounded-full" />}
         />
         {expandedSections.has('entry') && (
-          <div className="bg-gray-800 rounded-lg p-4 mx-1 space-y-3">
+          <div className="bg-secondary rounded-lg p-4 mx-1 space-y-3">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-400">Date</span>
-              <span className="text-white">
+              <span className="text-tertiary">Date</span>
+              <span className="text-primary">
                 {trade.entryDate && format(
                   typeof trade.entryDate === 'string' ? parseISO(trade.entryDate) : trade.entryDate,
                   'MMM dd, yyyy HH:mm'
@@ -303,11 +303,11 @@ export const TradeDetail: React.FC = () => {
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-400">Price</span>
-              <span className="text-white">{formatCurrency(trade.entryPrice)}</span>
+              <span className="text-tertiary">Price</span>
+              <span className="text-primary">{formatCurrency(trade.entryPrice)}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-400">Side</span>
+              <span className="text-tertiary">Side</span>
               <span className={trade.side === 'Long' ? 'text-green-400' : 'text-red-400'}>
                 {trade.side || 'N/A'}
               </span>
@@ -322,10 +322,10 @@ export const TradeDetail: React.FC = () => {
           icon={<span className="w-2 h-2 bg-red-500 rounded-full" />}
         />
         {expandedSections.has('exit') && (
-          <div className="bg-gray-800 rounded-lg p-4 mx-1 space-y-3">
+          <div className="bg-secondary rounded-lg p-4 mx-1 space-y-3">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-400">Date</span>
-              <span className="text-white">
+              <span className="text-tertiary">Date</span>
+              <span className="text-primary">
                 {trade.exitDate && format(
                   typeof trade.exitDate === 'string' ? parseISO(trade.exitDate) : trade.exitDate,
                   'MMM dd, yyyy HH:mm'
@@ -333,11 +333,11 @@ export const TradeDetail: React.FC = () => {
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-400">Price</span>
-              <span className="text-white">{trade.exitPrice ? formatCurrency(trade.exitPrice) : 'N/A'}</span>
+              <span className="text-tertiary">Price</span>
+              <span className="text-primary">{trade.exitPrice ? formatCurrency(trade.exitPrice) : 'N/A'}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-400">Price Change</span>
+              <span className="text-tertiary">Price Change</span>
               <span className={trade.exitPrice && trade.exitPrice - trade.entryPrice >= 0 ? 'text-green-400' : 'text-red-400'}>
                 {trade.exitPrice ? formatCurrency(trade.exitPrice - trade.entryPrice) : 'N/A'}
               </span>
@@ -352,26 +352,26 @@ export const TradeDetail: React.FC = () => {
           icon={<TrendingUp className="w-5 h-5" />}
         />
         {expandedSections.has('pnl') && (
-          <div className="bg-gray-800 rounded-lg p-4 mx-1 space-y-3">
+          <div className="bg-secondary rounded-lg p-4 mx-1 space-y-3">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-400">Method</span>
+              <span className="text-tertiary">Method</span>
               <span className="text-blue-400 font-medium">
                 {journal?.calculationMethod === 'perPosition' ? 'Positional' : 'FIFO'}
               </span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-400">Gross P&L</span>
+              <span className="text-tertiary">Gross P&L</span>
               <span className={isGrossProfitable ? 'text-green-400' : 'text-red-400'}>
                 {formatCurrency(grossPL)}
               </span>
             </div>
             <div className="flex justify-between text-sm items-center">
-              <span className="text-gray-400">Commissions</span>
+              <span className="text-tertiary">Commissions</span>
               <div className="flex items-center gap-2">
                 <span className="text-yellow-400">{formatCurrency(trade.commission)}</span>
                 <button
                   onClick={() => navigate(`/app/journals/${tradeId}/edit`, { state: { calculationMethod: apiMethod } })}
-                  className="p-1 text-gray-400 hover:text-blue-400 active:text-blue-300 rounded transition"
+                  className="p-1 text-tertiary hover:text-blue-400 active:text-blue-300 rounded transition"
                 >
                   <Settings className="w-4 h-4" />
                 </button>
@@ -380,8 +380,8 @@ export const TradeDetail: React.FC = () => {
             {trade.hasCommissionOverride && (
               <p className="text-xs text-blue-400">Override applied</p>
             )}
-            <div className="flex justify-between text-sm pt-2 border-t border-gray-700">
-              <span className="text-gray-400 font-medium">Net P&L</span>
+            <div className="flex justify-between text-sm pt-2 border-t border-theme">
+              <span className="text-tertiary font-medium">Net P&L</span>
               <span className={`font-bold ${isProfitable ? 'text-green-400' : 'text-red-400'}`}>
                 {formatCurrency(pnl)}
               </span>
@@ -396,7 +396,7 @@ export const TradeDetail: React.FC = () => {
           icon={<Edit className="w-5 h-5" />}
         />
         {expandedSections.has('journal') && (
-          <div className="bg-gray-800 rounded-lg p-3 mx-1 overflow-hidden">
+          <div className="bg-secondary rounded-lg p-3 mx-1 overflow-hidden">
             {journal ? (
               isEditing ? (
                 <MobileJournalEditor
@@ -417,7 +417,7 @@ export const TradeDetail: React.FC = () => {
               )
             ) : (
               <div className="text-center py-6">
-                <p className="text-gray-400 mb-4 text-sm">No journal entry yet</p>
+                <p className="text-tertiary mb-4 text-sm">No journal entry yet</p>
                 <button
                   onClick={() => navigate(`/app/journals/${tradeId}/edit`, { state: { calculationMethod: apiMethod } })}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-lg text-sm font-medium transition"
@@ -455,9 +455,9 @@ export const TradeDetail: React.FC = () => {
         {/* Trade Summary Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {/* P&L Card */}
-          <div className={`bg-gray-800 rounded-lg p-6 border-l-4 ${isGrossProfitable ? 'border-green-500' : 'border-red-500'}`}>
+          <div className={`bg-secondary rounded-lg p-6 border-l-4 ${isGrossProfitable ? 'border-green-500' : 'border-red-500'}`}>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-gray-400 text-sm">Gross P&L</p>
+              <p className="text-tertiary text-sm">Gross P&L</p>
               <DollarSign className={`w-5 h-5 ${isGrossProfitable ? 'text-green-400' : 'text-red-400'}`} />
             </div>
             <p className={`text-2xl font-bold ${isGrossProfitable ? 'text-green-400' : 'text-red-400'}`}>
@@ -466,9 +466,9 @@ export const TradeDetail: React.FC = () => {
           </div>
 
           {/* Return % Card */}
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary rounded-lg p-6">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-gray-400 text-sm">Return</p>
+              <p className="text-tertiary text-sm">Return</p>
               {isProfitable ? (
                 <TrendingUp className="w-5 h-5 text-green-400" />
               ) : (
@@ -481,37 +481,37 @@ export const TradeDetail: React.FC = () => {
           </div>
 
           {/* Duration Card */}
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary rounded-lg p-6">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-gray-400 text-sm">Duration</p>
+              <p className="text-tertiary text-sm">Duration</p>
               <Clock className="w-5 h-5 text-blue-400" />
             </div>
-            <p className="text-2xl font-bold text-white">{getDuration()}</p>
+            <p className="text-2xl font-bold text-primary">{getDuration()}</p>
           </div>
 
           {/* Quantity Card */}
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary rounded-lg p-6">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-gray-400 text-sm">Quantity</p>
+              <p className="text-tertiary text-sm">Quantity</p>
               <Calendar className="w-5 h-5 text-purple-400" />
             </div>
-            <p className="text-2xl font-bold text-white">{trade.quantity}</p>
-            <p className="text-xs text-gray-500 mt-1">contracts</p>
+            <p className="text-2xl font-bold text-primary">{trade.quantity}</p>
+            <p className="text-xs text-muted mt-1">contracts</p>
           </div>
         </div>
 
         {/* Detailed Trade Information */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Entry Details */}
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
+          <div className="bg-secondary rounded-lg p-6">
+            <h2 className="text-xl font-semibold text-primary mb-4 flex items-center">
               <span className="w-2 h-2 bg-green-500 rounded-full mr-3"></span>
               Entry Details
             </h2>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-400">Entry Date</span>
-                <span className="text-white font-medium">
+                <span className="text-tertiary">Entry Date</span>
+                <span className="text-primary font-medium">
                   {trade.entryDate && format(
                     typeof trade.entryDate === 'string' ? parseISO(trade.entryDate) : trade.entryDate,
                     'MMM dd, yyyy HH:mm:ss'
@@ -519,11 +519,11 @@ export const TradeDetail: React.FC = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Entry Price</span>
-                <span className="text-white font-medium">{formatCurrency(trade.entryPrice)}</span>
+                <span className="text-tertiary">Entry Price</span>
+                <span className="text-primary font-medium">{formatCurrency(trade.entryPrice)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Side</span>
+                <span className="text-tertiary">Side</span>
                 <span className={`font-medium ${trade.side === 'Long' ? 'text-green-400' : 'text-red-400'}`}>
                   {trade.side || 'N/A'}
                 </span>
@@ -532,15 +532,15 @@ export const TradeDetail: React.FC = () => {
           </div>
 
           {/* Exit Details */}
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-white mb-4 flex items-center">
+          <div className="bg-secondary rounded-lg p-6">
+            <h2 className="text-xl font-semibold text-primary mb-4 flex items-center">
               <span className="w-2 h-2 bg-red-500 rounded-full mr-3"></span>
               Exit Details
             </h2>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-400">Exit Date</span>
-                <span className="text-white font-medium">
+                <span className="text-tertiary">Exit Date</span>
+                <span className="text-primary font-medium">
                   {trade.exitDate && format(
                     typeof trade.exitDate === 'string' ? parseISO(trade.exitDate) : trade.exitDate,
                     'MMM dd, yyyy HH:mm:ss'
@@ -548,11 +548,11 @@ export const TradeDetail: React.FC = () => {
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Exit Price</span>
-                <span className="text-white font-medium">{trade.exitPrice ? formatCurrency(trade.exitPrice) : 'N/A'}</span>
+                <span className="text-tertiary">Exit Price</span>
+                <span className="text-primary font-medium">{trade.exitPrice ? formatCurrency(trade.exitPrice) : 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Price Change</span>
+                <span className="text-tertiary">Price Change</span>
                 <span className={`font-medium ${trade.exitPrice && trade.exitPrice - trade.entryPrice >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                   {trade.exitPrice ? `${formatCurrency(trade.exitPrice - trade.entryPrice)} (${((trade.exitPrice - trade.entryPrice) / trade.entryPrice * 100).toFixed(2)}%)` : 'N/A'}
                 </span>
@@ -562,30 +562,30 @@ export const TradeDetail: React.FC = () => {
         </div>
 
         {/* P&L Breakdown */}
-        <div className="bg-gray-800 rounded-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold text-white mb-4">P&L Breakdown</h2>
+        <div className="bg-secondary rounded-lg p-6 mb-8">
+          <h2 className="text-xl font-semibold text-primary mb-4">P&L Breakdown</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div>
-              <p className="text-gray-400 text-sm mb-1">P&L Type</p>
+              <p className="text-tertiary text-sm mb-1">P&L Type</p>
               <p className="text-xl font-bold text-blue-400">
                 {journal?.calculationMethod === 'perPosition' ? 'Positional' : 'FIFO'}
               </p>
             </div>
             <div>
-              <p className="text-gray-400 text-sm mb-1">Gross P&L</p>
+              <p className="text-tertiary text-sm mb-1">Gross P&L</p>
               <p className={`text-xl font-bold ${isGrossProfitable ? 'text-green-400' : 'text-red-400'}`}>
                 {formatCurrency(grossPL)}
               </p>
             </div>
             <div>
-              <p className="text-gray-400 text-sm mb-1">Commissions</p>
+              <p className="text-tertiary text-sm mb-1">Commissions</p>
               <div className="flex items-center gap-2">
                 <p className="text-xl font-bold text-yellow-400">
                   {formatCurrency(trade.commission)}
                 </p>
                 <button
                   onClick={() => navigate(`/app/journals/${tradeId}/edit`, { state: { calculationMethod: apiMethod } })}
-                  className="p-1 text-gray-400 hover:text-blue-400 hover:bg-blue-900/20 rounded transition"
+                  className="p-1 text-tertiary hover:text-blue-400 hover:bg-blue-900/20 rounded transition"
                   title="Edit commission override"
                 >
                   <Settings className="w-4 h-4" />
@@ -596,7 +596,7 @@ export const TradeDetail: React.FC = () => {
               )}
             </div>
             <div>
-              <p className="text-gray-400 text-sm mb-1">Net P&L</p>
+              <p className="text-tertiary text-sm mb-1">Net P&L</p>
               <p className={`text-xl font-bold ${isProfitable ? 'text-green-400' : 'text-red-400'}`}>
                 {formatCurrency(pnl)}
               </p>
@@ -606,11 +606,11 @@ export const TradeDetail: React.FC = () => {
 
         {/* Journal Entry Section */}
         {journal ? (
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-secondary rounded-lg p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-white">Journal Entry</h2>
+              <h2 className="text-xl font-semibold text-primary">Journal Entry</h2>
               <div className="flex items-center gap-3">
-                <span className="text-sm text-gray-400">
+                <span className="text-sm text-tertiary">
                   Last updated: {format(parseISO(journal.updatedAt), 'MMM dd, yyyy')}
                 </span>
                 {!isEditing && (
@@ -624,7 +624,7 @@ export const TradeDetail: React.FC = () => {
                     </button>
                     <button
                       onClick={() => navigate(`/app/journals/${tradeId}/edit`, { state: { calculationMethod: apiMethod } })}
-                      className="flex items-center gap-2 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition"
+                      className="flex items-center gap-2 px-3 py-1.5 bg-tertiary hover:bg-tertiary text-white text-sm rounded-lg transition"
                       title="Open full editor with commission override"
                     >
                       <ExternalLink className="w-4 h-4" />
@@ -640,19 +640,19 @@ export const TradeDetail: React.FC = () => {
               <div className="space-y-6">
                 {/* Notes Editor */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">Notes</label>
+                  <label className="block text-sm font-medium text-tertiary mb-2">Notes</label>
                   <textarea
                     value={editNotes}
                     onChange={(e) => setEditNotes(e.target.value)}
                     rows={8}
                     placeholder="Document your trade analysis, thoughts, and lessons learned..."
-                    className="w-full px-4 py-3 bg-gray-900 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none resize-none"
+                    className="w-full px-4 py-3 bg-primary text-primary rounded-lg border border-theme focus:border-blue-500 focus:outline-none resize-none"
                   />
                 </div>
 
                 {/* Tags Editor */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">Tags</label>
+                  <label className="block text-sm font-medium text-tertiary mb-2">Tags</label>
                   <TagInput
                     tags={editTags}
                     onChange={setEditTags}
@@ -661,11 +661,11 @@ export const TradeDetail: React.FC = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex items-center justify-end pt-4 border-t border-gray-700">
+                <div className="flex items-center justify-end pt-4 border-t border-theme">
                   <div className="flex gap-3">
                     <button
                       onClick={handleCancelEdit}
-                      className="flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition"
+                      className="flex items-center gap-2 px-4 py-2 bg-tertiary hover:bg-tertiary text-white rounded-lg transition"
                     >
                       <X className="w-4 h-4" />
                       Cancel
@@ -688,8 +688,8 @@ export const TradeDetail: React.FC = () => {
                 {journal.tags && journal.tags.length > 0 && (
                   <div className="mb-6">
                     <div className="flex items-center gap-2 mb-2">
-                      <Tag className="w-4 h-4 text-gray-400" />
-                      <span className="text-sm font-medium text-gray-400">Tags</span>
+                      <Tag className="w-4 h-4 text-tertiary" />
+                      <span className="text-sm font-medium text-tertiary">Tags</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {journal.tags.map(tag => (
@@ -707,9 +707,9 @@ export const TradeDetail: React.FC = () => {
                 {/* Notes */}
                 {journal.journalText && (
                   <div className="mb-6">
-                    <h3 className="text-sm font-medium text-gray-400 mb-3">Notes</h3>
-                    <div className="bg-gray-900 rounded-lg p-4">
-                      <pre className="text-gray-300 text-sm whitespace-pre-wrap font-sans">
+                    <h3 className="text-sm font-medium text-tertiary mb-3">Notes</h3>
+                    <div className="bg-primary rounded-lg p-4">
+                      <pre className="text-secondary text-sm whitespace-pre-wrap font-sans">
                         {journal.journalText}
                       </pre>
                     </div>
@@ -720,8 +720,8 @@ export const TradeDetail: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="bg-gray-800 rounded-lg p-12 text-center">
-            <p className="text-gray-400 mb-4">No journal entry for this trade yet.</p>
+          <div className="bg-secondary rounded-lg p-12 text-center">
+            <p className="text-tertiary mb-4">No journal entry for this trade yet.</p>
             <button
               onClick={() => navigate(`/app/journals/${tradeId}/edit`, { state: { calculationMethod: apiMethod } })}
               className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition"
@@ -746,15 +746,15 @@ export const TradeDetail: React.FC = () => {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold text-white mb-4">Delete Journal?</h3>
-            <p className="text-gray-300 mb-6">
+          <div className="bg-secondary rounded-lg p-6 max-w-md w-full">
+            <h3 className="text-xl font-bold text-primary mb-4">Delete Journal?</h3>
+            <p className="text-secondary mb-6">
               Are you sure you want to delete this journal entry? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white rounded-lg transition"
+                className="px-4 py-2 bg-tertiary hover:bg-tertiary active:bg-tertiary text-white rounded-lg transition"
               >
                 Cancel
               </button>
@@ -787,7 +787,7 @@ interface MobileJournalViewProps {
 const MobileJournalView: React.FC<MobileJournalViewProps> = ({ journal, onEdit, onFullEditor }) => (
   <div className="space-y-4 overflow-hidden">
     <div className="flex items-center justify-between gap-2 min-w-0">
-      <span className="text-xs text-gray-400 truncate min-w-0">
+      <span className="text-xs text-tertiary truncate min-w-0">
         Updated: {format(parseISO(journal.updatedAt), 'MMM dd')}
       </span>
       <div className="flex gap-1.5 flex-shrink-0">
@@ -800,7 +800,7 @@ const MobileJournalView: React.FC<MobileJournalViewProps> = ({ journal, onEdit, 
         </button>
         <button
           onClick={onFullEditor}
-          className="flex items-center gap-1 px-2.5 py-1.5 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-xs rounded-lg transition"
+          className="flex items-center gap-1 px-2.5 py-1.5 bg-tertiary hover:bg-tertiary active:bg-tertiary text-white text-xs rounded-lg transition"
         >
           <ExternalLink className="w-3.5 h-3.5" />
           Full
@@ -824,8 +824,8 @@ const MobileJournalView: React.FC<MobileJournalViewProps> = ({ journal, onEdit, 
 
     {/* Notes */}
     {journal.journalText && (
-      <div className="bg-gray-900 rounded-lg p-3 overflow-hidden">
-        <pre className="text-gray-300 text-sm whitespace-pre-wrap break-words font-sans overflow-hidden">
+      <div className="bg-primary rounded-lg p-3 overflow-hidden">
+        <pre className="text-secondary text-sm whitespace-pre-wrap break-words font-sans overflow-hidden">
           {journal.journalText}
         </pre>
       </div>
@@ -855,18 +855,18 @@ const MobileJournalEditor: React.FC<MobileJournalEditorProps> = ({
 }) => (
   <div className="space-y-4">
     <div>
-      <label className="block text-xs font-medium text-gray-400 mb-1.5">Notes</label>
+      <label className="block text-xs font-medium text-tertiary mb-1.5">Notes</label>
       <textarea
         value={editNotes}
         onChange={(e) => setEditNotes(e.target.value)}
         rows={6}
         placeholder="Document your trade..."
-        className="w-full px-3 py-2 bg-gray-900 text-white text-sm rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none resize-none"
+        className="w-full px-3 py-2 bg-primary text-primary text-sm rounded-lg border border-theme focus:border-blue-500 focus:outline-none resize-none"
       />
     </div>
 
     <div>
-      <label className="block text-xs font-medium text-gray-400 mb-1.5">Tags</label>
+      <label className="block text-xs font-medium text-tertiary mb-1.5">Tags</label>
       <TagInput
         tags={editTags}
         onChange={setEditTags}
@@ -877,7 +877,7 @@ const MobileJournalEditor: React.FC<MobileJournalEditorProps> = ({
     <div className="flex gap-2 pt-2">
       <button
         onClick={onCancel}
-        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-sm rounded-lg transition"
+        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-tertiary hover:bg-tertiary active:bg-tertiary text-white text-sm rounded-lg transition"
       >
         <X className="w-4 h-4" />
         Cancel

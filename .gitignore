@@ -54,3 +54,6 @@ src/_NotUsed/
 AWS/lambdas/**/lambda.zip
 AWS/lambda-layers/**/*.zip
 AWS/lambdas/nul
+
+# PDF Testing
+PDF Processor/

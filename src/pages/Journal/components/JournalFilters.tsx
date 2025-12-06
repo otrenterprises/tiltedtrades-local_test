@@ -32,16 +32,16 @@ export function JournalFilters({
   availableTags,
 }: JournalFiltersProps) {
   return (
-    <div className="bg-gray-800 rounded-lg p-6 mb-8">
+    <div className="bg-secondary rounded-lg p-6 mb-8">
       <div className="flex flex-col lg:flex-row gap-4">
         {/* Sort */}
         <div className="lg:w-28 flex-shrink-0">
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-secondary mb-2">
             Sort
           </label>
           <button
             onClick={() => onSortOrderChange(sortOrder === 'desc' ? 'asc' : 'desc')}
-            className="w-full h-[42px] px-3 py-2 bg-gray-700 text-gray-300 rounded-lg border border-gray-600 hover:bg-gray-600 hover:text-white transition-colors flex items-center justify-center gap-1.5"
+            className="w-full h-[42px] px-3 py-2 bg-tertiary text-secondary rounded-lg border border-theme hover:bg-tertiary hover:text-primary transition-colors flex items-center justify-center gap-1.5"
             title={sortOrder === 'desc' ? 'Sorted: Newest First' : 'Sorted: Oldest First'}
           >
             {sortOrder === 'desc' ? (
@@ -57,7 +57,7 @@ export function JournalFilters({
 
         {/* Search */}
         <div className="flex-1">
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-secondary mb-2">
             Search
           </label>
           <input
@@ -65,19 +65,19 @@ export function JournalFilters({
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search notes, tags, or trade ID..."
-            className="w-full h-[42px] px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+            className="w-full h-[42px] px-4 py-2 bg-tertiary text-primary rounded-lg border border-theme focus:border-blue-500 focus:outline-none"
           />
         </div>
 
         {/* P&L Type Filter */}
         <div className="lg:w-40 flex-shrink-0">
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-secondary mb-2">
             P&L Type
           </label>
           <select
             value={plType}
             onChange={(e) => onPlTypeChange(e.target.value as 'all' | 'fifo' | 'perPosition')}
-            className="w-full h-[42px] px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+            className="w-full h-[42px] px-4 py-2 bg-tertiary text-primary rounded-lg border border-theme focus:border-blue-500 focus:outline-none"
           >
             <option value="all">All Types</option>
             <option value="fifo">FIFO</option>
@@ -87,13 +87,13 @@ export function JournalFilters({
 
         {/* Filter Type */}
         <div className="lg:w-40 flex-shrink-0">
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-secondary mb-2">
             Filter By
           </label>
           <select
             value={filterType}
             onChange={(e) => onFilterTypeChange(e.target.value as 'all' | 'tag' | 'date')}
-            className="w-full h-[42px] px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+            className="w-full h-[42px] px-4 py-2 bg-tertiary text-primary rounded-lg border border-theme focus:border-blue-500 focus:outline-none"
           >
             <option value="all">All Journals</option>
             <option value="tag">By Tag</option>
@@ -104,13 +104,13 @@ export function JournalFilters({
         {/* Tag Filter */}
         {filterType === 'tag' && (
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-secondary mb-2">
               Tag
             </label>
             <select
               value={selectedTag}
               onChange={(e) => onSelectedTagChange(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+              className="w-full px-4 py-2 bg-tertiary text-primary rounded-lg border border-theme focus:border-blue-500 focus:outline-none"
             >
               <option value="">Select a tag...</option>
               {availableTags.map(tag => (
@@ -124,25 +124,25 @@ export function JournalFilters({
         {filterType === 'date' && (
           <>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-secondary mb-2">
                 Start Date
               </label>
               <input
                 type="date"
                 value={dateRange.start}
                 onChange={(e) => onDateRangeChange({ ...dateRange, start: e.target.value })}
-                className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+                className="w-full px-4 py-2 bg-tertiary text-primary rounded-lg border border-theme focus:border-blue-500 focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-secondary mb-2">
                 End Date
               </label>
               <input
                 type="date"
                 value={dateRange.end}
                 onChange={(e) => onDateRangeChange({ ...dateRange, end: e.target.value })}
-                className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-blue-500 focus:outline-none"
+                className="w-full px-4 py-2 bg-tertiary text-primary rounded-lg border border-theme focus:border-blue-500 focus:outline-none"
               />
             </div>
           </>

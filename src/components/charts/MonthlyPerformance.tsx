@@ -9,17 +9,17 @@ interface MonthlyPerformanceProps {
 export function MonthlyPerformance({ data }: MonthlyPerformanceProps) {
   if (data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-80 text-slate-400">
+      <div className="flex items-center justify-center h-80 text-tertiary">
         No monthly data available
       </div>
     )
   }
 
   return (
-    <div className="bg-dark-secondary border border-dark-border rounded-lg p-4 md:p-6">
+    <div className="bg-secondary border border-theme rounded-lg p-4 md:p-6">
       <div className="mb-4 md:mb-6">
-        <h3 className="text-base md:text-lg font-semibold text-slate-50 mb-0.5 md:mb-1">Monthly Performance</h3>
-        <p className="text-xs md:text-sm text-slate-400">P&L by month</p>
+        <h3 className="text-base md:text-lg font-semibold text-primary mb-0.5 md:mb-1">Monthly Performance</h3>
+        <p className="text-xs md:text-sm text-tertiary">P&L by month</p>
       </div>
 
       {/* Responsive chart height */}
@@ -61,7 +61,7 @@ export function MonthlyPerformance({ data }: MonthlyPerformanceProps) {
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-3 md:mt-4 flex items-center justify-between text-xs text-slate-400">
+      <div className="mt-3 md:mt-4 flex items-center justify-between text-xs text-tertiary">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-profit rounded"></div>

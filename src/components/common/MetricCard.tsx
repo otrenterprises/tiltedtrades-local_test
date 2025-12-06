@@ -50,9 +50,9 @@ export function MetricCard({
       icon: 'text-premium-light',
     },
     neutral: {
-      bg: 'bg-dark-secondary border-dark-border',
-      text: 'text-slate-50',
-      icon: 'text-slate-400',
+      bg: 'bg-secondary border-theme',
+      text: 'text-primary',
+      icon: 'text-tertiary',
     },
   }
 
@@ -64,7 +64,7 @@ export function MetricCard({
     >
       <div className="flex items-start justify-between mb-3 sm:mb-4">
         <div className="flex-1 min-w-0">
-          <p className="text-xs sm:text-sm font-medium text-slate-400 mb-1 truncate">{title}</p>
+          <p className="text-xs sm:text-sm font-medium text-tertiary mb-1 truncate">{title}</p>
         </div>
         {icon && <div className={`${styles.icon} flex-shrink-0 ml-2`}>{icon}</div>}
       </div>
@@ -77,11 +77,11 @@ export function MetricCard({
         {(subtitle || trend) && (
           <div className="flex items-center justify-between gap-2">
             {subtitle && (
-              <p className="text-xs text-slate-500 truncate flex-1 min-w-0">{subtitle}</p>
+              <p className="text-xs text-muted truncate flex-1 min-w-0">{subtitle}</p>
             )}
             {trend && (
               <div className={`flex items-center gap-1 text-xs flex-shrink-0 ${
-                trend.value > 0 ? 'text-profit' : trend.value < 0 ? 'text-loss' : 'text-slate-400'
+                trend.value > 0 ? 'text-profit' : trend.value < 0 ? 'text-loss' : 'text-tertiary'
               }`}>
                 {trend.value > 0 ? (
                   <TrendingUp className="w-3 h-3" />

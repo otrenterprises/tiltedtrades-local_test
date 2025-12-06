@@ -21,7 +21,7 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
       case 'commission_adjustment':
         return 'bg-purple-500/20 text-purple-400'
       default:
-        return 'bg-slate-500/20 text-slate-400'
+        return 'bg-tertiary/20 text-tertiary'
     }
   }
 
@@ -49,12 +49,12 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
   }
 
   return (
-    <div className="bg-dark-secondary border border-dark-border rounded-lg p-4 md:p-6">
-      <h3 className="text-base md:text-lg font-semibold text-slate-50 mb-3 md:mb-4">Transaction History</h3>
+    <div className="bg-secondary border border-theme rounded-lg p-4 md:p-6">
+      <h3 className="text-base md:text-lg font-semibold text-primary mb-3 md:mb-4">Transaction History</h3>
 
       {/* Empty state */}
       {entries.length === 0 && (
-        <p className="text-center text-slate-400 py-8">
+        <p className="text-center text-tertiary py-8">
           No entries yet. Click "Add Entry" to get started.
         </p>
       )}
@@ -70,7 +70,7 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
               return (
                 <div
                   key={entry.entryId}
-                  className="bg-dark-tertiary rounded-lg p-3 active:bg-dark-tertiary/70 transition-colors"
+                  className="bg-tertiary rounded-lg p-3 active:bg-tertiary/70 transition-colors"
                 >
                   {/* Top row: Type badge and Amount */}
                   <div className="flex justify-between items-start mb-2">
@@ -87,37 +87,37 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
                   </div>
 
                   {/* Middle row: Description */}
-                  <p className="text-sm text-slate-200 mb-1 line-clamp-2">{entry.description}</p>
+                  <p className="text-sm text-secondary mb-1 line-clamp-2">{entry.description}</p>
                   {entry.type === 'commission_adjustment' && entry.commissionMeta && (
-                    <p className="text-xs text-slate-400 mb-2">
+                    <p className="text-xs text-tertiary mb-2">
                       {entry.commissionMeta.tradeCount && `${entry.commissionMeta.tradeCount} trades`}
                       {entry.commissionMeta.contractCount && `, ${entry.commissionMeta.contractCount} contracts`}
                     </p>
                   )}
 
                   {/* Bottom row: Date and Actions */}
-                  <div className="flex justify-between items-center pt-2 border-t border-dark-border/50">
-                    <div className="text-xs text-slate-400">
+                  <div className="flex justify-between items-center pt-2 border-t border-theme/50">
+                    <div className="text-xs text-tertiary">
                       {format(parseISO(entry.date), 'MMM dd, yyyy')}
                     </div>
                     {!isGenerated && (
                       <div className="flex items-center gap-1">
                         <button
                           onClick={() => onEditEntry(entry)}
-                          className="p-2 hover:bg-dark-border active:bg-dark-border/70 rounded-lg transition-colors touch-target"
+                          className="p-2 hover:bg-hover active:bg-hover/70 rounded-lg transition-colors touch-target"
                         >
-                          <Edit className="w-4 h-4 text-slate-400" />
+                          <Edit className="w-4 h-4 text-tertiary" />
                         </button>
                         <button
                           onClick={() => onDeleteEntry(entry.entryId)}
-                          className="p-2 hover:bg-dark-border active:bg-dark-border/70 rounded-lg transition-colors touch-target"
+                          className="p-2 hover:bg-hover active:bg-hover/70 rounded-lg transition-colors touch-target"
                         >
-                          <Trash2 className="w-4 h-4 text-slate-400" />
+                          <Trash2 className="w-4 h-4 text-tertiary" />
                         </button>
                       </div>
                     )}
                     {isGenerated && (
-                      <span className="text-xs text-slate-500 italic">Auto-generated</span>
+                      <span className="text-xs text-muted italic">Auto-generated</span>
                     )}
                   </div>
                 </div>
@@ -129,13 +129,13 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
           <div className="hidden md:block overflow-x-auto">
             <table className="min-w-full">
               <thead>
-                <tr className="border-b-2 border-dark-border">
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-slate-300">Date</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-slate-300">Type</th>
-                  <th className="px-4 py-3 text-left text-sm font-semibold text-slate-300">Description</th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">Amount</th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">Funding</th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">Actions</th>
+                <tr className="border-b-2 border-theme">
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-secondary">Date</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-secondary">Type</th>
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-secondary">Description</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-secondary">Amount</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-secondary">Funding</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-secondary">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -146,9 +146,9 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
                   return (
                     <tr
                       key={entry.entryId}
-                      className="border-b border-dark-border/50 hover:bg-dark-tertiary/30 transition-colors"
+                      className="border-b border-theme/50 hover:bg-tertiary/30 transition-colors"
                     >
-                      <td className="px-4 py-3 text-sm text-slate-300">
+                      <td className="px-4 py-3 text-sm text-secondary">
                         {format(parseISO(entry.date), 'MM/dd/yyyy')}
                       </td>
                       <td className="px-4 py-3 text-sm">
@@ -160,10 +160,10 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
                           {getTypeLabelFull(entry.type)}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-sm text-slate-300">
+                      <td className="px-4 py-3 text-sm text-secondary">
                         {entry.description}
                         {entry.type === 'commission_adjustment' && entry.commissionMeta && (
-                          <span className="block text-xs text-slate-400 mt-1">
+                          <span className="block text-xs text-tertiary mt-1">
                             {entry.commissionMeta.tradeCount && `${entry.commissionMeta.tradeCount} trades`}
                             {entry.commissionMeta.contractCount && `, ${entry.commissionMeta.contractCount} contracts`}
                             {entry.commissionMeta.startDate && ` (${entry.commissionMeta.startDate}`}
@@ -176,7 +176,7 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
                       }`}>
                         {formatCurrency(displayAmount)}
                       </td>
-                      <td className="px-4 py-3 text-sm text-right font-mono text-slate-300">
+                      <td className="px-4 py-3 text-sm text-right font-mono text-secondary">
                         {formatCurrency(entry.balance || 0)}
                       </td>
                       <td className="px-4 py-3 text-right">
@@ -184,15 +184,15 @@ export function TransactionTable({ entries, onEditEntry, onDeleteEntry }: Transa
                           <div className="flex items-center justify-end gap-2">
                             <button
                               onClick={() => onEditEntry(entry)}
-                              className="p-2 hover:bg-dark-border rounded transition-colors"
+                              className="p-2 hover:bg-hover rounded transition-colors"
                             >
-                              <Edit className="w-4 h-4 text-slate-400 hover:text-slate-200" />
+                              <Edit className="w-4 h-4 text-tertiary hover:text-secondary" />
                             </button>
                             <button
                               onClick={() => onDeleteEntry(entry.entryId)}
-                              className="p-2 hover:bg-dark-border rounded transition-colors"
+                              className="p-2 hover:bg-hover rounded transition-colors"
                             >
-                              <Trash2 className="w-4 h-4 text-slate-400 hover:text-red-400" />
+                              <Trash2 className="w-4 h-4 text-tertiary hover:text-red-400" />
                             </button>
                           </div>
                         )}

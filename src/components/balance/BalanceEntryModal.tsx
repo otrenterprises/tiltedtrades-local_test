@@ -177,17 +177,17 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-3 md:p-4 overflow-y-auto">
-      <div className="bg-dark-secondary border border-dark-border rounded-lg max-w-md w-full my-auto max-h-[90vh] flex flex-col">
+      <div className="bg-secondary border border-theme rounded-lg max-w-md w-full my-auto max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 md:p-6 border-b border-dark-border shrink-0">
-          <h2 className="text-lg md:text-xl font-bold text-slate-50">
+        <div className="flex items-center justify-between p-4 md:p-6 border-b border-theme shrink-0">
+          <h2 className="text-lg md:text-xl font-bold text-primary">
             {template ? 'Edit Recurring Fee' : entry ? 'Edit Entry' : 'Add Balance Entry'}
           </h2>
           <button
             onClick={onClose}
-            className="p-2.5 hover:bg-dark-tertiary active:bg-dark-tertiary/70 rounded-lg transition-colors touch-target"
+            className="p-2.5 hover:bg-tertiary active:bg-tertiary/70 rounded-lg transition-colors touch-target"
           >
-            <X className="w-5 h-5 text-slate-400" />
+            <X className="w-5 h-5 text-tertiary" />
           </button>
         </div>
 
@@ -195,27 +195,27 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
         <div className="p-4 md:p-6 space-y-4 overflow-y-auto flex-1">
           {/* Date */}
           <div>
-            <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+            <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
               {isRecurring ? 'Start Date' : 'Date'} <span className="text-red-400">*</span>
             </label>
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
 
           {/* Type */}
           <div>
-            <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+            <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
               Type <span className="text-red-400">*</span>
             </label>
             <select
               value={type}
               onChange={(e) => setType(e.target.value as BalanceEntryType | ApiBalanceEntryType)}
               disabled={isEditingTemplate} // Can't change type when editing template
-              className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
+              className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
             >
               <option value="deposit">Deposit</option>
               <option value="withdrawal">Withdrawal</option>
@@ -226,18 +226,18 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
 
           {/* Amount */}
           <div>
-            <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+            <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
               Amount <span className="text-red-400">*</span>
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-tertiary">$</span>
               <input
                 type="number"
                 step="0.01"
                 min="0"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full pl-8 pr-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                className="w-full pl-8 pr-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent"
                 placeholder="0.00"
               />
             </div>
@@ -245,14 +245,14 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
 
           {/* Description */}
           <div>
-            <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+            <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
               Description <span className="text-red-400">*</span>
             </label>
             <input
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent"
               placeholder={type === 'commission_adjustment'
                 ? 'e.g., Monthly volume rebate, Q4 commission correction'
                 : 'e.g., Initial deposit, Monthly platform fee'}
@@ -261,20 +261,20 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
 
           {/* Commission Adjustment Options */}
           {type === 'commission_adjustment' && (
-            <div className="space-y-4 pt-4 border-t border-dark-border">
-              <div className="flex items-start gap-2 text-xs md:text-sm text-slate-400">
+            <div className="space-y-4 pt-4 border-t border-theme">
+              <div className="flex items-start gap-2 text-xs md:text-sm text-tertiary">
                 <Info className="w-4 h-4 flex-shrink-0 mt-0.5" />
                 <span>Commission adjustments are included in your statistics calculations</span>
               </div>
 
               {/* Adjustment Direction */}
               <div>
-                <label className="block text-xs md:text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-xs md:text-sm font-medium text-secondary mb-2">
                   Adjustment Type
                 </label>
                 {/* Mobile: Stack vertically, Desktop: Row */}
                 <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                  <label className="flex items-center gap-2 cursor-pointer p-2 -m-2 active:bg-dark-tertiary/50 rounded-lg transition-colors">
+                  <label className="flex items-center gap-2 cursor-pointer p-2 -m-2 active:bg-tertiary/50 rounded-lg transition-colors">
                     <input
                       type="radio"
                       name="adjustmentType"
@@ -282,9 +282,9 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                       onChange={() => setIsNegativeAdjustment(true)}
                       className="w-4 h-4 accent-red-500"
                     />
-                    <span className="text-sm text-slate-300">Additional Commission Cost</span>
+                    <span className="text-sm text-secondary">Additional Commission Cost</span>
                   </label>
-                  <label className="flex items-center gap-2 cursor-pointer p-2 -m-2 active:bg-dark-tertiary/50 rounded-lg transition-colors">
+                  <label className="flex items-center gap-2 cursor-pointer p-2 -m-2 active:bg-tertiary/50 rounded-lg transition-colors">
                     <input
                       type="radio"
                       name="adjustmentType"
@@ -292,20 +292,20 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                       onChange={() => setIsNegativeAdjustment(false)}
                       className="w-4 h-4 accent-green-500"
                     />
-                    <span className="text-sm text-slate-300">Rebate / Refund</span>
+                    <span className="text-sm text-secondary">Rebate / Refund</span>
                   </label>
                 </div>
               </div>
 
               {/* Optional Metadata Fields */}
-              <p className="text-xs md:text-sm text-slate-400 mt-2">
+              <p className="text-xs md:text-sm text-tertiary mt-2">
                 Optional details for tracking purposes:
               </p>
 
               <div className="grid grid-cols-2 gap-3 md:gap-4">
                 {/* Trade Count */}
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+                  <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
                     # of Trades
                   </label>
                   <input
@@ -313,14 +313,14 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                     min="0"
                     value={tradeCount}
                     onChange={(e) => setTradeCount(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                    className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent"
                     placeholder="Optional"
                   />
                 </div>
 
                 {/* Contract Count */}
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+                  <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
                     # of Contracts
                   </label>
                   <input
@@ -328,7 +328,7 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                     min="0"
                     value={contractCount}
                     onChange={(e) => setContractCount(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                    className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent"
                     placeholder="Optional"
                   />
                 </div>
@@ -337,19 +337,19 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
               {/* Date Range */}
               <div className="grid grid-cols-2 gap-3 md:gap-4">
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+                  <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
                     Period Start
                   </label>
                   <input
                     type="date"
                     value={adjustmentStartDate}
                     onChange={(e) => setAdjustmentStartDate(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                    className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+                  <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
                     Period End
                   </label>
                   <input
@@ -357,21 +357,21 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                     value={adjustmentEndDate}
                     onChange={(e) => setAdjustmentEndDate(e.target.value)}
                     min={adjustmentStartDate}
-                    className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                    className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                 </div>
               </div>
 
               {/* Symbol Selection */}
               <div>
-                <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+                <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
                   Symbol
                 </label>
                 <select
                   value={symbol}
                   onChange={(e) => setSymbol(e.target.value)}
                   disabled={!date}
-                  className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
+                  className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
                 >
                   {!date ? (
                     <option value="">Select date first</option>
@@ -386,7 +386,7 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                     </>
                   )}
                 </select>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-tertiary mt-1">
                   Symbols with trades on or before the entry date
                 </p>
               </div>
@@ -395,8 +395,8 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
 
           {/* Recurring Fee Option (only for fees, not when editing existing entry) */}
           {type === 'fee' && !entry && (
-            <div className="space-y-4 pt-4 border-t border-dark-border">
-              <label className="flex items-center gap-3 cursor-pointer p-2 -m-2 active:bg-dark-tertiary/50 rounded-lg transition-colors">
+            <div className="space-y-4 pt-4 border-t border-theme">
+              <label className="flex items-center gap-3 cursor-pointer p-2 -m-2 active:bg-tertiary/50 rounded-lg transition-colors">
                 <input
                   type="checkbox"
                   id="recurring"
@@ -405,7 +405,7 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                   disabled={isEditingTemplate} // Can't uncheck when editing template
                   className="w-4 h-4 accent-accent"
                 />
-                <span className="text-sm font-medium text-slate-300">
+                <span className="text-sm font-medium text-secondary">
                   Recurring monthly fee
                 </span>
               </label>
@@ -414,13 +414,13 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                 <>
                   {/* Day of Month */}
                   <div>
-                    <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+                    <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
                       Day of Month
                     </label>
                     <select
                       value={dayOfMonth}
                       onChange={(e) => setDayOfMonth(parseInt(e.target.value))}
-                      className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                      className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent"
                     >
                       {Array.from({ length: 28 }, (_, i) => i + 1).map(day => (
                         <option key={day} value={day}>
@@ -428,13 +428,13 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                         </option>
                       ))}
                     </select>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-tertiary mt-1">
                       Fee will be charged on this day each month (max 28 to avoid month-end issues)
                     </p>
                   </div>
 
                   {/* End Date Option */}
-                  <label className="flex items-center gap-3 cursor-pointer p-2 -m-2 active:bg-dark-tertiary/50 rounded-lg transition-colors">
+                  <label className="flex items-center gap-3 cursor-pointer p-2 -m-2 active:bg-tertiary/50 rounded-lg transition-colors">
                     <input
                       type="checkbox"
                       id="hasEndDate"
@@ -442,14 +442,14 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                       onChange={(e) => setHasEndDate(e.target.checked)}
                       className="w-4 h-4 accent-accent"
                     />
-                    <span className="text-sm font-medium text-slate-300">
+                    <span className="text-sm font-medium text-secondary">
                       Set end date
                     </span>
                   </label>
 
                   {hasEndDate && (
                     <div>
-                      <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+                      <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
                         End Date
                       </label>
                       <input
@@ -457,9 +457,9 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
                         min={date}
-                        className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                        className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent"
                       />
-                      <p className="text-xs text-slate-400 mt-1">
+                      <p className="text-xs text-tertiary mt-1">
                         Leave blank to continue indefinitely
                       </p>
                     </div>
@@ -471,18 +471,18 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
 
           {/* Show recurring options when editing a template */}
           {isEditingTemplate && (
-            <div className="space-y-4 pt-4 border-t border-dark-border">
-              <p className="text-xs md:text-sm font-medium text-slate-300">Recurring Fee Settings</p>
+            <div className="space-y-4 pt-4 border-t border-theme">
+              <p className="text-xs md:text-sm font-medium text-secondary">Recurring Fee Settings</p>
 
               {/* Day of Month */}
               <div>
-                <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+                <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
                   Day of Month
                 </label>
                 <select
                   value={dayOfMonth}
                   onChange={(e) => setDayOfMonth(parseInt(e.target.value))}
-                  className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent"
                 >
                   {Array.from({ length: 28 }, (_, i) => i + 1).map(day => (
                     <option key={day} value={day}>
@@ -493,7 +493,7 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
               </div>
 
               {/* End Date Option */}
-              <label className="flex items-center gap-3 cursor-pointer p-2 -m-2 active:bg-dark-tertiary/50 rounded-lg transition-colors">
+              <label className="flex items-center gap-3 cursor-pointer p-2 -m-2 active:bg-tertiary/50 rounded-lg transition-colors">
                 <input
                   type="checkbox"
                   id="hasEndDate"
@@ -501,14 +501,14 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                   onChange={(e) => setHasEndDate(e.target.checked)}
                   className="w-4 h-4 accent-accent"
                 />
-                <span className="text-sm font-medium text-slate-300">
+                <span className="text-sm font-medium text-secondary">
                   Set end date
                 </span>
               </label>
 
               {hasEndDate && (
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-slate-300 mb-1.5 md:mb-2">
+                  <label className="block text-xs md:text-sm font-medium text-secondary mb-1.5 md:mb-2">
                     End Date
                   </label>
                   <input
@@ -516,7 +516,7 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
                     min={date}
-                    className="w-full px-3 py-2.5 bg-dark-tertiary border border-dark-border rounded-lg text-slate-200 text-base focus:outline-none focus:ring-2 focus:ring-accent"
+                    className="w-full px-3 py-2.5 bg-tertiary border border-theme rounded-lg text-secondary text-base focus:outline-none focus:ring-2 focus:ring-accent"
                   />
                 </div>
               )}
@@ -525,10 +525,10 @@ export function BalanceEntryModal({ entry, template, onClose, onSave }: BalanceE
         </div>
 
         {/* Footer */}
-        <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 p-4 md:p-6 border-t border-dark-border shrink-0">
+        <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 p-4 md:p-6 border-t border-theme shrink-0">
           <button
             onClick={onClose}
-            className="px-4 py-2.5 bg-dark-tertiary text-slate-300 rounded-lg hover:bg-dark-tertiary/70 active:bg-dark-tertiary/50 transition-colors text-sm font-medium"
+            className="px-4 py-2.5 bg-tertiary text-secondary rounded-lg hover:bg-tertiary/70 active:bg-tertiary/50 transition-colors text-sm font-medium"
             disabled={isSaving}
           >
             Cancel

@@ -3,29 +3,52 @@
 @tailwind utilities;
 
 @layer base {
+  /* Light mode (default) */
   :root {
     /* Font families */
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
 
-    /* Dark mode colors */
-    --color-bg-primary: #0F172A;
-    --color-bg-secondary: #1E293B;
-    --color-bg-tertiary: #334155;
-    --color-border: #475569;
+    /* Background colors */
+    --color-bg-primary: #F8FAFC;       /* slate-50 */
+    --color-bg-secondary: #FFFFFF;      /* white */
+    --color-bg-tertiary: #F1F5F9;       /* slate-100 */
+    --color-border: #E2E8F0;            /* slate-200 */
 
     /* Text colors */
-    --color-text-primary: #F8FAFC;
-    --color-text-secondary: #CBD5E1;
-    --color-text-tertiary: #94A3B8;
-    --color-text-muted: #64748B;
+    --color-text-primary: #0F172A;      /* slate-900 */
+    --color-text-secondary: #475569;    /* slate-600 */
+    --color-text-tertiary: #64748B;     /* slate-500 */
+    --color-text-muted: #94A3B8;        /* slate-400 */
 
-    /* Semantic colors */
+    /* Semantic colors (same in both modes) */
     --color-profit: #10B981;
     --color-loss: #EF4444;
     --color-caution: #F59E0B;
     --color-accent: #3B82F6;
     --color-premium: #A855F7;
+
+    /* Component-specific */
+    --color-card-bg: #FFFFFF;
+    --color-input-bg: #F8FAFC;
+    --color-hover-bg: #F1F5F9;
+  }
+
+  /* Dark mode */
+  .dark {
+    --color-bg-primary: #0F172A;        /* slate-900 */
+    --color-bg-secondary: #1E293B;      /* slate-800 */
+    --color-bg-tertiary: #334155;       /* slate-700 */
+    --color-border: #475569;            /* slate-600 */
+
+    --color-text-primary: #F8FAFC;      /* slate-50 */
+    --color-text-secondary: #CBD5E1;    /* slate-300 */
+    --color-text-tertiary: #94A3B8;     /* slate-400 */
+    --color-text-muted: #64748B;        /* slate-500 */
+
+    --color-card-bg: #1E293B;
+    --color-input-bg: #334155;
+    --color-hover-bg: #334155;
   }
 
   * {
@@ -74,7 +97,24 @@
 }
 
 @layer utilities {
-  /* Custom utility classes */
+  /* Theme-aware background utilities */
+  .bg-primary { background-color: var(--color-bg-primary); }
+  .bg-secondary { background-color: var(--color-bg-secondary); }
+  .bg-tertiary { background-color: var(--color-bg-tertiary); }
+  .bg-card { background-color: var(--color-card-bg); }
+  .bg-input { background-color: var(--color-input-bg); }
+  .bg-hover { background-color: var(--color-hover-bg); }
+
+  /* Theme-aware text utilities */
+  .text-primary { color: var(--color-text-primary); }
+  .text-secondary { color: var(--color-text-secondary); }
+  .text-tertiary { color: var(--color-text-tertiary); }
+  .text-muted { color: var(--color-text-muted); }
+
+  /* Theme-aware border utilities */
+  .border-theme { border-color: var(--color-border); }
+
+  /* Semantic color utilities */
   .text-profit {
     color: var(--color-profit);
   }

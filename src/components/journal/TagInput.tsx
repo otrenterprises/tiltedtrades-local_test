@@ -137,8 +137,8 @@ export const TagInput: React.FC<TagInputProps> = ({
     <div className="relative" ref={containerRef}>
       {/* Tag Display and Input */}
       <div
-        className={`flex flex-wrap items-center gap-2 p-3 bg-gray-700 rounded-lg border transition cursor-text ${
-          showDropdown ? 'border-blue-500' : 'border-gray-600'
+        className={`flex flex-wrap items-center gap-2 p-3 bg-tertiary rounded-lg border transition cursor-text ${
+          showDropdown ? 'border-blue-500' : 'border-theme'
         }`}
         onClick={() => {
           inputRef.current?.focus()
@@ -187,7 +187,7 @@ export const TagInput: React.FC<TagInputProps> = ({
               onKeyDown={handleKeyDown}
               onFocus={() => setShowDropdown(true)}
               placeholder={tags.length === 0 ? placeholder : 'Add more...'}
-              className="flex-1 bg-transparent text-white outline-none placeholder-gray-500"
+              className="flex-1 bg-transparent text-primary outline-none placeholder-muted"
             />
             <button
               type="button"
@@ -195,7 +195,7 @@ export const TagInput: React.FC<TagInputProps> = ({
                 e.stopPropagation()
                 setShowDropdown(!showDropdown)
               }}
-              className="p-1 text-gray-400 hover:text-gray-300 transition-colors"
+              className="p-1 text-tertiary hover:text-secondary transition-colors"
             >
               <ChevronDown className={`w-4 h-4 transition-transform ${showDropdown ? 'rotate-180' : ''}`} />
             </button>
@@ -207,12 +207,12 @@ export const TagInput: React.FC<TagInputProps> = ({
       {showDropdown && tags.length < maxTags && (
         <div
           ref={dropdownRef}
-          className="absolute z-10 mt-1 w-full bg-gray-800 border border-gray-600 rounded-lg shadow-lg max-h-48 overflow-y-auto"
+          className="absolute z-10 mt-1 w-full bg-secondary border border-theme rounded-lg shadow-lg max-h-48 overflow-y-auto"
         >
           {/* Available existing tags */}
           {availableTags.length > 0 && (
             <>
-              <div className="px-3 py-2 text-xs font-medium text-gray-500 border-b border-gray-700">
+              <div className="px-3 py-2 text-xs font-medium text-muted border-b border-theme">
                 Existing Tags
               </div>
               {availableTags.map((tag, index) => (
@@ -220,8 +220,8 @@ export const TagInput: React.FC<TagInputProps> = ({
                   key={tag}
                   type="button"
                   onClick={() => addTag(tag)}
-                  className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-700 ${
-                    index === selectedIndex ? 'bg-gray-700 text-white' : 'text-gray-300'
+                  className={`w-full px-4 py-2 text-left text-sm hover:bg-tertiary ${
+                    index === selectedIndex ? 'bg-tertiary text-primary' : 'text-secondary'
                   }`}
                 >
                   {tag}
@@ -234,13 +234,13 @@ export const TagInput: React.FC<TagInputProps> = ({
           {isNewTag && (
             <>
               {availableTags.length > 0 && (
-                <div className="border-t border-gray-700" />
+                <div className="border-t border-theme" />
               )}
               <button
                 type="button"
                 onClick={() => addTag(input)}
-                className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-700 flex items-center gap-2 ${
-                  selectedIndex === availableTags.length ? 'bg-gray-700 text-white' : 'text-gray-300'
+                className={`w-full px-4 py-2 text-left text-sm hover:bg-tertiary flex items-center gap-2 ${
+                  selectedIndex === availableTags.length ? 'bg-tertiary text-primary' : 'text-secondary'
                 }`}
               >
                 <span className="text-green-400">+</span>
@@ -251,7 +251,7 @@ export const TagInput: React.FC<TagInputProps> = ({
 
           {/* Empty state */}
           {availableTags.length === 0 && !isNewTag && (
-            <div className="px-4 py-3 text-sm text-gray-500 text-center">
+            <div className="px-4 py-3 text-sm text-muted text-center">
               {existingTags.length === 0
                 ? 'No tags yet. Type to create one.'
                 : input.trim()
@@ -263,7 +263,7 @@ export const TagInput: React.FC<TagInputProps> = ({
       )}
 
       {/* Helper Text */}
-      <div className="mt-1 flex justify-between text-xs text-gray-500">
+      <div className="mt-1 flex justify-between text-xs text-muted">
         <span>Click to select or type to create new</span>
         <span>{tags.length}/{maxTags} tags</span>
       </div>

@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { Calculator, Globe, Calendar, DollarSign, Palette, BarChart3 } from 'lucide-react'
+import { Calculator, Globe, Calendar, DollarSign, Palette, BarChart3, Sun, Moon, Monitor } from 'lucide-react'
 import { UserPreferences, UpdatePreferencesRequest } from '@/types/api/user.types'
 import { getTimezones, getDateFormats, getCurrencies } from '@/hooks/useSettings'
+import { useTheme } from '@/contexts/ThemeContext'
 
 interface PreferencesPanelProps {
   preferences?: UserPreferences
@@ -11,7 +11,8 @@ interface PreferencesPanelProps {
 }
 
 export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: PreferencesPanelProps) {
-  const { register, handleSubmit, watch } = useForm<UpdatePreferencesRequest>({
+  const { theme, setTheme } = useTheme()
+  const { register, handleSubmit } = useForm<UpdatePreferencesRequest>({
     defaultValues: {
       calculationMethod: preferences?.calculationMethod || 'fifo',
       commissionTier: preferences?.commissionTier || 'standard',
@@ -21,7 +22,6 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
       displayPreferences: {
         defaultView: preferences?.displayPreferences?.defaultView || 'overview',
         chartsPerPage: preferences?.displayPreferences?.chartsPerPage || 10,
-        theme: preferences?.displayPreferences?.theme || 'dark',
       },
       riskSettings: {
         defaultRiskPerTrade: preferences?.riskSettings?.defaultRiskPerTrade || 2,
@@ -29,20 +29,6 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
       },
     },
   })
-
-  const theme = watch('displayPreferences.theme')
-
-  // Apply theme changes immediately for preview
-  useEffect(() => {
-    if (theme) {
-      if (theme === 'auto') {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-        document.documentElement.classList.toggle('dark', prefersDark)
-      } else {
-        document.documentElement.classList.toggle('dark', theme === 'dark')
-      }
-    }
-  }, [theme])
 
   const onSubmit = (data: UpdatePreferencesRequest) => {
     onUpdate(data)
@@ -55,17 +41,17 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
   const currencies = getCurrencies()
 
   return (
-    <div className="bg-gray-900 rounded-lg p-6">
+    <div className="bg-primary rounded-lg p-6">
       <div className="mb-6">
         <h2 className="text-xl font-semibold text-white mb-2">Display & Trading Preferences</h2>
-        <p className="text-gray-400 text-sm">
+        <p className="text-tertiary text-sm">
           Customize how your trading data is calculated and displayed
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Trading Calculation Settings */}
-        <div className="border-b border-gray-800 pb-6">
+        <div className="border-b border-theme pb-6">
           <h3 className="text-lg font-medium text-white mb-4 flex items-center">
             <Calculator className="w-5 h-5 mr-2 text-blue-400" />
             Trading Calculations
@@ -74,35 +60,35 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Calculation Method */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-tertiary mb-2">
                 P&L Calculation Method
               </label>
               <select
                 {...register('calculationMethod')}
-                className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+                className="w-full px-4 py-2 bg-secondary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none transition-colors"
               >
                 <option value="fifo">FIFO (First In, First Out)</option>
                 <option value="perPosition">Per Position</option>
               </select>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted mt-1">
                 Method used to calculate profit and loss
               </p>
             </div>
 
             {/* Commission Tier */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-tertiary mb-2">
                 Commission Tier
               </label>
               <select
                 {...register('commissionTier')}
-                className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+                className="w-full px-4 py-2 bg-secondary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none transition-colors"
               >
                 <option value="retail">Retail ($1.00 per contract)</option>
                 <option value="standard">Standard ($0.65 per contract)</option>
                 <option value="professional">Professional ($0.50 per contract)</option>
               </select>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted mt-1">
                 Commission rate for trade calculations
               </p>
             </div>
@@ -110,7 +96,7 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
         </div>
 
         {/* Display Settings */}
-        <div className="border-b border-gray-800 pb-6">
+        <div className="border-b border-theme pb-6">
           <h3 className="text-lg font-medium text-white mb-4 flex items-center">
             <Palette className="w-5 h-5 mr-2 text-purple-400" />
             Display Settings
@@ -119,43 +105,73 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Theme */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-tertiary mb-2">
                 Theme
               </label>
-              <select
-                {...register('displayPreferences.theme')}
-                className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
-              >
-                <option value="dark">Dark Mode</option>
-                <option value="light">Light Mode</option>
-                <option value="auto">Auto (System)</option>
-              </select>
-              <p className="text-xs text-gray-500 mt-1">
+              <div className="flex bg-secondary rounded-lg p-1 border border-theme">
+                <button
+                  type="button"
+                  onClick={() => setTheme('light')}
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                    theme === 'light'
+                      ? 'bg-blue-500 text-white'
+                      : 'text-tertiary hover:text-white'
+                  }`}
+                >
+                  <Sun className="w-4 h-4" />
+                  <span>Light</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTheme('dark')}
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                    theme === 'dark'
+                      ? 'bg-blue-500 text-white'
+                      : 'text-tertiary hover:text-white'
+                  }`}
+                >
+                  <Moon className="w-4 h-4" />
+                  <span>Dark</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTheme('system')}
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                    theme === 'system'
+                      ? 'bg-blue-500 text-white'
+                      : 'text-tertiary hover:text-white'
+                  }`}
+                >
+                  <Monitor className="w-4 h-4" />
+                  <span>Auto</span>
+                </button>
+              </div>
+              <p className="text-xs text-muted mt-1">
                 Choose your preferred color scheme
               </p>
             </div>
 
             {/* Default View */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-tertiary mb-2">
                 Default Dashboard View
               </label>
               <select
                 {...register('displayPreferences.defaultView')}
-                className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+                className="w-full px-4 py-2 bg-secondary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none transition-colors"
               >
                 <option value="overview">Overview</option>
                 <option value="trades">Recent Trades</option>
                 <option value="stats">Statistics</option>
               </select>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted mt-1">
                 What to show when you first log in
               </p>
             </div>
 
             {/* Charts Per Page */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-tertiary mb-2">
                 Charts Per Page
               </label>
               <input
@@ -165,9 +181,9 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
                   max: 50,
                   valueAsNumber: true
                 })}
-                className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+                className="w-full px-4 py-2 bg-secondary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none transition-colors"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted mt-1">
                 Number of charts to display per page (5-50)
               </p>
             </div>
@@ -175,7 +191,7 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
         </div>
 
         {/* Regional Settings */}
-        <div className="border-b border-gray-800 pb-6">
+        <div className="border-b border-theme pb-6">
           <h3 className="text-lg font-medium text-white mb-4 flex items-center">
             <Globe className="w-5 h-5 mr-2 text-green-400" />
             Regional Settings
@@ -184,13 +200,13 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Timezone */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-tertiary mb-2">
                 <Globe className="inline w-4 h-4 mr-1" />
                 Timezone
               </label>
               <select
                 {...register('timezone')}
-                className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+                className="w-full px-4 py-2 bg-secondary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none transition-colors"
               >
                 {timezones.map((tz) => (
                   <option key={tz.value} value={tz.value}>
@@ -198,20 +214,20 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
                   </option>
                 ))}
               </select>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted mt-1">
                 Your local timezone for displaying dates
               </p>
             </div>
 
             {/* Date Format */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-tertiary mb-2">
                 <Calendar className="inline w-4 h-4 mr-1" />
                 Date Format
               </label>
               <select
                 {...register('dateFormat')}
-                className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+                className="w-full px-4 py-2 bg-secondary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none transition-colors"
               >
                 {dateFormats.map((format) => (
                   <option key={format.value} value={format.value}>
@@ -219,20 +235,20 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
                   </option>
                 ))}
               </select>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted mt-1">
                 How dates are displayed throughout the app
               </p>
             </div>
 
             {/* Currency */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-tertiary mb-2">
                 <DollarSign className="inline w-4 h-4 mr-1" />
                 Currency
               </label>
               <select
                 {...register('currency')}
-                className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+                className="w-full px-4 py-2 bg-secondary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none transition-colors"
               >
                 {currencies.map((currency) => (
                   <option key={currency.value} value={currency.value}>
@@ -240,7 +256,7 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
                   </option>
                 ))}
               </select>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted mt-1">
                 Default currency for displaying values
               </p>
             </div>
@@ -257,7 +273,7 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Default Risk Per Trade */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-tertiary mb-2">
                 Default Risk Per Trade (%)
               </label>
               <input
@@ -268,16 +284,16 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
                   max: 10,
                   valueAsNumber: true
                 })}
-                className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+                className="w-full px-4 py-2 bg-secondary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none transition-colors"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted mt-1">
                 Default risk percentage for position sizing
               </p>
             </div>
 
             {/* Max Daily Loss */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-tertiary mb-2">
                 Max Daily Loss ($)
               </label>
               <input
@@ -287,9 +303,9 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
                   min: 100,
                   valueAsNumber: true
                 })}
-                className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+                className="w-full px-4 py-2 bg-secondary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none transition-colors"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-muted mt-1">
                 Alert when daily loss exceeds this amount
               </p>
             </div>
@@ -297,11 +313,11 @@ export default function PreferencesPanel({ preferences, onUpdate, isUpdating }: 
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-end space-x-3 pt-4 border-t border-gray-800">
+        <div className="flex justify-end space-x-3 pt-4 border-t border-theme">
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+            className="px-4 py-2 text-tertiary hover:text-white transition-colors"
             disabled={isUpdating}
           >
             Cancel

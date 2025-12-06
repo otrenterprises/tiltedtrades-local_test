@@ -24,10 +24,10 @@ export default function GeneralPanel({ profile, onUpdate, isUpdating }: GeneralP
   if (!profile) return null
 
   return (
-    <div className="bg-gray-900 rounded-lg p-6">
+    <div className="bg-primary rounded-lg p-6">
       <div className="mb-6">
         <h2 className="text-xl font-semibold text-white mb-2">General Settings</h2>
-        <p className="text-gray-400 text-sm">
+        <p className="text-tertiary text-sm">
           Manage your profile information and account settings
         </p>
       </div>
@@ -35,7 +35,7 @@ export default function GeneralPanel({ profile, onUpdate, isUpdating }: GeneralP
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Email (Read-only) */}
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-2">
+          <label className="block text-sm font-medium text-tertiary mb-2">
             <Mail className="inline w-4 h-4 mr-2" />
             Email Address
           </label>
@@ -43,16 +43,16 @@ export default function GeneralPanel({ profile, onUpdate, isUpdating }: GeneralP
             type="email"
             value={profile.email}
             disabled
-            className="w-full px-4 py-2 bg-gray-800 text-gray-500 rounded-lg border border-gray-700 cursor-not-allowed"
+            className="w-full px-4 py-2 bg-secondary text-muted rounded-lg border border-theme cursor-not-allowed"
           />
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-muted mt-1">
             Email cannot be changed for security reasons
           </p>
         </div>
 
         {/* Display Name */}
         <div>
-          <label htmlFor="displayName" className="block text-sm font-medium text-gray-400 mb-2">
+          <label htmlFor="displayName" className="block text-sm font-medium text-tertiary mb-2">
             <User className="inline w-4 h-4 mr-2" />
             Display Name
           </label>
@@ -63,7 +63,7 @@ export default function GeneralPanel({ profile, onUpdate, isUpdating }: GeneralP
               maxLength: { value: 50, message: 'Display name must be less than 50 characters' },
             })}
             placeholder="Enter your display name"
-            className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors"
+            className="w-full px-4 py-2 bg-secondary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none transition-colors"
           />
           {errors.displayName && (
             <p className="text-red-400 text-sm mt-1">{errors.displayName.message}</p>
@@ -72,7 +72,7 @@ export default function GeneralPanel({ profile, onUpdate, isUpdating }: GeneralP
 
         {/* Bio */}
         <div>
-          <label htmlFor="bio" className="block text-sm font-medium text-gray-400 mb-2">
+          <label htmlFor="bio" className="block text-sm font-medium text-tertiary mb-2">
             <FileText className="inline w-4 h-4 mr-2" />
             Bio
           </label>
@@ -83,12 +83,12 @@ export default function GeneralPanel({ profile, onUpdate, isUpdating }: GeneralP
             })}
             rows={4}
             placeholder="Tell us about yourself..."
-            className="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors resize-none"
+            className="w-full px-4 py-2 bg-secondary text-white rounded-lg border border-theme focus:border-blue-500 focus:outline-none transition-colors resize-none"
           />
           {errors.bio && (
             <p className="text-red-400 text-sm mt-1">{errors.bio.message}</p>
           )}
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-muted mt-1">
             This will be displayed on your public profile if enabled
           </p>
         </div>
@@ -99,14 +99,14 @@ export default function GeneralPanel({ profile, onUpdate, isUpdating }: GeneralP
             type="checkbox"
             id="isPublic"
             {...register('isPublic')}
-            className="mt-1 w-5 h-5 bg-gray-800 border-gray-700 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-gray-900"
+            className="mt-1 w-5 h-5 bg-secondary border-theme rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-primary"
           />
           <div className="flex-1">
             <label htmlFor="isPublic" className="block text-sm font-medium text-white cursor-pointer">
               <Globe className="inline w-4 h-4 mr-2" />
               Make Profile Public
             </label>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-muted mt-1">
               Allow other users to view your profile and trading statistics
             </p>
           </div>
@@ -117,7 +117,7 @@ export default function GeneralPanel({ profile, onUpdate, isUpdating }: GeneralP
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+            className="px-4 py-2 text-tertiary hover:text-white transition-colors"
             disabled={isUpdating}
           >
             Cancel
@@ -125,7 +125,7 @@ export default function GeneralPanel({ profile, onUpdate, isUpdating }: GeneralP
           <button
             type="submit"
             disabled={isUpdating}
-            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             {isUpdating ? 'Saving...' : 'Save Changes'}
           </button>

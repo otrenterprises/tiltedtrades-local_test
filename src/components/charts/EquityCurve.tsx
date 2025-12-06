@@ -16,7 +16,7 @@ export function EquityCurve({ data }: EquityCurveProps) {
 
   if (data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-80 text-slate-400">
+      <div className="flex items-center justify-center h-80 text-tertiary">
         No trade data available
       </div>
     )
@@ -86,18 +86,18 @@ export function EquityCurve({ data }: EquityCurveProps) {
   }
 
   return (
-    <div className="bg-dark-secondary border border-dark-border rounded-lg p-4 md:p-6">
+    <div className="bg-secondary border border-theme rounded-lg p-4 md:p-6">
       <div className="mb-4 md:mb-6 flex items-center justify-between">
         <div>
-          <h3 className="text-base md:text-lg font-semibold text-slate-50 mb-0.5 md:mb-1">Equity Curve</h3>
-          <p className="text-xs md:text-sm text-slate-400">Cumulative P&L over time</p>
+          <h3 className="text-base md:text-lg font-semibold text-primary mb-0.5 md:mb-1">Equity Curve</h3>
+          <p className="text-xs md:text-sm text-tertiary">Cumulative P&L over time</p>
         </div>
 
         {/* Time Grouping Dropdown */}
         <div className="relative">
           <button
             onClick={() => setShowDropdown(!showDropdown)}
-            className="flex items-center gap-2 px-3 py-2 bg-dark-tertiary border border-dark-border rounded-lg text-sm text-slate-300 hover:bg-dark-border transition-colors"
+            className="flex items-center gap-2 px-3 py-2 bg-tertiary border border-theme rounded-lg text-sm text-secondary hover:bg-tertiary transition-colors"
           >
             {timeGroupingLabels[timeGrouping]}
             <ChevronDown className="w-4 h-4" />
@@ -109,7 +109,7 @@ export function EquityCurve({ data }: EquityCurveProps) {
                 className="fixed inset-0 z-10"
                 onClick={() => setShowDropdown(false)}
               />
-              <div className="absolute right-0 mt-2 w-40 bg-dark-tertiary border border-dark-border rounded-lg shadow-xl z-20">
+              <div className="absolute right-0 mt-2 w-40 bg-tertiary border border-theme rounded-lg shadow-xl z-20">
                 {(['trade', 'day', 'week', 'month'] as TimeGrouping[]).map((option) => (
                   <button
                     key={option}
@@ -120,7 +120,7 @@ export function EquityCurve({ data }: EquityCurveProps) {
                     className={`w-full text-left px-4 py-2 text-sm transition-colors first:rounded-t-lg last:rounded-b-lg ${
                       timeGrouping === option
                         ? 'bg-blue-900 text-blue-200'
-                        : 'text-slate-300 hover:bg-dark-border'
+                        : 'text-secondary hover:bg-tertiary'
                     }`}
                   >
                     {timeGroupingLabels[option]}
@@ -194,15 +194,15 @@ export function EquityCurve({ data }: EquityCurveProps) {
 
       <div className="mt-3 md:mt-4 grid grid-cols-3 gap-2 md:gap-4 text-center">
         <div>
-          <p className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Starting</p>
-          <p className="text-xs md:text-sm font-semibold text-slate-300">$0.00</p>
+          <p className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">Starting</p>
+          <p className="text-xs md:text-sm font-semibold text-secondary">$0.00</p>
         </div>
         <div>
-          <p className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Peak</p>
+          <p className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">Peak</p>
           <p className="text-xs md:text-sm font-semibold text-profit">{formatCurrency(maxValue)}</p>
         </div>
         <div>
-          <p className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Current</p>
+          <p className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">Current</p>
           <p className={`text-xs md:text-sm font-semibold ${isProfit ? 'text-profit' : 'text-loss'}`}>
             {formatCurrency(data[data.length - 1]?.cumulative || 0)}
           </p>

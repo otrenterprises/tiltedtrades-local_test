@@ -8,17 +8,17 @@ interface WinLossDistributionProps {
 export function WinLossDistribution({ data }: WinLossDistributionProps) {
   if (data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-80 text-slate-400">
+      <div className="flex items-center justify-center h-80 text-tertiary">
         No distribution data available
       </div>
     )
   }
 
   return (
-    <div className="bg-dark-secondary border border-dark-border rounded-lg p-6">
+    <div className="bg-secondary border border-theme rounded-lg p-6">
       <div className="mb-6">
-        <h3 className="text-lg font-semibold text-slate-50 mb-1">Win/Loss Distribution</h3>
-        <p className="text-sm text-slate-400">Distribution of trade outcomes</p>
+        <h3 className="text-lg font-semibold text-primary mb-1">Win/Loss Distribution</h3>
+        <p className="text-sm text-tertiary">Distribution of trade outcomes</p>
       </div>
 
       <ResponsiveContainer width="100%" height={280}>

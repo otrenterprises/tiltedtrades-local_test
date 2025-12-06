@@ -37,7 +37,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
           />
         </svg>
         <h3 className="text-lg font-medium text-white mb-2">{title}</h3>
-        <p className="text-gray-400 mb-4">{message}</p>
+        <p className="text-tertiary mb-4">{message}</p>
         {onRetry && (
           <button
             onClick={onRetry}
@@ -52,7 +52,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({
 
   if (fullScreen) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-primary px-4">
         {content}
       </div>
     )

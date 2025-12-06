@@ -128,13 +128,13 @@ export default function Settings() {
         )
       case 'api':
         return (
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
+          <div className="bg-secondary rounded-lg p-4 md:p-6">
             <h3 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">API Key Management</h3>
-            <p className="text-sm text-gray-400 mb-4 md:mb-6">
+            <p className="text-sm text-tertiary mb-4 md:mb-6">
               API keys allow you to integrate TiltedTrades with external applications and services.
             </p>
-            <div className="bg-dark-tertiary rounded-lg p-4 md:p-6 border border-dark-border">
-              <p className="text-sm text-gray-500 text-center">
+            <div className="bg-tertiary rounded-lg p-4 md:p-6 border border-theme">
+              <p className="text-sm text-muted text-center">
                 API key management coming soon. This feature will allow you to generate and manage
                 API keys for programmatic access to your trading data.
               </p>
@@ -149,7 +149,7 @@ export default function Settings() {
   }
 
   return (
-    <div className={`min-h-screen bg-dark text-white transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
+    <div className={`min-h-screen bg-primary text-white transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
         {/* Header */}
         <div className="mb-4 md:mb-8">
@@ -157,7 +157,7 @@ export default function Settings() {
             <SettingsIcon className="w-6 h-6 md:w-8 md:h-8 text-accent" />
             <h1 className="text-2xl md:text-3xl font-bold">Settings</h1>
           </div>
-          <p className="text-sm md:text-base text-gray-400">Manage your account settings and preferences</p>
+          <p className="text-sm md:text-base text-tertiary">Manage your account settings and preferences</p>
         </div>
 
         {/* ===== MOBILE: Accordion Layout (visible only on mobile) ===== */}
@@ -165,26 +165,26 @@ export default function Settings() {
           {tabs.map((tab) => {
             const isExpanded = expandedMobileSections.has(tab.id)
             return (
-              <div key={tab.id} className="bg-dark-secondary rounded-lg overflow-hidden">
+              <div key={tab.id} className="bg-secondary rounded-lg overflow-hidden">
                 {/* Section Header - Tappable */}
                 <button
                   onClick={() => toggleMobileSection(tab.id)}
-                  className="w-full flex items-center gap-3 p-4 text-left hover:bg-dark-tertiary/30 transition-colors"
+                  className="w-full flex items-center gap-3 p-4 text-left hover:bg-tertiary/30 transition-colors"
                 >
                   <span className="text-accent">{tab.icon}</span>
                   <div className="flex-1">
                     <h2 className="font-medium text-white">{tab.label}</h2>
-                    <p className="text-xs text-gray-500">{tab.description}</p>
+                    <p className="text-xs text-muted">{tab.description}</p>
                   </div>
                   {isExpanded ? (
-                    <ChevronDown className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <ChevronDown className="w-5 h-5 text-tertiary flex-shrink-0" />
                   ) : (
-                    <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <ChevronRight className="w-5 h-5 text-tertiary flex-shrink-0" />
                   )}
                 </button>
                 {/* Section Content - Collapsible */}
                 {isExpanded && (
-                  <div className="p-0 border-t border-dark-border">
+                  <div className="p-0 border-t border-theme">
                     {renderPanelContent(tab.id)}
                   </div>
                 )}
@@ -194,22 +194,22 @@ export default function Settings() {
 
           {/* Account Info - Mobile */}
           {profile && (
-            <div className="bg-dark-secondary rounded-lg p-4">
-              <h3 className="text-sm font-medium text-gray-400 mb-3">Account Info</h3>
+            <div className="bg-secondary rounded-lg p-4">
+              <h3 className="text-sm font-medium text-tertiary mb-3">Account Info</h3>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Member Since</span>
+                  <span className="text-muted">Member Since</span>
                   <span className="text-white">
                     {new Date(profile.createdAt).toLocaleDateString()}
                   </span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Total Trades</span>
+                  <span className="text-muted">Total Trades</span>
                   <span className="text-white">{profile.totalTrades || 0}</span>
                 </div>
                 {profile.lastLoginAt && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Last Login</span>
+                    <span className="text-muted">Last Login</span>
                     <span className="text-white">
                       {new Date(profile.lastLoginAt).toLocaleDateString()}
                     </span>
@@ -224,7 +224,7 @@ export default function Settings() {
         <div className="hidden md:grid md:grid-cols-4 gap-6">
           {/* Sidebar Navigation */}
           <div className="md:col-span-1">
-            <div className="bg-dark-secondary rounded-lg p-4">
+            <div className="bg-secondary rounded-lg p-4">
               <nav className="space-y-1">
                 {tabs.map((tab) => (
                   <button
@@ -233,13 +233,13 @@ export default function Settings() {
                     className={`w-full flex items-start space-x-3 px-3 py-3 rounded-lg transition-colors ${
                       activeTab === tab.id
                         ? 'bg-accent/10 text-accent'
-                        : 'text-gray-400 hover:bg-dark-tertiary hover:text-white'
+                        : 'text-tertiary hover:bg-tertiary hover:text-white'
                     }`}
                   >
                     <span className="mt-0.5">{tab.icon}</span>
                     <div className="flex-1 text-left">
                       <div className="font-medium">{tab.label}</div>
-                      <div className="text-xs text-gray-500 mt-0.5">{tab.description}</div>
+                      <div className="text-xs text-muted mt-0.5">{tab.description}</div>
                     </div>
                   </button>
                 ))}
@@ -248,22 +248,22 @@ export default function Settings() {
 
             {/* Quick Stats */}
             {profile && (
-              <div className="bg-dark-secondary rounded-lg p-4 mt-4">
-                <h3 className="text-sm font-medium text-gray-400 mb-3">Account Info</h3>
+              <div className="bg-secondary rounded-lg p-4 mt-4">
+                <h3 className="text-sm font-medium text-tertiary mb-3">Account Info</h3>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Member Since</span>
+                    <span className="text-muted">Member Since</span>
                     <span className="text-white">
                       {new Date(profile.createdAt).toLocaleDateString()}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Total Trades</span>
+                    <span className="text-muted">Total Trades</span>
                     <span className="text-white">{profile.totalTrades || 0}</span>
                   </div>
                   {profile.lastLoginAt && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Last Login</span>
+                      <span className="text-muted">Last Login</span>
                       <span className="text-white">
                         {new Date(profile.lastLoginAt).toLocaleDateString()}
                       </span>

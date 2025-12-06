@@ -31,7 +31,7 @@ export function MobileSettingsToggle({
       {showPLToggle && (
         <button
           onClick={() => setShowGrossPL(!showGrossPL)}
-          className="w-8 h-8 bg-dark-tertiary hover:bg-dark-tertiary/80 rounded-lg flex items-center justify-center transition-colors border border-dark-border"
+          className="w-8 h-8 bg-tertiary hover:bg-tertiary/80 rounded-lg flex items-center justify-center transition-colors border border-theme"
           title={`P&L: ${showGrossPL ? 'Gross' : 'Net'} (tap to toggle)`}
           aria-label={`Toggle P&L display. Currently showing ${showGrossPL ? 'Gross' : 'Net'} P&L`}
         >
@@ -45,7 +45,7 @@ export function MobileSettingsToggle({
       {showMethodToggle && (
         <button
           onClick={() => setCalculationMethod(calculationMethod === 'fifo' ? 'perPosition' : 'fifo')}
-          className="w-8 h-8 bg-dark-tertiary hover:bg-dark-tertiary/80 rounded-lg flex items-center justify-center transition-colors border border-dark-border"
+          className="w-8 h-8 bg-tertiary hover:bg-tertiary/80 rounded-lg flex items-center justify-center transition-colors border border-theme"
           title={`Method: ${calculationMethod === 'fifo' ? 'FIFO' : 'Per Position'} (tap to toggle)`}
           aria-label={`Toggle calculation method. Currently using ${calculationMethod === 'fifo' ? 'FIFO' : 'Per Position'}`}
         >

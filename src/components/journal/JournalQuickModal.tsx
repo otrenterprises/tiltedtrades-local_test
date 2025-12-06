@@ -87,63 +87,63 @@ export const JournalQuickModal: React.FC<JournalQuickModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-dark-secondary border border-dark-border rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-secondary border border-theme rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-dark-border">
+        <div className="flex items-center justify-between p-6 border-b border-theme">
           <div className="flex items-center gap-3">
             <FileText className="w-5 h-5 text-accent" />
             <div>
-              <h2 className="text-lg font-semibold text-slate-50">Quick Journal Entry</h2>
-              <p className="text-sm text-slate-400">
+              <h2 className="text-lg font-semibold text-primary">Quick Journal Entry</h2>
+              <p className="text-sm text-tertiary">
                 {trade.symbol} - {format(trade.exitDate || trade.entryDate, 'MMM dd, yyyy')}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-dark-tertiary rounded-lg transition-colors"
+            className="p-2 hover:bg-tertiary rounded-lg transition-colors"
           >
-            <X className="w-5 h-5 text-slate-400" />
+            <X className="w-5 h-5 text-tertiary" />
           </button>
         </div>
 
         {/* Trade Summary */}
-        <div className="p-6 bg-dark-tertiary/30 border-b border-dark-border">
+        <div className="p-6 bg-tertiary/30 border-b border-theme">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <div>
-              <span className="text-slate-500 block mb-1">Side</span>
-              <span className="text-slate-200 font-medium">{trade.side}</span>
+              <span className="text-muted block mb-1">Side</span>
+              <span className="text-secondary font-medium">{trade.side}</span>
             </div>
             <div>
-              <span className="text-slate-500 block mb-1">Quantity</span>
-              <span className="text-slate-200 font-medium">{trade.quantity}</span>
+              <span className="text-muted block mb-1">Quantity</span>
+              <span className="text-secondary font-medium">{trade.quantity}</span>
             </div>
             <div>
-              <span className="text-slate-500 block mb-1">Entry</span>
-              <span className="text-slate-200 font-medium font-mono">{trade.entryPrice.toFixed(2)}</span>
+              <span className="text-muted block mb-1">Entry</span>
+              <span className="text-secondary font-medium font-mono">{trade.entryPrice.toFixed(2)}</span>
             </div>
             <div>
-              <span className="text-slate-500 block mb-1">Exit</span>
-              <span className="text-slate-200 font-medium font-mono">{trade.exitPrice?.toFixed(2) || '-'}</span>
+              <span className="text-muted block mb-1">Exit</span>
+              <span className="text-secondary font-medium font-mono">{trade.exitPrice?.toFixed(2) || '-'}</span>
             </div>
             <div>
-              <span className="text-slate-500 block mb-1">P&L</span>
+              <span className="text-muted block mb-1">P&L</span>
               <span className={`font-semibold font-mono ${trade.pl >= 0 ? 'text-profit' : 'text-loss'}`}>
                 {formatCurrency(trade.pl)}
               </span>
             </div>
             <div>
-              <span className="text-slate-500 block mb-1">Return</span>
+              <span className="text-muted block mb-1">Return</span>
               <span className={`font-semibold font-mono ${trade.pl >= 0 ? 'text-profit' : 'text-loss'}`}>
                 {formatPercentage(trade.plPercent)}
               </span>
             </div>
             <div>
-              <span className="text-slate-500 block mb-1">Duration</span>
-              <span className="text-slate-200 font-medium">{durationText}</span>
+              <span className="text-muted block mb-1">Duration</span>
+              <span className="text-secondary font-medium">{durationText}</span>
             </div>
             <div>
-              <span className="text-slate-500 block mb-1">Commission</span>
+              <span className="text-muted block mb-1">Commission</span>
               <span className="text-loss font-mono">{formatCurrency(trade.commission)}</span>
             </div>
           </div>
@@ -151,7 +151,7 @@ export const JournalQuickModal: React.FC<JournalQuickModalProps> = ({
 
         {/* Notes Input */}
         <div className="p-6">
-          <label className="block text-sm font-medium text-slate-300 mb-3">
+          <label className="block text-sm font-medium text-secondary mb-3">
             Trade Notes
           </label>
           <textarea
@@ -159,20 +159,20 @@ export const JournalQuickModal: React.FC<JournalQuickModalProps> = ({
             onChange={(e) => setNotes(e.target.value)}
             placeholder="What happened during this trade? What did you learn?"
             rows={6}
-            className="w-full px-4 py-3 bg-dark-tertiary text-slate-100 rounded-lg border border-dark-border focus:border-accent focus:outline-none resize-none"
+            className="w-full px-4 py-3 bg-tertiary text-primary rounded-lg border border-theme focus:border-accent focus:outline-none resize-none"
           />
         </div>
 
         {/* Tags Input */}
         <div className="px-6 pb-6">
-          <label className="block text-sm font-medium text-slate-300 mb-3">
+          <label className="block text-sm font-medium text-secondary mb-3">
             Tags
           </label>
           <TagInput tags={tags} onChange={setTags} />
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between p-6 border-t border-dark-border bg-dark-tertiary/20">
+        <div className="flex items-center justify-between p-6 border-t border-theme bg-tertiary/20">
           <button
             onClick={handleOpenFullEditor}
             className="text-sm text-accent hover:text-accent-light transition-colors"
@@ -182,7 +182,7 @@ export const JournalQuickModal: React.FC<JournalQuickModalProps> = ({
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-dark-tertiary text-slate-300 rounded-lg hover:bg-dark-tertiary/70 transition-colors"
+              className="px-4 py-2 bg-tertiary text-secondary rounded-lg hover:bg-tertiary/70 transition-colors"
             >
               Cancel
             </button>

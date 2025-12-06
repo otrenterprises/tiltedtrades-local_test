@@ -18,10 +18,10 @@ export function DayCell({ dayData, bgColor, textColor, borderColor, includeCommi
 
   if (dayData.isHoliday) {
     return (
-      <div className={`h-24 bg-slate-600 rounded px-2 py-2 flex flex-col justify-between ${!isCurrentMonth ? 'opacity-60' : ''}`}>
-        <div className="text-xs text-slate-300 font-semibold">{dayNum}</div>
-        <div className="text-xs text-slate-300 font-medium text-center">Holiday</div>
-        <div className="text-xs text-slate-400 text-center">{dayData.holidayName}</div>
+      <div className={`h-24 bg-tertiary rounded px-2 py-2 flex flex-col justify-between ${!isCurrentMonth ? 'opacity-60' : ''}`}>
+        <div className="text-xs text-secondary font-semibold">{dayNum}</div>
+        <div className="text-xs text-secondary font-medium text-center">Holiday</div>
+        <div className="text-xs text-tertiary text-center">{dayData.holidayName}</div>
       </div>
     )
   }
@@ -41,17 +41,17 @@ export function DayCell({ dayData, bgColor, textColor, borderColor, includeCommi
   return (
     <div
       className={`h-24 ${bgColor} rounded px-2 py-2 flex flex-col justify-between transition-all hover:ring-2 hover:ring-accent cursor-pointer ${
-        isCurrentMonth ? `border ${borderColor}` : 'border border-slate-600'
+        isCurrentMonth ? `border ${borderColor}` : 'border border-theme'
       }`}
       title={tooltipParts.join(' | ')}
     >
-      <div className={`text-sm font-semibold ${isCurrentMonth ? 'text-slate-300' : 'text-slate-500'}`}>
+      <div className={`text-sm font-semibold ${isCurrentMonth ? 'text-secondary' : 'text-muted'}`}>
         {dayNum}
       </div>
       <div className={`text-base font-bold ${textColor} text-center`}>
         {formatCurrency(effectivePL)}
       </div>
-      <div className={`text-sm ${isCurrentMonth ? 'text-slate-400' : 'text-slate-500'} text-center`}>
+      <div className={`text-sm ${isCurrentMonth ? 'text-tertiary' : 'text-muted'} text-center`}>
         {dayData.trades} trades
       </div>
     </div>

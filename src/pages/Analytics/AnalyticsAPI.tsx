@@ -237,11 +237,11 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
   // Error state
   if (error) {
     return (
-      <div className={`min-h-screen bg-dark transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
+      <div className={`min-h-screen bg-primary transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
           <div className="text-center text-red-400 p-8">
             <p>Error loading trades: {error.message}</p>
-            <p className="text-sm text-gray-500 mt-2">Please check your connection and try again.</p>
+            <p className="text-sm text-muted mt-2">Please check your connection and try again.</p>
           </div>
         </div>
       </div>
@@ -251,9 +251,9 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
   // Empty state
   if (!trades || trades.length === 0) {
     return (
-      <div className={`min-h-screen bg-dark transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
+      <div className={`min-h-screen bg-primary transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
-          <div className="text-center text-gray-400 p-8">
+          <div className="text-center text-tertiary p-8">
             <p>No trades found. Upload your trading data to get started.</p>
           </div>
         </div>
@@ -262,14 +262,14 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
   }
 
   return (
-    <div className={`min-h-screen bg-dark transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
+    <div className={`min-h-screen bg-primary transition-all duration-300 ml-0 ${isExpanded ? 'md:ml-60' : 'md:ml-16'} pb-20 md:pb-0`}>
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 md:py-8">
         {/* Header */}
         <div className="mb-4 md:mb-8">
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1 min-w-0">
               <h1 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">Trading Analytics</h1>
-              <p className="text-sm md:text-base text-gray-400">Comprehensive analysis of your trading performance ({calculationMethod === 'perPosition' ? 'POSITIONAL' : 'FIFO'})</p>
+              <p className="text-sm md:text-base text-tertiary">Comprehensive analysis of your trading performance ({calculationMethod === 'perPosition' ? 'POSITIONAL' : 'FIFO'})</p>
             </div>
             <div className="flex-shrink-0 pt-1">
               <MobileSettingsToggle showPLToggle showMethodToggle />
@@ -278,31 +278,31 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
         </div>
 
         {/* Controls */}
-        <div className="bg-dark-secondary rounded-lg p-3 md:p-4 mb-4 md:mb-6 overflow-hidden">
+        <div className="bg-secondary rounded-lg p-3 md:p-4 mb-4 md:mb-6 overflow-hidden">
           <div className="flex flex-col sm:flex-row sm:items-end gap-3 sm:gap-4">
             {/* Date inputs - use min-w-0 to allow shrinking below content size */}
             <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:flex sm:items-end min-w-0">
               <div className="min-w-0">
-                <label className="block text-xs md:text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-xs md:text-sm font-medium text-secondary mb-1">
                   Start
                 </label>
                 <input
                   type="date"
                   value={dateRange.start}
                   onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                  className="w-full min-w-0 px-2 sm:px-3 py-2 bg-dark-tertiary text-white rounded-lg border border-dark-border focus:border-accent focus:ring-1 focus:ring-accent text-xs sm:text-sm"
+                  className="w-full min-w-0 px-2 sm:px-3 py-2 bg-tertiary text-primary rounded-lg border border-theme focus:border-accent focus:ring-1 focus:ring-accent text-xs sm:text-sm"
                 />
               </div>
 
               <div className="min-w-0">
-                <label className="block text-xs md:text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-xs md:text-sm font-medium text-secondary mb-1">
                   End
                 </label>
                 <input
                   type="date"
                   value={dateRange.end}
                   onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                  className="w-full min-w-0 px-2 sm:px-3 py-2 bg-dark-tertiary text-white rounded-lg border border-dark-border focus:border-accent focus:ring-1 focus:ring-accent text-xs sm:text-sm"
+                  className="w-full min-w-0 px-2 sm:px-3 py-2 bg-tertiary text-primary rounded-lg border border-theme focus:border-accent focus:ring-1 focus:ring-accent text-xs sm:text-sm"
                 />
               </div>
             </div>
@@ -315,7 +315,7 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
               All-Time
             </button>
 
-            <div className="sm:ml-auto text-xs md:text-sm text-gray-400">
+            <div className="sm:ml-auto text-xs md:text-sm text-tertiary">
               {filteredTrades.length} of {trades.length} trades
             </div>
           </div>
@@ -323,37 +323,37 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
 
         {/* Key Metrics */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-4 md:mb-8">
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-            <p className="text-xs md:text-sm text-gray-400 mb-1 md:mb-2">{showGrossPL ? 'Gross P&L' : 'Net P&L'}</p>
+          <div className="bg-secondary rounded-lg p-4 md:p-6">
+            <p className="text-xs md:text-sm text-tertiary mb-1 md:mb-2">{showGrossPL ? 'Gross P&L' : 'Net P&L'}</p>
             <p className={`text-lg md:text-2xl font-bold ${displayedPL >= 0 ? 'text-profit' : 'text-loss'}`}>
               {formatCurrency(displayedPL)}
             </p>
           </div>
 
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-            <p className="text-xs md:text-sm text-gray-400 mb-1 md:mb-2">Win Rate</p>
-            <p className="text-lg md:text-2xl font-bold text-white">
+          <div className="bg-secondary rounded-lg p-4 md:p-6">
+            <p className="text-xs md:text-sm text-tertiary mb-1 md:mb-2">Win Rate</p>
+            <p className="text-lg md:text-2xl font-bold text-primary">
               {formatPercent(stats.winRate)}
             </p>
           </div>
 
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-            <p className="text-xs md:text-sm text-gray-400 mb-1 md:mb-2">Profit Factor</p>
-            <p className="text-lg md:text-2xl font-bold text-white">
+          <div className="bg-secondary rounded-lg p-4 md:p-6">
+            <p className="text-xs md:text-sm text-tertiary mb-1 md:mb-2">Profit Factor</p>
+            <p className="text-lg md:text-2xl font-bold text-primary">
               {stats.profitFactor === Infinity ? '∞' : stats.profitFactor.toFixed(2)}
             </p>
           </div>
 
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-            <p className="text-xs md:text-sm text-gray-400 mb-1 md:mb-2">Total Trades</p>
-            <p className="text-lg md:text-2xl font-bold text-white">
+          <div className="bg-secondary rounded-lg p-4 md:p-6">
+            <p className="text-xs md:text-sm text-tertiary mb-1 md:mb-2">Total Trades</p>
+            <p className="text-lg md:text-2xl font-bold text-primary">
               {stats.totalTrades}
             </p>
           </div>
 
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6 col-span-2 sm:col-span-1">
-            <p className="text-xs md:text-sm text-gray-400 mb-1 md:mb-2">Contracts Traded</p>
-            <p className="text-lg md:text-2xl font-bold text-white">
+          <div className="bg-secondary rounded-lg p-4 md:p-6 col-span-2 sm:col-span-1">
+            <p className="text-xs md:text-sm text-tertiary mb-1 md:mb-2">Contracts Traded</p>
+            <p className="text-lg md:text-2xl font-bold text-primary">
               {totalContracts.toLocaleString()}
             </p>
           </div>
@@ -362,8 +362,8 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
         {/* Charts Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-8">
           {/* Equity Curve */}
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-            <h2 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">Equity Curve</h2>
+          <div className="bg-secondary rounded-lg p-4 md:p-6">
+            <h2 className="text-base md:text-lg font-semibold text-primary mb-3 md:mb-4">Equity Curve</h2>
             <ResponsiveContainer width="100%" height={250}>
               <AreaChart data={equityCurve}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -399,8 +399,8 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
           </div>
 
           {/* Win/Loss Distribution */}
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-            <h2 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">Win/Loss Distribution</h2>
+          <div className="bg-secondary rounded-lg p-4 md:p-6">
+            <h2 className="text-base md:text-lg font-semibold text-primary mb-3 md:mb-4">Win/Loss Distribution</h2>
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
@@ -427,8 +427,8 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
           </div>
 
           {/* Daily P&L */}
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-            <h2 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">Daily P&L</h2>
+          <div className="bg-secondary rounded-lg p-4 md:p-6">
+            <h2 className="text-base md:text-lg font-semibold text-primary mb-3 md:mb-4">Daily P&L</h2>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={dailyPL}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -462,8 +462,8 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
           </div>
 
           {/* Monthly Performance */}
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-            <h2 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">Monthly Performance</h2>
+          <div className="bg-secondary rounded-lg p-4 md:p-6">
+            <h2 className="text-base md:text-lg font-semibold text-primary mb-3 md:mb-4">Monthly Performance</h2>
             <ResponsiveContainer width="100%" height={250}>
               <LineChart data={monthlyPerformance}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
@@ -503,29 +503,29 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
         </div>
 
         {/* Symbol Performance Table */}
-        <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-          <h2 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4">Top Performing Symbols</h2>
+        <div className="bg-secondary rounded-lg p-4 md:p-6">
+          <h2 className="text-base md:text-lg font-semibold text-primary mb-3 md:mb-4">Top Performing Symbols</h2>
           <div className="overflow-x-auto -mx-4 md:mx-0">
             <table className="w-full min-w-[500px]">
               <thead>
-                <tr className="border-b border-dark-border">
-                  <th className="text-left text-xs md:text-sm font-medium text-gray-400 pb-3 pl-4 md:pl-0">Symbol</th>
-                  <th className="text-right text-xs md:text-sm font-medium text-gray-400 pb-3">P&L</th>
-                  <th className="text-right text-xs md:text-sm font-medium text-gray-400 pb-3">Trades</th>
-                  <th className="text-right text-xs md:text-sm font-medium text-gray-400 pb-3">Contracts</th>
-                  <th className="text-right text-xs md:text-sm font-medium text-gray-400 pb-3 pr-4 md:pr-0">Win Rate</th>
+                <tr className="border-b border-theme">
+                  <th className="text-left text-xs md:text-sm font-medium text-tertiary pb-3 pl-4 md:pl-0">Symbol</th>
+                  <th className="text-right text-xs md:text-sm font-medium text-tertiary pb-3">P&L</th>
+                  <th className="text-right text-xs md:text-sm font-medium text-tertiary pb-3">Trades</th>
+                  <th className="text-right text-xs md:text-sm font-medium text-tertiary pb-3">Contracts</th>
+                  <th className="text-right text-xs md:text-sm font-medium text-tertiary pb-3 pr-4 md:pr-0">Win Rate</th>
                 </tr>
               </thead>
               <tbody>
                 {symbolPerformance.map((symbol) => (
-                  <tr key={symbol.symbol} className="border-b border-dark-border">
-                    <td className="py-3 text-white font-medium text-sm pl-4 md:pl-0">{symbol.symbol}</td>
+                  <tr key={symbol.symbol} className="border-b border-theme">
+                    <td className="py-3 text-primary font-medium text-sm pl-4 md:pl-0">{symbol.symbol}</td>
                     <td className={`py-3 text-right text-sm ${symbol.pnl >= 0 ? 'text-profit' : 'text-loss'}`}>
                       {formatCurrency(symbol.pnl)}
                     </td>
-                    <td className="py-3 text-right text-gray-300 text-sm">{symbol.trades}</td>
-                    <td className="py-3 text-right text-gray-300 text-sm">{symbol.contracts.toLocaleString()}</td>
-                    <td className="py-3 text-right text-gray-300 text-sm pr-4 md:pr-0">{formatPercent(symbol.winRate)}</td>
+                    <td className="py-3 text-right text-secondary text-sm">{symbol.trades}</td>
+                    <td className="py-3 text-right text-secondary text-sm">{symbol.contracts.toLocaleString()}</td>
+                    <td className="py-3 text-right text-secondary text-sm pr-4 md:pr-0">{formatPercent(symbol.winRate)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -535,19 +535,19 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
 
         {/* Additional Statistics */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mt-4 md:mt-8">
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-            <h3 className="text-sm md:text-md font-semibold text-white mb-3 md:mb-4">Risk Metrics</h3>
+          <div className="bg-secondary rounded-lg p-4 md:p-6">
+            <h3 className="text-sm md:text-md font-semibold text-primary mb-3 md:mb-4">Risk Metrics</h3>
             <div className="space-y-2 md:space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Max Drawdown</span>
+                <span className="text-tertiary">Max Drawdown</span>
                 <span className="text-loss">{formatCurrency(stats.maxDrawdown)}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Max Drawdown %</span>
+                <span className="text-tertiary">Max Drawdown %</span>
                 <span className="text-loss">{stats.maxDrawdownPercent.toFixed(2)}%</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Expectancy</span>
+                <span className="text-tertiary">Expectancy</span>
                 <span className={stats.expectancy >= 0 ? 'text-profit' : 'text-loss'}>
                   {formatCurrency(stats.expectancy)}
                 </span>
@@ -555,45 +555,45 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
             </div>
           </div>
 
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6">
-            <h3 className="text-sm md:text-md font-semibold text-white mb-3 md:mb-4">Win/Loss Analysis</h3>
+          <div className="bg-secondary rounded-lg p-4 md:p-6">
+            <h3 className="text-sm md:text-md font-semibold text-primary mb-3 md:mb-4">Win/Loss Analysis</h3>
             <div className="space-y-2 md:space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Average Win</span>
+                <span className="text-tertiary">Average Win</span>
                 <span className="text-profit">{formatCurrency(stats.averageWin)}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Average Loss</span>
+                <span className="text-tertiary">Average Loss</span>
                 <span className="text-loss">{formatCurrency(stats.averageLoss)}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Largest Win</span>
+                <span className="text-tertiary">Largest Win</span>
                 <span className="text-profit">{formatCurrency(stats.largestWin)}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Largest Loss</span>
+                <span className="text-tertiary">Largest Loss</span>
                 <span className="text-loss">{formatCurrency(stats.largestLoss)}</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-dark-secondary rounded-lg p-4 md:p-6 sm:col-span-2 md:col-span-1">
-            <h3 className="text-sm md:text-md font-semibold text-white mb-3 md:mb-4">Trading Activity</h3>
+          <div className="bg-secondary rounded-lg p-4 md:p-6 sm:col-span-2 md:col-span-1">
+            <h3 className="text-sm md:text-md font-semibold text-primary mb-3 md:mb-4">Trading Activity</h3>
             <div className="space-y-2 md:space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Winning Trades</span>
+                <span className="text-tertiary">Winning Trades</span>
                 <span className="text-profit">{stats.winningTrades}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Losing Trades</span>
+                <span className="text-tertiary">Losing Trades</span>
                 <span className="text-loss">{stats.losingTrades}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Breakeven Trades</span>
-                <span className="text-gray-400">{stats.breakevenTrades}</span>
+                <span className="text-tertiary">Breakeven Trades</span>
+                <span className="text-tertiary">{stats.breakevenTrades}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Total Commissions</span>
+                <span className="text-tertiary">Total Commissions</span>
                 <span className="text-caution">
                   {formatCurrency(isAllTimeView && backendStats ? backendStats.totalCommission : stats.totalCommission)}
                 </span>

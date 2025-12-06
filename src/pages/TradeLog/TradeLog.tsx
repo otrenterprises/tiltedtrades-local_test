@@ -105,7 +105,7 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <div className="animate-spin w-12 h-12 border-4 border-accent border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p className="text-slate-400">Loading trades...</p>
+            <p className="text-tertiary">Loading trades...</p>
           </div>
         </div>
       </PageLayout>
@@ -118,7 +118,7 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
       <PageLayout title="Trade Log">
         <div className="text-center text-red-400 p-8">
           <p>Error loading trades: {error.message}</p>
-          <p className="text-sm text-slate-500 mt-2">Please check your connection and try again.</p>
+          <p className="text-sm text-muted mt-2">Please check your connection and try again.</p>
         </div>
       </PageLayout>
     )
@@ -130,7 +130,7 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
       <PageLayout title="Trade Log" subtitle="No trades yet">
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
-            <p className="text-slate-400">No trades found. Upload your trading data to get started.</p>
+            <p className="text-tertiary">No trades found. Upload your trading data to get started.</p>
           </div>
         </div>
       </PageLayout>
@@ -154,7 +154,7 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={toggleDateSort}
-            className="flex items-center gap-1.5 px-3 py-2 bg-dark-secondary border border-dark-border rounded-lg text-sm text-slate-300 active:bg-dark-tertiary transition-colors"
+            className="flex items-center gap-1.5 px-3 py-2 bg-secondary border border-theme rounded-lg text-sm text-secondary active:bg-tertiary transition-colors"
           >
             {dateSortDirection === 'desc' ? 'Newest First' : 'Oldest First'}
             {dateSortDirection === 'desc' ? (
@@ -163,7 +163,7 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
               <ChevronUp className="w-4 h-4" />
             )}
           </button>
-          <span className="text-xs text-slate-500">
+          <span className="text-xs text-muted">
             {startIndex + 1}-{Math.min(endIndex, sortedTrades.length)} of {sortedTrades.length}
           </span>
         </div>
@@ -188,8 +188,8 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
               disabled={currentPage === 1}
               className={`flex-1 flex items-center justify-center gap-1 px-4 py-3 rounded-lg text-sm font-medium transition-colors touch-target ${
                 currentPage === 1
-                  ? 'bg-dark-tertiary/50 text-slate-500'
-                  : 'bg-dark-tertiary text-slate-300 active:bg-dark-tertiary/70'
+                  ? 'bg-tertiary/50 text-muted'
+                  : 'bg-tertiary text-secondary active:bg-tertiary/70'
               }`}
             >
               <ChevronLeft className="w-4 h-4" />
@@ -217,7 +217,7 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
                     className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
                       currentPage === pageNum
                         ? 'bg-accent text-white'
-                        : 'bg-dark-secondary text-slate-400 active:bg-dark-tertiary'
+                        : 'bg-secondary text-tertiary active:bg-tertiary'
                     }`}
                   >
                     {pageNum}
@@ -231,8 +231,8 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
               disabled={currentPage === totalPages}
               className={`flex-1 flex items-center justify-center gap-1 px-4 py-3 rounded-lg text-sm font-medium transition-colors touch-target ${
                 currentPage === totalPages
-                  ? 'bg-dark-tertiary/50 text-slate-500'
-                  : 'bg-dark-tertiary text-slate-300 active:bg-dark-tertiary/70'
+                  ? 'bg-tertiary/50 text-muted'
+                  : 'bg-tertiary text-secondary active:bg-tertiary/70'
               }`}
             >
               Next
@@ -243,11 +243,11 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
       </div>
 
       {/* ===== DESKTOP VIEW ===== */}
-      <div className="hidden md:block bg-dark-secondary border border-dark-border rounded-lg p-6">
+      <div className="hidden md:block bg-secondary border border-theme rounded-lg p-6">
         {/* Items per page selector */}
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-sm text-slate-400">Show:</span>
+            <span className="text-sm text-tertiary">Show:</span>
             <div className="flex gap-1">
               {[20, 50, 100].map((count) => (
                 <button
@@ -256,16 +256,16 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
                   className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
                     itemsPerPage === count
                       ? 'bg-accent text-white'
-                      : 'bg-dark-tertiary text-slate-300 hover:bg-dark-tertiary/70 hover:text-white'
+                      : 'bg-tertiary text-secondary hover:bg-tertiary/70 hover:text-white'
                   }`}
                 >
                   {count}
                 </button>
               ))}
             </div>
-            <span className="text-sm text-slate-400">per page</span>
+            <span className="text-sm text-tertiary">per page</span>
           </div>
-          <div className="text-sm text-slate-400">
+          <div className="text-sm text-tertiary">
             Showing {startIndex + 1}-{Math.min(endIndex, sortedTrades.length)} of {sortedTrades.length} trades
           </div>
         </div>
@@ -274,8 +274,8 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
         <div className="overflow-x-auto">
           <table className="min-w-full">
             <thead>
-              <tr className="border-b-2 border-dark-border">
-                <th className="px-4 py-3 text-left text-sm font-semibold text-slate-300">
+              <tr className="border-b-2 border-theme">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-secondary">
                   <button
                     onClick={toggleDateSort}
                     className="flex items-center gap-1 hover:text-white transition-colors"
@@ -288,41 +288,41 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
                     )}
                   </button>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-slate-300">Time</th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-slate-300">Symbol</th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-slate-300">Side</th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">Entry</th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">Exit</th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">Qty</th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">Comm</th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">P&L</th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-slate-300">%</th>
-                <th className="px-4 py-3 text-center text-sm font-semibold text-slate-300">Journal</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-secondary">Time</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-secondary">Symbol</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold text-secondary">Side</th>
+                <th className="px-4 py-3 text-right text-sm font-semibold text-secondary">Entry</th>
+                <th className="px-4 py-3 text-right text-sm font-semibold text-secondary">Exit</th>
+                <th className="px-4 py-3 text-right text-sm font-semibold text-secondary">Qty</th>
+                <th className="px-4 py-3 text-right text-sm font-semibold text-secondary">Comm</th>
+                <th className="px-4 py-3 text-right text-sm font-semibold text-secondary">P&L</th>
+                <th className="px-4 py-3 text-right text-sm font-semibold text-secondary">%</th>
+                <th className="px-4 py-3 text-center text-sm font-semibold text-secondary">Journal</th>
               </tr>
             </thead>
             <tbody>
               {currentTrades.map((trade) => {
                 return (
-                  <tr key={trade.id} className="border-b border-dark-border/50 hover:bg-dark-tertiary/30 transition-colors">
-                    <td className="px-4 py-3 text-sm text-slate-300">
+                  <tr key={trade.id} className="border-b border-theme/50 hover:bg-tertiary/30 transition-colors">
+                    <td className="px-4 py-3 text-sm text-secondary">
                       {format(trade.exitDate || trade.entryDate, 'MM/dd/yyyy')}
                     </td>
-                    <td className="px-4 py-3 text-sm text-slate-400 font-mono">
+                    <td className="px-4 py-3 text-sm text-tertiary font-mono">
                       {format(trade.exitDate || trade.entryDate, 'HH:mm:ss')}
                     </td>
-                    <td className="px-4 py-3 text-sm font-medium text-slate-200">
+                    <td className="px-4 py-3 text-sm font-medium text-secondary">
                       {trade.symbol}
                     </td>
-                    <td className="px-4 py-3 text-sm text-slate-400">
+                    <td className="px-4 py-3 text-sm text-tertiary">
                       {trade.side}
                     </td>
-                    <td className="px-4 py-3 text-sm text-right font-mono text-slate-300">
+                    <td className="px-4 py-3 text-sm text-right font-mono text-secondary">
                       {trade.entryPrice.toFixed(2)}
                     </td>
-                    <td className="px-4 py-3 text-sm text-right font-mono text-slate-300">
+                    <td className="px-4 py-3 text-sm text-right font-mono text-secondary">
                       {trade.exitPrice?.toFixed(2)}
                     </td>
-                    <td className="px-4 py-3 text-sm text-right text-slate-400">
+                    <td className="px-4 py-3 text-sm text-right text-tertiary">
                       {trade.quantity}
                     </td>
                     <td className="px-4 py-3 text-sm text-right text-loss font-mono">
@@ -354,7 +354,7 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
                         ) : (
                           <button
                             onClick={() => setSelectedTrade(trade)}
-                            className="p-1.5 bg-dark-tertiary text-slate-400 hover:bg-accent/20 hover:text-accent rounded-md transition-colors"
+                            className="p-1.5 bg-tertiary text-tertiary hover:bg-accent/20 hover:text-accent rounded-md transition-colors"
                             title="Add journal entry"
                           >
                             <Plus className="w-4 h-4" />
@@ -377,8 +377,8 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
               disabled={currentPage === 1}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 currentPage === 1
-                  ? 'bg-dark-tertiary/50 text-slate-500 cursor-not-allowed'
-                  : 'bg-dark-tertiary text-slate-300 hover:bg-dark-tertiary/70 hover:text-white'
+                  ? 'bg-tertiary/50 text-muted cursor-not-allowed'
+                  : 'bg-tertiary text-secondary hover:bg-tertiary/70 hover:text-white'
               }`}
             >
               <ChevronLeft className="w-4 h-4" />
@@ -406,7 +406,7 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
                     className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
                       currentPage === pageNum
                         ? 'bg-accent text-white'
-                        : 'bg-dark-tertiary text-slate-300 hover:bg-dark-tertiary/70 hover:text-white'
+                        : 'bg-tertiary text-secondary hover:bg-tertiary/70 hover:text-white'
                     }`}
                   >
                     {pageNum}
@@ -420,8 +420,8 @@ export function TradeLog({ calculationMethod }: TradeLogProps) {
               disabled={currentPage === totalPages}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 currentPage === totalPages
-                  ? 'bg-dark-tertiary/50 text-slate-500 cursor-not-allowed'
-                  : 'bg-dark-tertiary text-slate-300 hover:bg-dark-tertiary/70 hover:text-white'
+                  ? 'bg-tertiary/50 text-muted cursor-not-allowed'
+                  : 'bg-tertiary text-secondary hover:bg-tertiary/70 hover:text-white'
               }`}
             >
               Next

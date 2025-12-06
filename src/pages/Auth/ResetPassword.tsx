@@ -72,17 +72,17 @@ export const ResetPassword: React.FC = () => {
   // Success state
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-primary px-4">
         <div className="max-w-md w-full">
-          <div className="bg-gray-800 rounded-lg shadow-xl p-8">
+          <div className="bg-secondary rounded-lg shadow-xl p-8">
             <div className="text-center">
               {/* Success Icon */}
               <div className="mx-auto w-16 h-16 bg-green-900/50 rounded-full flex items-center justify-center mb-6">
                 <Check className="w-8 h-8 text-green-400" />
               </div>
 
-              <h2 className="text-2xl font-bold text-white mb-2">Password Reset!</h2>
-              <p className="text-gray-400 mb-6">
+              <h2 className="text-2xl font-bold text-primary mb-2">Password Reset!</h2>
+              <p className="text-tertiary mb-6">
                 Your password has been successfully reset. Redirecting to login...
               </p>
 
@@ -95,13 +95,13 @@ export const ResetPassword: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-primary px-4">
       <div className="max-w-md w-full">
-        <div className="bg-gray-800 rounded-lg shadow-xl p-8">
+        <div className="bg-secondary rounded-lg shadow-xl p-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-white">Reset Password</h2>
-            <p className="text-gray-400 mt-2">
+            <h2 className="text-2xl font-bold text-primary">Reset Password</h2>
+            <p className="text-tertiary mt-2">
               Enter the code from your email and your new password
             </p>
           </div>
@@ -117,7 +117,7 @@ export const ResetPassword: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-secondary mb-2">
                 Email Address
               </label>
               <input
@@ -125,7 +125,7 @@ export const ResetPassword: React.FC = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 bg-tertiary border border-theme rounded-lg text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter your email"
                 disabled={isLoading}
               />
@@ -133,7 +133,7 @@ export const ResetPassword: React.FC = () => {
 
             {/* Verification Code Field */}
             <div>
-              <label htmlFor="code" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="code" className="block text-sm font-medium text-secondary mb-2">
                 Reset Code
               </label>
               <input
@@ -141,7 +141,7 @@ export const ResetPassword: React.FC = () => {
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-xl tracking-widest"
+                className="w-full px-4 py-3 bg-tertiary border border-theme rounded-lg text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-xl tracking-widest"
                 placeholder="000000"
                 maxLength={6}
                 disabled={isLoading}
@@ -150,7 +150,7 @@ export const ResetPassword: React.FC = () => {
 
             {/* New Password Field */}
             <div>
-              <label htmlFor="newPassword" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="newPassword" className="block text-sm font-medium text-secondary mb-2">
                 New Password
               </label>
               <div className="relative">
@@ -159,14 +159,14 @@ export const ResetPassword: React.FC = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
+                  className="w-full px-4 py-3 bg-tertiary border border-theme rounded-lg text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
                   placeholder="Enter new password"
                   disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-tertiary hover:text-primary"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -175,7 +175,7 @@ export const ResetPassword: React.FC = () => {
 
             {/* Confirm Password Field */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-secondary mb-2">
                 Confirm New Password
               </label>
               <div className="relative">
@@ -184,14 +184,14 @@ export const ResetPassword: React.FC = () => {
                   type={showConfirmPassword ? 'text' : 'password'}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
+                  className="w-full px-4 py-3 bg-tertiary border border-theme rounded-lg text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
                   placeholder="Confirm new password"
                   disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-tertiary hover:text-primary"
                 >
                   {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -201,7 +201,7 @@ export const ResetPassword: React.FC = () => {
             {/* Password Requirements */}
             {newPassword.length > 0 && (
               <div className="space-y-2 text-sm">
-                <p className="text-gray-400 font-medium">Password requirements:</p>
+                <p className="text-tertiary font-medium">Password requirements:</p>
                 <div className="grid grid-cols-2 gap-2">
                   <RequirementItem met={passwordChecks.minLength} text="At least 8 characters" />
                   <RequirementItem met={passwordChecks.hasUppercase} text="One uppercase letter" />
@@ -235,7 +235,7 @@ export const ResetPassword: React.FC = () => {
           <div className="mt-6 text-center">
             <Link
               to="/login"
-              className="text-gray-400 hover:text-white text-sm transition-colors"
+              className="text-tertiary hover:text-primary text-sm transition-colors"
             >
               &larr; Back to Login
             </Link>
@@ -248,7 +248,7 @@ export const ResetPassword: React.FC = () => {
 
 // Requirement check item component
 const RequirementItem: React.FC<{ met: boolean; text: string }> = ({ met, text }) => (
-  <div className={`flex items-center space-x-2 ${met ? 'text-green-400' : 'text-gray-500'}`}>
+  <div className={`flex items-center space-x-2 ${met ? 'text-green-400' : 'text-muted'}`}>
     {met ? <Check className="w-4 h-4" /> : <X className="w-4 h-4" />}
     <span>{text}</span>
   </div>

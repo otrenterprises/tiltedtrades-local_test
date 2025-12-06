@@ -8,13 +8,13 @@ interface ViewSelectorProps {
 
 export function ViewSelector({ viewType, onViewChange }: ViewSelectorProps) {
   return (
-    <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1">
+    <div className="flex items-center gap-1 bg-secondary rounded-lg p-1">
       <button
         onClick={() => onViewChange('daily')}
         className={`flex items-center justify-center gap-1.5 px-3 py-1.5 h-8 min-w-[90px] rounded-md text-sm font-medium transition-colors ${
           viewType === 'daily'
             ? 'bg-accent text-white'
-            : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+            : 'text-tertiary hover:text-secondary hover:bg-tertiary'
         }`}
       >
         <CalendarDays className="w-4 h-4" />
@@ -25,7 +25,7 @@ export function ViewSelector({ viewType, onViewChange }: ViewSelectorProps) {
         className={`flex items-center justify-center gap-1.5 px-3 py-1.5 h-8 min-w-[90px] rounded-md text-sm font-medium transition-colors ${
           viewType === 'weekly'
             ? 'bg-accent text-white'
-            : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+            : 'text-tertiary hover:text-secondary hover:bg-tertiary'
         }`}
       >
         <CalendarRange className="w-4 h-4" />
@@ -36,7 +36,7 @@ export function ViewSelector({ viewType, onViewChange }: ViewSelectorProps) {
         className={`flex items-center justify-center gap-1.5 px-3 py-1.5 h-8 min-w-[90px] rounded-md text-sm font-medium transition-colors ${
           viewType === 'monthly'
             ? 'bg-accent text-white'
-            : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+            : 'text-tertiary hover:text-secondary hover:bg-tertiary'
         }`}
       >
         <LayoutGrid className="w-4 h-4" />

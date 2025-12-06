@@ -29,30 +29,30 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
   if (!preferences) return null
 
   return (
-    <div className="bg-gray-900 rounded-lg p-6">
+    <div className="bg-primary rounded-lg p-6">
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-white mb-2">Notification Preferences</h2>
-        <p className="text-gray-400 text-sm">
+        <h2 className="text-xl font-semibold text-primary mb-2">Notification Preferences</h2>
+        <p className="text-tertiary text-sm">
           Manage how and when you receive notifications
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Email Notifications Master Toggle */}
-        <div className="bg-gray-800 rounded-lg p-4 mb-6">
+        <div className="bg-secondary rounded-lg p-4 mb-6">
           <div className="flex items-start space-x-3">
             <input
               type="checkbox"
               id="email"
               {...register('notifications.email')}
-              className="mt-1 w-5 h-5 bg-gray-700 border-gray-600 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-gray-900"
+              className="mt-1 w-5 h-5 bg-tertiary border-theme rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-primary"
             />
             <div className="flex-1">
-              <label htmlFor="email" className="block text-base font-medium text-white cursor-pointer flex items-center">
+              <label htmlFor="email" className="block text-base font-medium text-primary cursor-pointer flex items-center">
                 <Mail className="w-5 h-5 mr-2 text-blue-400" />
                 Enable Email Notifications
               </label>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-muted mt-1">
                 Receive important updates and reports via email
               </p>
             </div>
@@ -62,8 +62,8 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
         {/* Individual Notification Settings */}
         <div className={`space-y-6 ${!emailEnabled ? 'opacity-50 pointer-events-none' : ''}`}>
           {/* Trading Activity */}
-          <div className="border-b border-gray-800 pb-6">
-            <h3 className="text-lg font-medium text-white mb-4 flex items-center">
+          <div className="border-b border-theme pb-6">
+            <h3 className="text-lg font-medium text-primary mb-4 flex items-center">
               <TrendingUp className="w-5 h-5 mr-2 text-green-400" />
               Trading Activity
             </h3>
@@ -75,14 +75,14 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
                   id="uploadComplete"
                   {...register('notifications.uploadComplete')}
                   disabled={!emailEnabled}
-                  className="mt-1 w-5 h-5 bg-gray-800 border-gray-700 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-gray-900 disabled:opacity-50"
+                  className="mt-1 w-5 h-5 bg-secondary border-theme rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-primary disabled:opacity-50"
                 />
                 <div className="flex-1">
-                  <label htmlFor="uploadComplete" className="block text-sm font-medium text-white cursor-pointer flex items-center">
+                  <label htmlFor="uploadComplete" className="block text-sm font-medium text-primary cursor-pointer flex items-center">
                     <Upload className="w-4 h-4 mr-2" />
                     File Upload Complete
                   </label>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-muted mt-1">
                     Get notified when your trade data has been processed
                   </p>
                 </div>
@@ -91,8 +91,8 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
           </div>
 
           {/* Reports & Summaries */}
-          <div className="border-b border-gray-800 pb-6">
-            <h3 className="text-lg font-medium text-white mb-4 flex items-center">
+          <div className="border-b border-theme pb-6">
+            <h3 className="text-lg font-medium text-primary mb-4 flex items-center">
               <Calendar className="w-5 h-5 mr-2 text-purple-400" />
               Reports & Summaries
             </h3>
@@ -104,13 +104,13 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
                   id="weeklyReport"
                   {...register('notifications.weeklyReport')}
                   disabled={!emailEnabled}
-                  className="mt-1 w-5 h-5 bg-gray-800 border-gray-700 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-gray-900 disabled:opacity-50"
+                  className="mt-1 w-5 h-5 bg-secondary border-theme rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-primary disabled:opacity-50"
                 />
                 <div className="flex-1">
-                  <label htmlFor="weeklyReport" className="block text-sm font-medium text-white cursor-pointer">
+                  <label htmlFor="weeklyReport" className="block text-sm font-medium text-primary cursor-pointer">
                     Weekly Performance Summary
                   </label>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-muted mt-1">
                     Receive a summary of your trading performance every Monday
                   </p>
                 </div>
@@ -122,13 +122,13 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
                   id="monthlyReport"
                   {...register('notifications.monthlyReport')}
                   disabled={!emailEnabled}
-                  className="mt-1 w-5 h-5 bg-gray-800 border-gray-700 rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-gray-900 disabled:opacity-50"
+                  className="mt-1 w-5 h-5 bg-secondary border-theme rounded text-blue-500 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-primary disabled:opacity-50"
                 />
                 <div className="flex-1">
-                  <label htmlFor="monthlyReport" className="block text-sm font-medium text-white cursor-pointer">
+                  <label htmlFor="monthlyReport" className="block text-sm font-medium text-primary cursor-pointer">
                     Monthly Performance Report
                   </label>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-muted mt-1">
                     Detailed monthly analysis sent on the 1st of each month
                   </p>
                 </div>
@@ -138,7 +138,7 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
 
           {/* Future Notifications (Coming Soon) */}
           <div className="pb-6">
-            <h3 className="text-lg font-medium text-white mb-4 flex items-center">
+            <h3 className="text-lg font-medium text-primary mb-4 flex items-center">
               <Bell className="w-5 h-5 mr-2 text-yellow-400" />
               Coming Soon
             </h3>
@@ -148,13 +148,13 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
                 <input
                   type="checkbox"
                   disabled
-                  className="mt-1 w-5 h-5 bg-gray-800 border-gray-700 rounded text-gray-500 cursor-not-allowed"
+                  className="mt-1 w-5 h-5 bg-secondary border-theme rounded text-muted cursor-not-allowed"
                 />
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-400">
+                  <label className="block text-sm font-medium text-tertiary">
                     Risk Alerts
                   </label>
-                  <p className="text-xs text-gray-600 mt-1">
+                  <p className="text-xs text-muted mt-1">
                     Get notified when you exceed daily loss limits
                   </p>
                 </div>
@@ -164,13 +164,13 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
                 <input
                   type="checkbox"
                   disabled
-                  className="mt-1 w-5 h-5 bg-gray-800 border-gray-700 rounded text-gray-500 cursor-not-allowed"
+                  className="mt-1 w-5 h-5 bg-secondary border-theme rounded text-muted cursor-not-allowed"
                 />
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-400">
+                  <label className="block text-sm font-medium text-tertiary">
                     Milestone Achievements
                   </label>
-                  <p className="text-xs text-gray-600 mt-1">
+                  <p className="text-xs text-muted mt-1">
                     Celebrate your trading milestones and achievements
                   </p>
                 </div>
@@ -180,13 +180,13 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
                 <input
                   type="checkbox"
                   disabled
-                  className="mt-1 w-5 h-5 bg-gray-800 border-gray-700 rounded text-gray-500 cursor-not-allowed"
+                  className="mt-1 w-5 h-5 bg-secondary border-theme rounded text-muted cursor-not-allowed"
                 />
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-400">
+                  <label className="block text-sm font-medium text-tertiary">
                     Leaderboard Updates
                   </label>
-                  <p className="text-xs text-gray-600 mt-1">
+                  <p className="text-xs text-muted mt-1">
                     Get notified when your ranking changes significantly
                   </p>
                 </div>
@@ -203,7 +203,7 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
               <h4 className="text-sm font-medium text-blue-400 mb-1">
                 Email Delivery
               </h4>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-secondary">
                 Notifications are sent to {preferences?.userId ? 'your registered email' : 'the email associated with your account'}.
                 Please check your spam folder if you're not receiving emails.
               </p>
@@ -212,11 +212,11 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-end space-x-3 pt-4 border-t border-gray-800">
+        <div className="flex justify-end space-x-3 pt-4 border-t border-theme">
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+            className="px-4 py-2 text-tertiary hover:text-primary transition-colors"
             disabled={isUpdating}
           >
             Cancel
@@ -224,7 +224,7 @@ export default function NotificationPanel({ preferences, onUpdate, isUpdating }:
           <button
             type="submit"
             disabled={isUpdating}
-            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="px-6 py-2 bg-blue-500 text-primary rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             {isUpdating ? 'Saving...' : 'Save Notification Settings'}
           </button>

@@ -61,7 +61,7 @@ export function CalendarNew({ calculationMethod, showGrossPL }: CalendarNewProps
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <div className="animate-spin w-12 h-12 border-4 border-accent border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p className="text-slate-400">Loading calendar data...</p>
+            <p className="text-tertiary">Loading calendar data...</p>
           </div>
         </div>
       </PageLayout>
@@ -87,13 +87,13 @@ export function CalendarNew({ calculationMethod, showGrossPL }: CalendarNewProps
         <div className="flex flex-col gap-2">
           <ViewSelector viewType={viewType} onViewChange={setViewType} />
           {viewType === 'daily' && (
-            <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1 w-fit">
+            <div className="flex items-center gap-1 bg-secondary rounded-lg p-1 w-fit">
               <button
                 onClick={() => setShowWeeklyTotals(!showWeeklyTotals)}
                 className={`flex items-center justify-center gap-1.5 px-3 py-1.5 h-8 rounded-md text-sm font-medium transition-colors ${
                   showWeeklyTotals
                     ? 'bg-accent text-white'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                    : 'text-tertiary hover:text-secondary hover:bg-tertiary'
                 }`}
               >
                 {showWeeklyTotals ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -102,13 +102,13 @@ export function CalendarNew({ calculationMethod, showGrossPL }: CalendarNewProps
             </div>
           )}
           {viewType === 'weekly' && (
-            <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1 w-fit">
+            <div className="flex items-center gap-1 bg-secondary rounded-lg p-1 w-fit">
               <button
                 onClick={() => setWeeklyGrouping('quarterly')}
                 className={`flex items-center justify-center px-3 py-1.5 h-8 min-w-[90px] rounded-md text-sm font-medium transition-colors ${
                   weeklyGrouping === 'quarterly'
                     ? 'bg-accent text-white'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                    : 'text-tertiary hover:text-secondary hover:bg-tertiary'
                 }`}
               >
                 Quarterly
@@ -118,7 +118,7 @@ export function CalendarNew({ calculationMethod, showGrossPL }: CalendarNewProps
                 className={`flex items-center justify-center px-3 py-1.5 h-8 min-w-[90px] rounded-md text-sm font-medium transition-colors ${
                   weeklyGrouping === 'yearly'
                     ? 'bg-accent text-white'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                    : 'text-tertiary hover:text-secondary hover:bg-tertiary'
                 }`}
               >
                 Yearly

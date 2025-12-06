@@ -102,9 +102,9 @@ export const ChartGallery: React.FC<ChartGalleryProps> = ({
   }
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6">
+    <div className="bg-secondary rounded-lg p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold text-white">Trade Charts</h2>
+        <h2 className="text-lg font-semibold text-primary">Trade Charts</h2>
         <button
           onClick={() => setShowUpload(!showUpload)}
           className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition"
@@ -115,26 +115,26 @@ export const ChartGallery: React.FC<ChartGalleryProps> = ({
 
       {/* Upload Form */}
       {showUpload && (
-        <div className="mb-6 p-4 bg-gray-700 rounded-lg">
+        <div className="mb-6 p-4 bg-tertiary rounded-lg">
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-secondary mb-2">
               Select Chart Image
             </label>
             <input
               type="file"
               accept="image/*"
               onChange={handleFileSelect}
-              className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-600 file:text-white hover:file:bg-gray-500"
+              className="w-full text-sm text-tertiary file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-hover file:text-primary hover:file:bg-tertiary"
             />
             {uploadFile && (
-              <p className="mt-2 text-sm text-gray-400">
+              <p className="mt-2 text-sm text-tertiary">
                 Selected: {uploadFile.name} ({formatBytes(uploadFile.size)})
               </p>
             )}
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-secondary mb-2">
               Description (Optional)
             </label>
             <input
@@ -142,7 +142,7 @@ export const ChartGallery: React.FC<ChartGalleryProps> = ({
               value={uploadDescription}
               onChange={(e) => setUploadDescription(e.target.value)}
               placeholder="e.g., Entry setup, Exit execution, Support levels..."
-              className="w-full px-4 py-2 bg-gray-600 text-white rounded-lg border border-gray-500 focus:border-blue-500 focus:outline-none"
+              className="w-full px-4 py-2 bg-hover text-primary rounded-lg border border-theme focus:border-blue-500 focus:outline-none"
             />
           </div>
 
@@ -153,7 +153,7 @@ export const ChartGallery: React.FC<ChartGalleryProps> = ({
                 setUploadFile(null)
                 setUploadDescription('')
               }}
-              className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg text-sm"
+              className="px-4 py-2 bg-hover hover:bg-tertiary text-primary rounded-lg text-sm"
             >
               Cancel
             </button>
@@ -172,7 +172,7 @@ export const ChartGallery: React.FC<ChartGalleryProps> = ({
       {charts.length === 0 ? (
         <div className="text-center py-8">
           <svg
-            className="mx-auto h-12 w-12 text-gray-500 mb-3"
+            className="mx-auto h-12 w-12 text-muted mb-3"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -184,8 +184,8 @@ export const ChartGallery: React.FC<ChartGalleryProps> = ({
               d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
             />
           </svg>
-          <p className="text-gray-400">No charts uploaded yet</p>
-          <p className="text-sm text-gray-500">Add charts to document your trade visually</p>
+          <p className="text-tertiary">No charts uploaded yet</p>
+          <p className="text-sm text-muted">Add charts to document your trade visually</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -225,7 +225,7 @@ export const ChartGallery: React.FC<ChartGalleryProps> = ({
 
               {/* Caption */}
               {chart.caption && (
-                <p className="mt-2 text-xs text-gray-400 truncate">
+                <p className="mt-2 text-xs text-tertiary truncate">
                   {chart.caption}
                 </p>
               )}
@@ -250,7 +250,7 @@ export const ChartGallery: React.FC<ChartGalleryProps> = ({
             {/* Close button */}
             <button
               onClick={() => setSelectedChart(null)}
-              className="absolute top-4 right-4 p-2 bg-gray-800 hover:bg-gray-700 rounded-lg"
+              className="absolute top-4 right-4 p-2 bg-secondary hover:bg-tertiary rounded-lg"
             >
               <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -263,8 +263,8 @@ export const ChartGallery: React.FC<ChartGalleryProps> = ({
 
             {/* Caption */}
             {selectedChart.caption && (
-              <div className="absolute bottom-4 left-4 right-4 bg-gray-900 bg-opacity-80 rounded-lg p-3">
-                <p className="text-white text-sm">{selectedChart.caption}</p>
+              <div className="absolute bottom-4 left-4 right-4 bg-primary bg-opacity-80 rounded-lg p-3">
+                <p className="text-primary text-sm">{selectedChart.caption}</p>
               </div>
             )}
           </div>
@@ -274,15 +274,15 @@ export const ChartGallery: React.FC<ChartGalleryProps> = ({
       {/* Delete Confirmation Modal */}
       {deleteConfirmId && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 rounded-lg p-6 max-w-sm">
-            <h3 className="text-lg font-bold text-white mb-4">Delete Chart?</h3>
-            <p className="text-gray-300 mb-6">
+          <div className="bg-secondary rounded-lg p-6 max-w-sm">
+            <h3 className="text-lg font-bold text-primary mb-4">Delete Chart?</h3>
+            <p className="text-secondary mb-6">
               Are you sure you want to delete this chart? This action cannot be undone.
             </p>
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setDeleteConfirmId(null)}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg"
+                className="px-4 py-2 bg-tertiary hover:bg-hover text-primary rounded-lg"
               >
                 Cancel
               </button>

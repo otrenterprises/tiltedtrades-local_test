@@ -30,11 +30,11 @@ export function WeeklyCell({ weeklyPL, commissions, trades, days, bgColor, textC
       className={`h-24 ${bgColor} rounded px-2 py-2 flex flex-col justify-between border-2 border-accent/30`}
       title={tooltipParts.join(' | ')}
     >
-      <div className="text-sm text-slate-400 font-medium text-center">Week Total</div>
+      <div className="text-sm text-tertiary font-medium text-center">Week Total</div>
       <div className={`text-lg font-bold ${textColor} text-center`}>
         {formatCurrency(effectivePL)}
       </div>
-      <div className="text-sm text-slate-400 text-center">
+      <div className="text-sm text-tertiary text-center">
         {days}d / {trades}t
       </div>
     </div>

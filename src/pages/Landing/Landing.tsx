@@ -128,9 +128,9 @@ const Landing: React.FC = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-900 to-black text-white">
+    <div className="min-h-screen bg-gradient-to-b from-primary via-primary to-black text-white">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-gray-900/80 backdrop-blur-md z-50 border-b border-gray-800">
+      <nav className="fixed top-0 w-full bg-primary/80 backdrop-blur-md z-50 border-b border-theme">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
@@ -162,7 +162,7 @@ const Landing: React.FC = () => {
             <br />Performance
           </h1>
 
-          <p className="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-tertiary mb-8 max-w-3xl mx-auto">
             Professional-grade trade tracking and analytics platform. Upload your trades,
             get instant insights, and optimize your strategy with data-driven decisions.
           </p>
@@ -177,7 +177,7 @@ const Landing: React.FC = () => {
             </a>
             <a
               href="#features"
-              className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-4 rounded-lg font-semibold transition inline-flex items-center justify-center"
+              className="bg-secondary hover:bg-tertiary text-white px-8 py-4 rounded-lg font-semibold transition inline-flex items-center justify-center"
             >
               Learn More
               <ChevronRight className="ml-2 h-5 w-5" />
@@ -189,7 +189,7 @@ const Landing: React.FC = () => {
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-3xl font-bold text-green-500">{stat.value}</div>
-                <div className="text-sm text-gray-400 mt-1">{stat.label}</div>
+                <div className="text-sm text-tertiary mt-1">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -197,11 +197,11 @@ const Landing: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 bg-gray-900/50">
+      <section id="features" className="py-20 px-4 bg-primary/50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Everything You Need to Succeed</h2>
-            <p className="text-xl text-gray-400">Powerful features designed for serious traders</p>
+            <p className="text-xl text-tertiary">Powerful features designed for serious traders</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -210,13 +210,13 @@ const Landing: React.FC = () => {
               return (
                 <div
                   key={index}
-                  className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 hover:border-green-500/50 transition"
+                  className="bg-secondary/50 backdrop-blur-sm border border-theme rounded-xl p-6 hover:border-green-500/50 transition"
                 >
                   <div className="bg-green-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                     <Icon className="h-6 w-6 text-green-500" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-gray-400">{feature.description}</p>
+                  <p className="text-tertiary">{feature.description}</p>
                 </div>
               )
             })}
@@ -229,7 +229,7 @@ const Landing: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">How It Works</h2>
-            <p className="text-xl text-gray-400">Get started in minutes</p>
+            <p className="text-xl text-tertiary">Get started in minutes</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
@@ -238,7 +238,7 @@ const Landing: React.FC = () => {
                 <span className="text-2xl font-bold text-green-500">1</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Upload Your Data</h3>
-              <p className="text-gray-400">Import trades from your broker in CSV, JSON, or Excel format</p>
+              <p className="text-tertiary">Import trades from your broker in CSV, JSON, or Excel format</p>
             </div>
 
             <div className="text-center">
@@ -246,7 +246,7 @@ const Landing: React.FC = () => {
                 <span className="text-2xl font-bold text-green-500">2</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Automatic Analysis</h3>
-              <p className="text-gray-400">Our system matches trades and calculates your true P&L instantly</p>
+              <p className="text-tertiary">Our system matches trades and calculates your true P&L instantly</p>
             </div>
 
             <div className="text-center">
@@ -254,28 +254,28 @@ const Landing: React.FC = () => {
                 <span className="text-2xl font-bold text-green-500">3</span>
               </div>
               <h3 className="text-xl font-semibold mb-2">Gain Insights</h3>
-              <p className="text-gray-400">View detailed analytics and improve your trading strategy</p>
+              <p className="text-tertiary">View detailed analytics and improve your trading strategy</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20 px-4 bg-gray-900/50">
+      <section id="pricing" className="py-20 px-4 bg-primary/50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
-            <p className="text-xl text-gray-400">Choose the plan that fits your trading style</p>
+            <p className="text-xl text-tertiary">Choose the plan that fits your trading style</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {plans.map((plan, index) => (
               <div
                 key={index}
-                className={`relative bg-gray-800/50 backdrop-blur-sm border rounded-xl p-8 ${
+                className={`relative bg-secondary/50 backdrop-blur-sm border rounded-xl p-8 ${
                   plan.featured
                     ? 'border-green-500 shadow-lg shadow-green-500/20'
-                    : 'border-gray-700'
+                    : 'border-theme'
                 }`}
               >
                 {plan.featured && (
@@ -290,7 +290,7 @@ const Landing: React.FC = () => {
                   <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
                   <div className="flex items-baseline">
                     <span className="text-4xl font-bold">{plan.price}</span>
-                    <span className="text-gray-400 ml-2">{plan.period}</span>
+                    <span className="text-tertiary ml-2">{plan.period}</span>
                   </div>
                 </div>
 
@@ -298,7 +298,7 @@ const Landing: React.FC = () => {
                   {plan.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start">
                       <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-300">{feature}</span>
+                      <span className="text-secondary">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -308,7 +308,7 @@ const Landing: React.FC = () => {
                   className={`block text-center py-3 rounded-lg font-semibold transition ${
                     plan.featured
                       ? 'bg-green-600 hover:bg-green-700 text-white'
-                      : 'bg-gray-700 hover:bg-gray-600 text-white'
+                      : 'bg-tertiary hover:bg-secondary text-white'
                   }`}
                 >
                   {plan.cta}
@@ -324,21 +324,21 @@ const Landing: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Loved by Traders Worldwide</h2>
-            <p className="text-xl text-gray-400">See what our users have to say</p>
+            <p className="text-xl text-tertiary">See what our users have to say</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6">
+              <div key={index} className="bg-secondary/50 backdrop-blur-sm border border-theme rounded-xl p-6">
                 <div className="flex mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Award key={i} className="h-5 w-5 text-yellow-500 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-300 mb-4">"{testimonial.content}"</p>
+                <p className="text-secondary mb-4">"{testimonial.content}"</p>
                 <div>
                   <p className="font-semibold">{testimonial.name}</p>
-                  <p className="text-sm text-gray-400">{testimonial.role}</p>
+                  <p className="text-sm text-tertiary">{testimonial.role}</p>
                 </div>
               </div>
             ))}
@@ -350,7 +350,7 @@ const Landing: React.FC = () => {
       <section className="py-20 px-4 bg-gradient-to-r from-green-600/20 to-blue-600/20">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-4">Ready to Level Up Your Trading?</h2>
-          <p className="text-xl text-gray-400 mb-8">
+          <p className="text-xl text-tertiary mb-8">
             Join thousands of traders who are already using TiltedTrades to improve their performance.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -363,20 +363,20 @@ const Landing: React.FC = () => {
             </a>
             <a
               href="https://app.tiltedtrades.com/demo"
-              className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-4 rounded-lg font-semibold transition inline-flex items-center justify-center"
+              className="bg-secondary hover:bg-tertiary text-white px-8 py-4 rounded-lg font-semibold transition inline-flex items-center justify-center"
             >
               <Target className="mr-2 h-5 w-5" />
               View Live Demo
             </a>
           </div>
-          <p className="text-sm text-gray-400 mt-6">
+          <p className="text-sm text-tertiary mt-6">
             No credit card required • 14-day free trial • Cancel anytime
           </p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t border-gray-800">
+      <footer className="py-12 px-4 border-t border-theme">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
@@ -384,14 +384,14 @@ const Landing: React.FC = () => {
                 <TrendingUp className="h-6 w-6 text-green-500 mr-2" />
                 <span className="text-lg font-bold">TiltedTrades</span>
               </div>
-              <p className="text-gray-400 text-sm">
+              <p className="text-tertiary text-sm">
                 Professional trade tracking and analytics for serious traders.
               </p>
             </div>
 
             <div>
               <h4 className="font-semibold mb-3">Product</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <ul className="space-y-2 text-sm text-tertiary">
                 <li><a href="#features" className="hover:text-white transition">Features</a></li>
                 <li><a href="#pricing" className="hover:text-white transition">Pricing</a></li>
                 <li><a href="https://app.tiltedtrades.com/demo" className="hover:text-white transition">Demo</a></li>
@@ -401,7 +401,7 @@ const Landing: React.FC = () => {
 
             <div>
               <h4 className="font-semibold mb-3">Company</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <ul className="space-y-2 text-sm text-tertiary">
                 <li><a href="/about" className="hover:text-white transition">About</a></li>
                 <li><a href="/blog" className="hover:text-white transition">Blog</a></li>
                 <li><a href="/careers" className="hover:text-white transition">Careers</a></li>
@@ -411,7 +411,7 @@ const Landing: React.FC = () => {
 
             <div>
               <h4 className="font-semibold mb-3">Legal</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <ul className="space-y-2 text-sm text-tertiary">
                 <li><a href="/privacy" className="hover:text-white transition">Privacy Policy</a></li>
                 <li><a href="/terms" className="hover:text-white transition">Terms of Service</a></li>
                 <li><a href="/security" className="hover:text-white transition">Security</a></li>
@@ -420,7 +420,7 @@ const Landing: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-gray-800 text-center text-sm text-gray-400">
+          <div className="pt-8 border-t border-theme text-center text-sm text-tertiary">
             <p>© 2025 TiltedTrades. All rights reserved.</p>
           </div>
         </div>

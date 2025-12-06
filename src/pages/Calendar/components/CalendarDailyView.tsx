@@ -31,7 +31,7 @@ const getBgColor = (pl: number, isCurrentMonth: boolean = true): string => {
     if (pl > 0) return 'bg-teal-900/20'
     return 'bg-red-900/20'
   }
-  if (pl === 0) return 'bg-slate-800'
+  if (pl === 0) return 'bg-secondary'
   if (pl > 0) return 'bg-teal-700/60'
   return 'bg-red-800/60'
 }
@@ -42,7 +42,7 @@ const getTextColor = (pl: number, isCurrentMonth: boolean = true): string => {
     if (pl > 0) return 'text-teal-600'
     return 'text-red-600'
   }
-  if (pl === 0) return 'text-slate-400'
+  if (pl === 0) return 'text-tertiary'
   if (pl > 0) return 'text-teal-200'
   return 'text-red-200'
 }
@@ -51,7 +51,7 @@ const getBorderColor = (pl: number, isCurrentMonth: boolean = true): string => {
   if (!isCurrentMonth) {
     return 'border-slate-700/30'
   }
-  if (pl === 0) return 'border-slate-400/50'
+  if (pl === 0) return 'border-theme/50'
   if (pl > 0) return 'border-teal-400/50'
   return 'border-red-400/50'
 }
@@ -94,8 +94,8 @@ export function CalendarDailyView({
 
   if (!calendarData) {
     return (
-      <div className="bg-slate-700 border border-slate-600 rounded-lg p-12 text-center">
-        <p className="text-slate-300">No trading data available</p>
+      <div className="bg-tertiary border border-theme rounded-lg p-12 text-center">
+        <p className="text-secondary">No trading data available</p>
       </div>
     )
   }
@@ -124,7 +124,7 @@ export function CalendarDailyView({
   return (
     <>
       {/* Shared Month Navigation Header */}
-      <div className="bg-slate-700 border border-slate-600 rounded-lg p-3 md:p-6 mb-4 md:mb-0">
+      <div className="bg-tertiary border border-theme rounded-lg p-3 md:p-6 mb-4 md:mb-0">
         <div className="flex items-center justify-between relative">
           <button
             onClick={onPreviousMonth}
@@ -132,7 +132,7 @@ export function CalendarDailyView({
             className={`p-2 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${
               canGoPrevious
                 ? 'bg-blue-900 border border-blue-800 active:bg-blue-800 md:hover:bg-blue-800 text-blue-200'
-                : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
+                : 'bg-primary border border-theme text-muted cursor-not-allowed'
             }`}
           >
             <ChevronLeft className="w-5 h-5" />
@@ -141,7 +141,7 @@ export function CalendarDailyView({
           <div className="relative flex-1 flex justify-center" ref={monthPickerRef}>
             <button
               onClick={() => setShowMonthPicker(!showMonthPicker)}
-              className="text-lg md:text-2xl font-bold text-slate-50 hover:text-accent transition-colors flex items-center gap-1.5 md:gap-2 px-2"
+              className="text-lg md:text-2xl font-bold text-primary hover:text-accent transition-colors flex items-center gap-1.5 md:gap-2 px-2"
             >
               <span className="truncate">{calendarData.monthName}</span>
               <CalendarIcon className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" />
@@ -149,8 +149,8 @@ export function CalendarDailyView({
 
             {/* Month Picker Dropdown */}
             {showMonthPicker && (
-              <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-slate-800 border border-slate-600 rounded-lg shadow-2xl p-3 md:p-4 z-50 w-[calc(100vw-2rem)] max-w-[320px] max-h-[60vh] md:max-h-[400px] overflow-y-auto">
-                <h4 className="text-sm font-semibold text-slate-200 mb-3">Select Month</h4>
+              <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-secondary border border-theme rounded-lg shadow-2xl p-3 md:p-4 z-50 w-[calc(100vw-2rem)] max-w-[320px] max-h-[60vh] md:max-h-[400px] overflow-y-auto">
+                <h4 className="text-sm font-semibold text-secondary mb-3">Select Month</h4>
                 <div className="space-y-1">
                   {availableMonths.map((monthData, index) => {
                     const date = new Date(monthData.year, monthData.month, 1)
@@ -164,7 +164,7 @@ export function CalendarDailyView({
                         className={`w-full text-left px-3 py-2.5 md:py-2 rounded-lg text-sm font-medium transition-colors ${
                           isSelected
                             ? 'bg-accent text-white'
-                            : 'text-slate-300 hover:bg-slate-700 hover:text-slate-100'
+                            : 'text-secondary hover:bg-tertiary hover:text-primary'
                         }`}
                       >
                         {monthName}
@@ -182,7 +182,7 @@ export function CalendarDailyView({
             className={`p-2 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${
               canGoNext
                 ? 'bg-blue-900 border border-blue-800 active:bg-blue-800 md:hover:bg-blue-800 text-blue-200'
-                : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
+                : 'bg-primary border border-theme text-muted cursor-not-allowed'
             }`}
           >
             <ChevronRight className="w-5 h-5" />
@@ -200,7 +200,7 @@ export function CalendarDailyView({
       </div>
 
       {/* ===== DESKTOP VIEW: Calendar Table ===== */}
-      <div className="hidden md:block bg-slate-700 border border-slate-600 rounded-lg p-6 mt-4">
+      <div className="hidden md:block bg-tertiary border border-theme rounded-lg p-6 mt-4">
         {/* Calendar table */}
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
@@ -209,13 +209,13 @@ export function CalendarDailyView({
                 {dayLabels.map((day) => (
                   <th
                     key={day}
-                    className="px-3 py-2 text-center text-xs font-semibold text-slate-300 border-b border-slate-500 min-w-[120px]"
+                    className="px-3 py-2 text-center text-xs font-semibold text-secondary border-b border-theme min-w-[120px]"
                   >
                     {day}
                   </th>
                 ))}
                 {showWeeklyTotals && (
-                  <th className="px-3 py-2 text-center text-xs font-semibold text-slate-300 border-b border-slate-500 min-w-[120px]">
+                  <th className="px-3 py-2 text-center text-xs font-semibold text-secondary border-b border-theme min-w-[120px]">
                     Weekly Total
                   </th>
                 )}
@@ -228,7 +228,7 @@ export function CalendarDailyView({
                   {week.days.map((dayData, dayIndex) => (
                     <td
                       key={dayIndex}
-                      className="px-2 py-2 border-b border-slate-600/50"
+                      className="px-2 py-2 border-b border-theme/50"
                     >
                       {dayData ? (
                         <DayCell
@@ -239,14 +239,14 @@ export function CalendarDailyView({
                           includeCommissions={includeCommissions}
                         />
                       ) : (
-                        <div className="h-24 bg-dark/50 rounded"></div>
+                        <div className="h-24 bg-primary/50 rounded"></div>
                       )}
                     </td>
                   ))}
 
                   {/* Weekly total */}
                   {showWeeklyTotals && (
-                    <td className="px-2 py-2 border-b border-slate-600/50">
+                    <td className="px-2 py-2 border-b border-theme/50">
                       {week.weeklyPL && (
                         <WeeklyCell
                           weeklyPL={week.weeklyPL.pl}
@@ -268,27 +268,27 @@ export function CalendarDailyView({
       </div>
 
       {/* Monthly Statistics */}
-      <div className="bg-slate-700 border border-slate-600 rounded-lg p-4 md:p-6 mt-4">
-        <h3 className="text-sm font-semibold text-slate-100 mb-3 md:mb-4">Monthly Statistics</h3>
+      <div className="bg-tertiary border border-theme rounded-lg p-4 md:p-6 mt-4">
+        <h3 className="text-sm font-semibold text-primary mb-3 md:mb-4">Monthly Statistics</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
-          <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
-            <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Monthly P&L</div>
+          <div className="bg-secondary/50 rounded-lg p-3 md:p-4 border border-theme">
+            <div className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">Monthly P&L</div>
             <div className={`text-base md:text-lg font-bold ${monthlyPL >= 0 ? 'text-teal-400' : 'text-red-400'}`}>
               {formatCurrency(monthlyPL)}
             </div>
           </div>
-          <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
-            <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Trading Days</div>
-            <div className="text-base md:text-lg font-bold text-slate-200">{tradingDays}</div>
+          <div className="bg-secondary/50 rounded-lg p-3 md:p-4 border border-theme">
+            <div className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">Trading Days</div>
+            <div className="text-base md:text-lg font-bold text-secondary">{tradingDays}</div>
           </div>
-          <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
-            <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Avg Daily P&L</div>
+          <div className="bg-secondary/50 rounded-lg p-3 md:p-4 border border-theme">
+            <div className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">Avg Daily P&L</div>
             <div className={`text-base md:text-lg font-bold ${avgDailyPL >= 0 ? 'text-teal-400' : 'text-red-400'}`}>
               {formatCurrency(avgDailyPL)}
             </div>
           </div>
-          <div className="bg-slate-800/50 rounded-lg p-3 md:p-4 border border-slate-600">
-            <div className="text-[10px] md:text-xs text-slate-400 mb-0.5 md:mb-1">Profitable Days</div>
+          <div className="bg-secondary/50 rounded-lg p-3 md:p-4 border border-theme">
+            <div className="text-[10px] md:text-xs text-tertiary mb-0.5 md:mb-1">Profitable Days</div>
             <div className={`text-base md:text-lg font-bold ${avgWinRate >= 50 ? 'text-teal-400' : 'text-red-400'}`}>
               {avgWinRate.toFixed(1)}%
             </div>
