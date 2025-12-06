@@ -94,9 +94,9 @@ export const ChartGallery: React.FC<ChartGalleryProps> = ({
     if (chart.url) {
       return chart.url
     }
-    // Otherwise construct S3 URL
+    // Otherwise construct CDN URL
     if (chart.s3Key) {
-      return `https://${config.s3.bucketName}.s3.${config.s3.region}.amazonaws.com/${chart.s3Key}`
+      return `https://cdn.tiltedtrades.com/${chart.s3Key}`
     }
     return ''
   }
