@@ -396,7 +396,7 @@ export const TradeDetail: React.FC = () => {
           icon={<Edit className="w-5 h-5" />}
         />
         {expandedSections.has('journal') && (
-          <div className="bg-gray-800 rounded-lg p-4 mx-1">
+          <div className="bg-gray-800 rounded-lg p-3 mx-1 overflow-hidden">
             {journal ? (
               isEditing ? (
                 <MobileJournalEditor
@@ -785,22 +785,22 @@ interface MobileJournalViewProps {
 }
 
 const MobileJournalView: React.FC<MobileJournalViewProps> = ({ journal, onEdit, onFullEditor }) => (
-  <div className="space-y-4">
-    <div className="flex items-center justify-between">
-      <span className="text-xs text-gray-400">
-        Updated: {format(parseISO(journal.updatedAt), 'MMM dd, yyyy')}
+  <div className="space-y-4 overflow-hidden">
+    <div className="flex items-center justify-between gap-2 min-w-0">
+      <span className="text-xs text-gray-400 truncate min-w-0">
+        Updated: {format(parseISO(journal.updatedAt), 'MMM dd')}
       </span>
-      <div className="flex gap-2">
+      <div className="flex gap-1.5 flex-shrink-0">
         <button
           onClick={onEdit}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs rounded-lg transition"
+          className="flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs rounded-lg transition"
         >
           <Edit className="w-3.5 h-3.5" />
           Edit
         </button>
         <button
           onClick={onFullEditor}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-xs rounded-lg transition"
+          className="flex items-center gap-1 px-2.5 py-1.5 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-xs rounded-lg transition"
         >
           <ExternalLink className="w-3.5 h-3.5" />
           Full
@@ -824,8 +824,8 @@ const MobileJournalView: React.FC<MobileJournalViewProps> = ({ journal, onEdit, 
 
     {/* Notes */}
     {journal.journalText && (
-      <div className="bg-gray-900 rounded-lg p-3">
-        <pre className="text-gray-300 text-sm whitespace-pre-wrap font-sans">
+      <div className="bg-gray-900 rounded-lg p-3 overflow-hidden">
+        <pre className="text-gray-300 text-sm whitespace-pre-wrap break-words font-sans overflow-hidden">
           {journal.journalText}
         </pre>
       </div>
