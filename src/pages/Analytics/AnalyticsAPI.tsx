@@ -278,44 +278,45 @@ export const AnalyticsAPI: React.FC<AnalyticsAPIProps> = ({ calculationMethod, s
         </div>
 
         {/* Controls */}
-        <div className="bg-dark-secondary rounded-lg p-3 md:p-4 mb-4 md:mb-6">
+        <div className="bg-dark-secondary rounded-lg p-3 md:p-4 mb-4 md:mb-6 overflow-hidden">
           <div className="flex flex-col sm:flex-row sm:items-end gap-3 sm:gap-4">
-            <div className="grid grid-cols-2 sm:flex sm:items-end gap-3 sm:gap-4">
-              <div>
+            {/* Date inputs - use min-w-0 to allow shrinking below content size */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:flex sm:items-end min-w-0">
+              <div className="min-w-0">
                 <label className="block text-xs md:text-sm font-medium text-gray-300 mb-1">
-                  Start Date
+                  Start
                 </label>
                 <input
                   type="date"
                   value={dateRange.start}
                   onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                  className="w-full px-3 py-2 bg-dark-tertiary text-white rounded-lg border border-dark-border focus:border-accent focus:ring-1 focus:ring-accent text-sm"
+                  className="w-full min-w-0 px-2 sm:px-3 py-2 bg-dark-tertiary text-white rounded-lg border border-dark-border focus:border-accent focus:ring-1 focus:ring-accent text-xs sm:text-sm"
                 />
               </div>
 
-              <div>
+              <div className="min-w-0">
                 <label className="block text-xs md:text-sm font-medium text-gray-300 mb-1">
-                  End Date
+                  End
                 </label>
                 <input
                   type="date"
                   value={dateRange.end}
                   onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                  className="w-full px-3 py-2 bg-dark-tertiary text-white rounded-lg border border-dark-border focus:border-accent focus:ring-1 focus:ring-accent text-sm"
+                  className="w-full min-w-0 px-2 sm:px-3 py-2 bg-dark-tertiary text-white rounded-lg border border-dark-border focus:border-accent focus:ring-1 focus:ring-accent text-xs sm:text-sm"
                 />
               </div>
             </div>
 
             <button
               onClick={() => setDateRange(allTimeDateRange)}
-              className="px-4 py-2 bg-accent hover:bg-accent/90 text-white rounded-lg transition-colors font-medium text-sm touch-target"
+              className="px-4 py-2 bg-accent hover:bg-accent/90 active:bg-accent/80 text-white rounded-lg transition-colors font-medium text-sm"
               title="Reset to all-time range"
             >
               All-Time
             </button>
 
             <div className="sm:ml-auto text-xs md:text-sm text-gray-400">
-              Showing {filteredTrades.length} of {trades.length} trades
+              {filteredTrades.length} of {trades.length} trades
             </div>
           </div>
         </div>
