@@ -21,14 +21,53 @@ export function Navigation({ calculationMethod, onCalculationMethodChange, showG
   const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [isClosingMenu, setIsClosingMenu] = useState(false)
 
+  // Swipe-to-close state for mobile bottom sheet
+  const [dragStartY, setDragStartY] = useState<number | null>(null)
+  const [dragCurrentY, setDragCurrentY] = useState<number | null>(null)
+  const dragThreshold = 100 // pixels to drag before closing
+
   // Handle graceful close animation for bottom sheet
   const handleCloseMenu = () => {
     setIsClosingMenu(true)
+    setDragStartY(null)
+    setDragCurrentY(null)
     setTimeout(() => {
       setShowMobileMenu(false)
       setIsClosingMenu(false)
     }, 300) // Match animation duration
   }
+
+  // Touch handlers for swipe-to-close (header area only)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setDragStartY(e.touches[0].clientY)
+    setDragCurrentY(e.touches[0].clientY)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (dragStartY === null) return
+    const currentY = e.touches[0].clientY
+    // Only track downward movement (positive delta)
+    if (currentY > dragStartY) {
+      setDragCurrentY(currentY)
+    }
+  }
+
+  const handleTouchEnd = () => {
+    if (dragStartY === null || dragCurrentY === null) return
+    const dragDistance = dragCurrentY - dragStartY
+    if (dragDistance > dragThreshold) {
+      handleCloseMenu()
+    } else {
+      // Reset - snap back
+      setDragStartY(null)
+      setDragCurrentY(null)
+    }
+  }
+
+  // Calculate drag offset for visual feedback
+  const dragOffset = dragStartY !== null && dragCurrentY !== null
+    ? Math.max(0, dragCurrentY - dragStartY)
+    : 0
 
   const handleLogout = async () => {
     await signOut()
@@ -306,22 +345,36 @@ export function Navigation({ calculationMethod, onCalculationMethodChange, showG
           />
 
           {/* Bottom Sheet */}
-          <div className={`md:hidden fixed bottom-0 left-0 right-0 bg-dark-secondary border-t border-dark-border rounded-t-2xl z-50 flex flex-col max-h-[85vh] ${isClosingMenu ? 'animate-slide-down' : 'animate-slide-up'}`}>
-            {/* Drag Handle Indicator */}
-            <div className="flex justify-center pt-3 pb-2 flex-shrink-0">
-              <div className="w-12 h-1.5 bg-slate-600 rounded-full" />
-            </div>
+          <div
+            className={`md:hidden fixed bottom-0 left-0 right-0 bg-dark-secondary border-t border-dark-border rounded-t-2xl z-50 flex flex-col max-h-[85vh] ${isClosingMenu ? 'animate-slide-down' : 'animate-slide-up'}`}
+            style={{
+              transform: dragOffset > 0 ? `translateY(${dragOffset}px)` : undefined,
+              transition: dragOffset > 0 ? 'none' : undefined
+            }}
+          >
+            {/* Swipeable Header Area (drag handle + header) */}
+            <div
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              className="flex-shrink-0 cursor-grab active:cursor-grabbing"
+            >
+              {/* Drag Handle Indicator */}
+              <div className="flex justify-center pt-3 pb-2">
+                <div className="w-12 h-1.5 bg-slate-600 rounded-full" />
+              </div>
 
-            {/* Header */}
-            <div className="flex items-center justify-between px-4 pb-3 border-b border-dark-border flex-shrink-0">
-              <div className="w-10" /> {/* Spacer for centering */}
-              <h2 className="text-lg font-semibold text-slate-50">Menu</h2>
-              <button
-                onClick={handleCloseMenu}
-                className="p-2 rounded-lg text-slate-400 active:text-slate-200 active:bg-dark-tertiary/50 transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              {/* Header */}
+              <div className="flex items-center justify-between px-4 pb-3 border-b border-dark-border">
+                <div className="w-10" /> {/* Spacer for centering */}
+                <h2 className="text-lg font-semibold text-slate-50">Menu</h2>
+                <button
+                  onClick={handleCloseMenu}
+                  className="p-2 rounded-lg text-slate-400 active:text-slate-200 active:bg-dark-tertiary/50 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Scrollable Content - entire menu scrolls */}
